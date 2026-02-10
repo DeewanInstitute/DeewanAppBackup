@@ -46,10 +46,11 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 100,),
               Center(
                 child: Image.asset(
                     "assets/images/logo.png",
-                    width: MediaQuery.of(context).size.width * .65,
+                    width: MediaQuery.of(context).size.width * .60,
                   ),
                 ),
               // Email Text
@@ -163,6 +164,9 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               Center(
                 child: SizedBox(
                     width: getScreenWidth(context) - 55,
@@ -175,7 +179,7 @@ class _LoginState extends State<Login> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: "Lexend-Regular",
-                                fontSize: 16
+                                fontSize: 18
                               ),
                             )
                         ), 
@@ -183,6 +187,52 @@ class _LoginState extends State<Login> {
                         backgroundColor: Color.fromRGBO(143, 110, 67, 1),
                       ),
                     )
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              // Google Login
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Login With Google",
+                      style: TextStyle(
+                        fontFamily: "Lexend-Medium",
+                        fontSize: 15
+                      ),
+                    ),
+                    SizedBox(width: 5,),
+                    Image.asset("assets/images/icons/google.png"),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              // Register Page
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Doesn’t have account?",
+                      style: TextStyle(
+                          fontFamily: "Lexend-Light",
+                          fontSize: 15
+                      ),
+                    ),
+                    SizedBox(width: 5,),
+                    Text(
+                      "Register",
+                      style: TextStyle(
+                        fontFamily: "Lexend-Light",
+                        color: Colors.blue,
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],
