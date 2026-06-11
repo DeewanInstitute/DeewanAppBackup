@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "75069276548",
+    "project_id": "linguarabi",
+    "storage_bucket": "linguarabi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75069276548:android:83807a251fd4fd6eb55dd1",
+        "android_client_info": {
+          "package_name": "com.example.deewan_institute_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75069276548-t89ksr8763mevkncqskroje17ca0ctpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvkE3wi2-z2Zzo6x-MlswOfE2ppuNezy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75069276548-t89ksr8763mevkncqskroje17ca0ctpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
