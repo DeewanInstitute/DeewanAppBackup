@@ -1,0 +1,2324 @@
+[
+  {
+    "english": "hello",
+    "arabic": "مرحبًا",
+    "arabic_levantine": "مرحبا",
+    "transliteration": "marhaban",
+    "transliteration_levantine": "marhaba",
+    "type": "greeting",
+    "synonyms": ["أهلاً وسهلاً", "السلام عليكم"],
+    "antonyms": ["وداعًا", "مع السلامة"],
+    "fusha_sentences": [
+      { "arabic": "مرحبًا بكم في معهد ديوان.", "transliteration": "Marhaban bikum fi ma'had Diwan.", "english": "Welcome to Deewan Institute." },
+      { "arabic": "قال المعلم مرحبًا لطلابه كل صباح.", "transliteration": "Qala al-mu'allim marhaban li-tullabihi kull sabah.", "english": "The teacher said hello to his students every morning." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "مرحبا، كيفك اليوم؟", "transliteration": "Marhaba, kifak il-yom?", "english": "Hello, how are you today?" },
+      { "arabic": "مرحبا فيك ببيتنا!", "transliteration": "Marhaba fik ib-betna!", "english": "Welcome to our home!" }
+    ]
+  },
+  {
+    "english": "thank you",
+    "arabic": "شكرًا",
+    "arabic_levantine": "شكراً / يسلمو",
+    "transliteration": "shukran",
+    "transliteration_levantine": "shukran / yislamu",
+    "type": "phrase",
+    "synonyms": ["جزيل الشكر", "أشكرك"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "شكرًا جزيلًا على مساعدتك.", "transliteration": "Shukran jazilan 'ala musa'adatik.", "english": "Thank you very much for your help." },
+      { "arabic": "قدّمت لها الهدية وقالت شكرًا.", "transliteration": "Qaddama laha al-hadiyya wa qalat shukran.", "english": "He gave her the gift and she said thank you." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شكراً كتير، ما قصّرت!", "transliteration": "Shukran ktir, ma qassart!", "english": "Thank you so much, you didn't fall short!" },
+      { "arabic": "يسلمو إيدك على الأكل الحلو.", "transliteration": "Yislamu idak 'ala il-akl il-helo.", "english": "Bless your hands for the delicious food." }
+    ]
+  },
+  {
+    "english": "water",
+    "arabic": "ماء",
+    "arabic_levantine": "مي / ماي",
+    "transliteration": "ma'",
+    "transliteration_levantine": "may / maay",
+    "type": "noun",
+    "synonyms": ["السائل", "الماء العذب"],
+    "antonyms": ["نار"],
+    "fusha_sentences": [
+      { "arabic": "الماء أساس الحياة على الأرض.", "transliteration": "Al-ma' asas al-hayah 'ala al-ard.", "english": "Water is the foundation of life on earth." },
+      { "arabic": "شرب الطفل الماء بعد اللعب.", "transliteration": "Shariba al-tifl al-ma' ba'da al-la'ib.", "english": "The child drank water after playing." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "جيبلي مي بارد من الثلاجة.", "transliteration": "Jeebli may bared min il-tallaje.", "english": "Bring me cold water from the fridge." },
+      { "arabic": "عطشان كتير، في ماي هون؟", "transliteration": "'Atshan ktir, fi maay hon?", "english": "I'm very thirsty, is there water here?" }
+    ]
+  },
+  {
+    "english": "house",
+    "arabic": "منزل",
+    "arabic_levantine": "بيت",
+    "transliteration": "manzil",
+    "transliteration_levantine": "beit",
+    "type": "noun",
+    "synonyms": ["دار", "مسكن", "بيت"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "المنزل الجديد قريب من المدرسة.", "transliteration": "Al-manzil al-jadid qarib min al-madrasa.", "english": "The new house is close to the school." },
+      { "arabic": "بنى الرجل منزله بجهد كبير.", "transliteration": "Bana al-rajul manzilahu bi-jahd kabir.", "english": "The man built his house with great effort." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "البيت تبعنا كبير وفيه حديقة.", "transliteration": "Il-beit taba'na kbir w fih hadeeqe.", "english": "Our house is big and has a garden." },
+      { "arabic": "رجعت على البيت متأخر إمبارح.", "transliteration": "Rja't 'ala il-beit mit'akhkhar imbarrih.", "english": "I came back home late yesterday." }
+    ]
+  },
+  {
+    "english": "food",
+    "arabic": "طعام",
+    "arabic_levantine": "أكل",
+    "transliteration": "ta'am",
+    "transliteration_levantine": "akil",
+    "type": "noun",
+    "synonyms": ["غذاء", "أكل", "وجبة"],
+    "antonyms": ["جوع"],
+    "fusha_sentences": [
+      { "arabic": "الطعام الصحي يقوّي الجسم والعقل.", "transliteration": "Al-ta'am al-sihhi yuqawwi al-jism wa al-'aql.", "english": "Healthy food strengthens the body and mind." },
+      { "arabic": "أعدّت الأم طعامًا شهيًا للعائلة.", "transliteration": "A'addat al-umm ta'aman shahiyan lil-'a'ila.", "english": "The mother prepared delicious food for the family." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الأكل اليوم كان زاكي كتير!", "transliteration": "Il-akil il-yom kan zaki ktir!", "english": "The food today was very delicious!" },
+      { "arabic": "بدي أكل، ما كلت من الصبح.", "transliteration": "Biddi akol, ma kalt min il-subh.", "english": "I want to eat, I haven't eaten since morning." }
+    ]
+  },
+  {
+    "english": "love",
+    "arabic": "حُبّ",
+    "arabic_levantine": "حُبّ",
+    "transliteration": "hubb",
+    "transliteration_levantine": "hubb",
+    "type": "noun",
+    "synonyms": ["مودة", "عشق", "وُدّ"],
+    "antonyms": ["كره", "بغض"],
+    "fusha_sentences": [
+      { "arabic": "الحبّ أقوى من كل شيء في الوجود.", "transliteration": "Al-hubb aqwa min kull shay' fi al-wujud.", "english": "Love is stronger than everything in existence." },
+      { "arabic": "أعبّر عن حبّي لوطني بالعمل الجادّ.", "transliteration": "U'abbir 'an hubbi li-watani bil-'amal al-jadd.", "english": "I express my love for my country through hard work." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الحب الحقيقي بيصبر وبيتحمل.", "transliteration": "Il-hubb il-haqiqi byesbur w byethammal.", "english": "True love is patient and enduring." },
+      { "arabic": "بحبك كتير وما رح تعرف قديش.", "transliteration": "Bhibbak ktir w ma rah ta'rif adeesh.", "english": "I love you a lot and you'll never know how much." }
+    ]
+  },
+  {
+    "english": "family",
+    "arabic": "عائلة",
+    "arabic_levantine": "عيلة / عائلة",
+    "transliteration": "'a'ila",
+    "transliteration_levantine": "'eele / 'a'ile",
+    "type": "noun",
+    "synonyms": ["أسرة", "ذوو القربى"],
+    "antonyms": ["غرباء"],
+    "fusha_sentences": [
+      { "arabic": "العائلة هي ركيزة المجتمع الأساسية.", "transliteration": "Al-'a'ila hiya rakizat al-mujtama' al-asasiyya.", "english": "The family is the fundamental pillar of society." },
+      { "arabic": "يجتمع أفراد العائلة في عيد الفطر.", "transliteration": "Yajtami' afrad al-'a'ila fi 'eid al-fitr.", "english": "Family members gather on Eid al-Fitr." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عيلتنا كبيرة وكلها ساكنة بعمان.", "transliteration": "'Eelitna kbiire w kullha saakne b-'Amman.", "english": "Our family is big and all living in Amman." },
+      { "arabic": "بحب اجتماعات العيلة، بتعبّى القلب.", "transliteration": "Bhibb ijtima'at il-'eele, bit'abbi il-qalb.", "english": "I love family gatherings, they fill the heart." }
+    ]
+  },
+  {
+    "english": "friend",
+    "arabic": "صديق",
+    "arabic_levantine": "صاحب / رفيق",
+    "transliteration": "sadiq",
+    "transliteration_levantine": "sahib / rafiq",
+    "type": "noun",
+    "synonyms": ["رفيق", "خليل", "حبيب"],
+    "antonyms": ["عدو", "خصم"],
+    "fusha_sentences": [
+      { "arabic": "الصديق الحقيقي يقف بجانبك في الشدائد.", "transliteration": "Al-sadiq al-haqiqi yaqif bi-janibika fi al-shada'id.", "english": "A true friend stands by you in hardships." },
+      { "arabic": "تعرّفت على صديق جديد في الجامعة.", "transliteration": "Ta'arraftu 'ala sadiq jadid fi al-jami'a.", "english": "I met a new friend at university." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "صاحبي رح يجي يزورني بكرا.", "transliteration": "Sahibi rah yiji yzurni bukra.", "english": "My friend is coming to visit me tomorrow." },
+      { "arabic": "هاد رفيقي من أيام المدرسة.", "transliteration": "Had rafiqiy min iyyam il-madrasse.", "english": "This is my friend from school days." }
+    ]
+  },
+  {
+    "english": "work",
+    "arabic": "عمل",
+    "arabic_levantine": "شغل",
+    "transliteration": "'amal",
+    "transliteration_levantine": "shughul",
+    "type": "noun",
+    "synonyms": ["وظيفة", "مهنة", "شغل"],
+    "antonyms": ["راحة", "كسل"],
+    "fusha_sentences": [
+      { "arabic": "العمل الجادّ يُحقّق الأحلام.", "transliteration": "Al-'amal al-jadd yuhaqqiq al-ahlam.", "english": "Hard work achieves dreams." },
+      { "arabic": "يذهب إلى العمل كل يوم في الصباح الباكر.", "transliteration": "Yadhabu ila al-'amal kull yawm fi al-sabah al-bakir.", "english": "He goes to work every day in the early morning." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الشغل كتير هالأيام، ما عندي وقت.", "transliteration": "Il-shughul ktir hal-iyyam, ma 'indi waqt.", "english": "Work is a lot these days, I have no time." },
+      { "arabic": "لقيت شغل جديد بمرتب أحسن.", "transliteration": "Laqeet shughul jdeed b-murattab ahsan.", "english": "I found a new job with a better salary." }
+    ]
+  },
+  {
+    "english": "book",
+    "arabic": "كتاب",
+    "arabic_levantine": "كتاب",
+    "transliteration": "kitab",
+    "transliteration_levantine": "ktaab",
+    "type": "noun",
+    "synonyms": ["مؤلَّف", "مجلد"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الكتاب خير جليس في الزمان.", "transliteration": "Al-kitab khayr jalis fi al-zaman.", "english": "A book is the best companion in time." },
+      { "arabic": "قرأت هذا الكتاب في ثلاثة أيام.", "transliteration": "Qara'tu hadha al-kitab fi thalathat ayyam.", "english": "I read this book in three days." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد الكتاب حلو كتير، لازم تقراه.", "transliteration": "Had il-ktaab helo ktir, lazim tiqra.", "english": "This book is really great, you must read it." },
+      { "arabic": "اشتريت كتاب جديد من سوق الكتب.", "transliteration": "Ishtareet ktaab jdeed min suq il-kutub.", "english": "I bought a new book from the book market." }
+    ]
+  },
+  {
+    "english": "happy",
+    "arabic": "سعيد",
+    "arabic_levantine": "مبسوط",
+    "transliteration": "sa'id",
+    "transliteration_levantine": "mabsut",
+    "type": "adjective",
+    "synonyms": ["مسرور", "فرحان", "بهيج"],
+    "antonyms": ["حزين", "تعيس", "زعلان"],
+    "fusha_sentences": [
+      { "arabic": "أشعر بالسعادة حين أرى أسرتي مجتمعة.", "transliteration": "Ash'ur bil-sa'ada hin ara usrati mujtami'a.", "english": "I feel happy when I see my family together." },
+      { "arabic": "الطفل السعيد يجعل البيت مليئًا بالبهجة.", "transliteration": "Al-tifl al-sa'id yaj'al al-bayt mali'an bil-bahja.", "english": "A happy child fills the home with joy." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "مبسوط كتير لأنو اجتحت بالامتحان!", "transliteration": "Mabsut ktir la'anno ijtaht bil-imtihan!", "english": "I'm so happy because I passed the exam!" },
+      { "arabic": "لما كونك مبسوط، كل شي بصير أحسن.", "transliteration": "Lamma tkun mabsut, kull shi byseer ahsan.", "english": "When you're happy, everything gets better." }
+    ]
+  },
+  {
+    "english": "sad",
+    "arabic": "حزين",
+    "arabic_levantine": "زعلان / حزين",
+    "transliteration": "hazin",
+    "transliteration_levantine": "za'lan / hazin",
+    "type": "adjective",
+    "synonyms": ["كئيب", "مكتئب", "مغموم"],
+    "antonyms": ["سعيد", "مسرور", "مبسوط"],
+    "fusha_sentences": [
+      { "arabic": "شعر بالحزن عند سماع الخبر.", "transliteration": "Sha'ara bil-huzn 'inda sima' al-khabar.", "english": "He felt sad upon hearing the news." },
+      { "arabic": "الموسيقى تساعدني حين أكون حزينًا.", "transliteration": "Al-musiqa tusa'iduni hin akun hazinen.", "english": "Music helps me when I am sad." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شو صاير؟ ليش زعلان هيك؟", "transliteration": "Shu saayer? Leish za'lan heik?", "english": "What's wrong? Why are you so sad?" },
+      { "arabic": "زعلت منو لأنو ما حكالي الحقيقة.", "transliteration": "Za'alt minno la'anno ma haka-li il-haqiqa.", "english": "I got sad at him because he didn't tell me the truth." }
+    ]
+  },
+  {
+    "english": "beautiful",
+    "arabic": "جميل",
+    "arabic_levantine": "حلو",
+    "transliteration": "jamil",
+    "transliteration_levantine": "helo",
+    "type": "adjective",
+    "synonyms": ["رائع", "بديع", "خلّاب"],
+    "antonyms": ["قبيح", "بشع"],
+    "fusha_sentences": [
+      { "arabic": "المدينة جميلة بشوارعها وحدائقها.", "transliteration": "Al-madina jamila bi-shawari'iha wa hadda'iqiha.", "english": "The city is beautiful with its streets and gardens." },
+      { "arabic": "رأيت صورة جميلة في المعرض الفني.", "transliteration": "Ra'aytu sura jamila fi al-ma'rad al-fanni.", "english": "I saw a beautiful painting at the art exhibition." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "يا حلو! هاد المنظر بجنن!", "transliteration": "Ya helo! Had il-manzar byjannen!", "english": "Oh beautiful! This view is amazing!" },
+      { "arabic": "الفستان الأزرق عليكِ حلو كتير.", "transliteration": "Il-fustan il-azraq 'aleiki helo ktir.", "english": "The blue dress looks really beautiful on you." }
+    ]
+  },
+  {
+    "english": "eat",
+    "arabic": "يأكل",
+    "arabic_levantine": "يوكل / ياكل",
+    "transliteration": "ya'kul",
+    "transliteration_levantine": "yokol / yaakol",
+    "type": "verb",
+    "synonyms": ["يتناول", "يلتهم"],
+    "antonyms": ["يصوم", "يجوع"],
+    "fusha_sentences": [
+      { "arabic": "يأكل الإنسان ليعيش ولا يعيش ليأكل.", "transliteration": "Ya'kul al-insan li-ya'ish wa la ya'ish li-ya'kul.", "english": "A person eats to live, not lives to eat." },
+      { "arabic": "من المهم أن نأكل الفواكه يوميًا.", "transliteration": "Min al-muhimm an na'kul al-fawakiha yawmiyan.", "english": "It's important to eat fruits daily." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "تعا نوكل، الغدا جاهز!", "transliteration": "Ta'a nokol, il-ghada jaahiz!", "english": "Come eat, lunch is ready!" },
+      { "arabic": "ما بيوكل كتير، بس بيحب الحلويات.", "transliteration": "Ma byokol ktir, bass bhibb il-halawiyyat.", "english": "He doesn't eat much, but he loves sweets." }
+    ]
+  },
+  {
+    "english": "speak",
+    "arabic": "يتكلم",
+    "arabic_levantine": "يحكي",
+    "transliteration": "yatakallam",
+    "transliteration_levantine": "yehki",
+    "type": "verb",
+    "synonyms": ["يقول", "يُعبّر", "ينطق"],
+    "antonyms": ["يصمت", "يسكت"],
+    "fusha_sentences": [
+      { "arabic": "يتكلم العربية بطلاقة ووضوح.", "transliteration": "Yatakallam al-'arabiyya bi-talaqatin wa wuduh.", "english": "He speaks Arabic fluently and clearly." },
+      { "arabic": "من المهم أن نتكلم بصدق مع الآخرين.", "transliteration": "Min al-muhimm an natakallam bi-sidq ma'a al-akharin.", "english": "It's important to speak honestly with others." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بيحكي عربي وإنجليزي وفرنساوي.", "transliteration": "Byehki 'arabi w inglizi w faransawi.", "english": "He speaks Arabic, English, and French." },
+      { "arabic": "حكيلي إيش صار بالضبط.", "transliteration": "Haki-li eish sar bil-dabt.", "english": "Tell me exactly what happened." }
+    ]
+  },
+  {
+    "english": "understand",
+    "arabic": "يفهم",
+    "arabic_levantine": "يفهم",
+    "transliteration": "yafham",
+    "transliteration_levantine": "yefham",
+    "type": "verb",
+    "synonyms": ["يُدرك", "يستوعب"],
+    "antonyms": ["يجهل", "يُخطئ"],
+    "fusha_sentences": [
+      { "arabic": "لا بدّ أن نفهم الدرس قبل الحفظ.", "transliteration": "La budda an nafham al-dars qabla al-hifz.", "english": "We must understand the lesson before memorizing." },
+      { "arabic": "يفهم المعلم احتياجات طلابه جيدًا.", "transliteration": "Yafham al-mu'allim ihtiyajat tullabihi jayyidan.", "english": "The teacher understands his students' needs well." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ما فهمت إيش قصدك، فهمني أكتر.", "transliteration": "Ma fhimt eish qasadak, fahhimni aktar.", "english": "I didn't understand what you meant, explain more." },
+      { "arabic": "هو بيفهم بالكمبيوتر أكتر مني.", "transliteration": "Huwwe byefham bil-computer aktar minni.", "english": "He understands computers better than me." }
+    ]
+  },
+  {
+    "english": "want",
+    "arabic": "يريد",
+    "arabic_levantine": "بدو",
+    "transliteration": "yurid",
+    "transliteration_levantine": "biddo",
+    "type": "verb",
+    "synonyms": ["يرغب", "يودّ", "يتمنى"],
+    "antonyms": ["يرفض", "يكره"],
+    "fusha_sentences": [
+      { "arabic": "يريد أن يتعلم اللغة العربية الفصحى.", "transliteration": "Yurid an yata'allam al-lugha al-'arabiyya al-fusha.", "english": "He wants to learn Modern Standard Arabic." },
+      { "arabic": "ماذا تريد أن تكون في المستقبل؟", "transliteration": "Madha turid an takun fi al-mustaqbal?", "english": "What do you want to be in the future?" }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بدي أروح عمان الصيف الجاي.", "transliteration": "Biddi aruh 'Amman il-sif il-jay.", "english": "I want to go to Amman this coming summer." },
+      { "arabic": "شو بدك تشرب؟ قهوة ولا شاي؟", "transliteration": "Shu baddak teshrab? Qahwe walla shai?", "english": "What do you want to drink? Coffee or tea?" }
+    ]
+  },
+  {
+    "english": "know",
+    "arabic": "يعرف",
+    "arabic_levantine": "يعرف",
+    "transliteration": "ya'rif",
+    "transliteration_levantine": "ya'rif",
+    "type": "verb",
+    "synonyms": ["يدرك", "يعلم", "يُحيط علمًا"],
+    "antonyms": ["يجهل", "لا يدري"],
+    "fusha_sentences": [
+      { "arabic": "من يعرف لغات كثيرة يفتح أبوابًا كثيرة.", "transliteration": "Man ya'rif lughat kathira yaftah abwaban kathira.", "english": "One who knows many languages opens many doors." },
+      { "arabic": "يعرف الطالب جميع قواعد اللغة العربية.", "transliteration": "Ya'rif al-talib jami' qawa'id al-lugha al-'arabiyya.", "english": "The student knows all the rules of Arabic grammar." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بتعرف وين مطعم أبو جبارة؟", "transliteration": "Bta'rif ween mat'am Abu Jabbara?", "english": "Do you know where Abu Jabbara restaurant is?" },
+      { "arabic": "ما بعرف ليش تصرف هيك.", "transliteration": "Ma ba'rif leish tasarruf heik.", "english": "I don't know why he acted like that." }
+    ]
+  },
+  {
+    "english": "money",
+    "arabic": "مال",
+    "arabic_levantine": "مصاري / فلوس",
+    "transliteration": "mal",
+    "transliteration_levantine": "massari / flus",
+    "type": "noun",
+    "synonyms": ["ثروة", "أموال", "دراهم"],
+    "antonyms": ["فقر", "إفلاس"],
+    "fusha_sentences": [
+      { "arabic": "المال وسيلة للعيش لا غاية في حدّ ذاته.", "transliteration": "Al-mal wasilat lil-'aysh la ghayat fi hadd dhatih.", "english": "Money is a means of living, not an end in itself." },
+      { "arabic": "ادّخر مالًا كثيرًا لبناء منزله.", "transliteration": "Iddakhar malan kathiran li-bina' manzilib.", "english": "He saved a lot of money to build his house." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ما معي مصاري هلأ، بدفعلك بكرا.", "transliteration": "Ma ma'i massari hala', bdef'a-lak bukra.", "english": "I have no money right now, I'll pay you tomorrow." },
+      { "arabic": "الفلوس مش كل شي بالحياة.", "transliteration": "Il-flus mish kull shi bil-hayeh.", "english": "Money is not everything in life." }
+    ]
+  },
+  {
+    "english": "time",
+    "arabic": "وقت",
+    "arabic_levantine": "وقت",
+    "transliteration": "waqt",
+    "transliteration_levantine": "waqt",
+    "type": "noun",
+    "synonyms": ["زمن", "حين", "ساعة"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الوقت كالسيف إن لم تقطعه قطعك.", "transliteration": "Al-waqt kal-sayf in lam taqta'hu qata'ak.", "english": "Time is like a sword; if you don't cut it, it cuts you." },
+      { "arabic": "ينبغي علينا استثمار الوقت بشكل صحيح.", "transliteration": "Yanbaghi 'alayna isthmar al-waqt bi-shakl sahih.", "english": "We should invest our time properly." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ما عندي وقت هلأ، تعبان كتير.", "transliteration": "Ma 'indi waqt hala', ta'ban ktir.", "english": "I have no time right now, I'm very tired." },
+      { "arabic": "الوقت طاير، كيف وصلنا لهون؟", "transliteration": "Il-waqt tayir, kif wasalna la-hon?", "english": "Time is flying, how did we get here?" }
+    ]
+  },
+  {
+    "english": "morning",
+    "arabic": "صباح",
+    "arabic_levantine": "صبح",
+    "transliteration": "sabah",
+    "transliteration_levantine": "subh",
+    "type": "noun",
+    "synonyms": ["فجر", "بكرة", "الغلس"],
+    "antonyms": ["مساء", "ليل"],
+    "fusha_sentences": [
+      { "arabic": "الصباح الباكر وقت مثالي للدراسة.", "transliteration": "Al-sabah al-bakir waqt mithali lil-dirasa.", "english": "Early morning is the ideal time for studying." },
+      { "arabic": "أشرقت الشمس في الصباح ونشّطت الجميع.", "transliteration": "Ashraqat al-shams fi al-sabah wa nashshatat al-jami'.", "english": "The sun shone in the morning and energized everyone." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "صبح الخير! كيف كان نومك؟", "transliteration": "Subh il-khair! Kif kan nomak?", "english": "Good morning! How was your sleep?" },
+      { "arabic": "من الصبح وأنا شايل هالحقيبة.", "transliteration": "Min il-subh w ana shayyil hal-haqibe.", "english": "Since morning I've been carrying this bag." }
+    ]
+  },
+  {
+    "english": "night",
+    "arabic": "ليل",
+    "arabic_levantine": "ليل / ليلة",
+    "transliteration": "layl",
+    "transliteration_levantine": "leil / leile",
+    "type": "noun",
+    "synonyms": ["مساء", "ظلام", "دجى"],
+    "antonyms": ["نهار", "صباح"],
+    "fusha_sentences": [
+      { "arabic": "يسكن الليل سكوتٌ عميق وهدوء.", "transliteration": "Yaskun al-layl sukutun 'amiq wa huduw'.", "english": "Deep silence and calm dwell in the night." },
+      { "arabic": "قرأت الرواية كاملة في ليلة واحدة.", "transliteration": "Qara'tu al-riwaya kamila fi laylatin wahida.", "english": "I read the entire novel in one night." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الليل بعمان حلو، في ناس كتير بالشوارع.", "transliteration": "Il-leil b-'Amman helo, fi nas ktir bil-shawari'.", "english": "Nighttime in Amman is beautiful, many people are in the streets." },
+      { "arabic": "تصبح على خير، تعبت من هالليلة.", "transliteration": "Tisbah 'ala khair, ta'abt min hal-leile.", "english": "Goodnight, I'm exhausted from tonight." }
+    ]
+  },
+  {
+    "english": "tomorrow",
+    "arabic": "غدًا",
+    "arabic_levantine": "بكرا",
+    "transliteration": "ghadan",
+    "transliteration_levantine": "bukra",
+    "type": "adverb",
+    "synonyms": ["في الغد", "الغد"],
+    "antonyms": ["أمس", "البارحة"],
+    "fusha_sentences": [
+      { "arabic": "سينتهي العمل غدًا بإذن الله.", "transliteration": "Sayantahi al-'amal ghadan bi-idhni allah.", "english": "The work will finish tomorrow, God willing." },
+      { "arabic": "لا تؤجّل عمل اليوم إلى الغد.", "transliteration": "La tu'ajjil 'amal al-yawm ila al-ghad.", "english": "Do not postpone today's work until tomorrow." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بكرا عندي امتحان، لازم أذاكر.", "transliteration": "Bukra 'indi imtihan, lazim adakir.", "english": "Tomorrow I have an exam, I need to study." },
+      { "arabic": "تعا بكرا نطلع نتمشى بالبلد.", "transliteration": "Ta'a bukra notla' nitmashshh bil-balad.", "english": "Come tomorrow and let's go for a walk downtown." }
+    ]
+  },
+  {
+    "english": "yesterday",
+    "arabic": "أمس",
+    "arabic_levantine": "إمبارح / مبارح",
+    "transliteration": "ams",
+    "transliteration_levantine": "imbarrih / mbarrih",
+    "type": "adverb",
+    "synonyms": ["البارحة", "الأمس"],
+    "antonyms": ["غدًا", "بكرا"],
+    "fusha_sentences": [
+      { "arabic": "وصل أمس بعد رحلة طويلة.", "transliteration": "Wasala ams ba'da rihla tawila.", "english": "He arrived yesterday after a long journey." },
+      { "arabic": "ما حدث أمس لن يتكرر اليوم.", "transliteration": "Ma hadatha ams lan yatakarrar al-yawm.", "english": "What happened yesterday will not repeat today." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "إمبارح زرت سيتي سنتر مع صاحبتي.", "transliteration": "Imbarrih zurt City Center ma' sahibti.", "english": "Yesterday I visited City Centre with my friend." },
+      { "arabic": "شفته مبارح بالسوق بالمصطبة.", "transliteration": "Shifto mbarrih bil-suq bil-mastaba.", "english": "I saw him yesterday at the market by the bench." }
+    ]
+  },
+  {
+    "english": "now",
+    "arabic": "الآن",
+    "arabic_levantine": "هلأ / هلق",
+    "transliteration": "al-an",
+    "transliteration_levantine": "hala' / halaq",
+    "type": "adverb",
+    "synonyms": ["في هذه اللحظة", "حاليًا"],
+    "antonyms": ["لاحقًا", "بعدين"],
+    "fusha_sentences": [
+      { "arabic": "يجب أن نتصرف الآن دون تأخير.", "transliteration": "Yajib an natasarraf al-an duna ta'khir.", "english": "We must act now without delay." },
+      { "arabic": "الوضع الآن أفضل مما كان عليه.", "transliteration": "Al-wad' al-an afdal mimma kan 'alayhi.", "english": "The situation now is better than it was." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هلأ وين؟ مش قاعد هون!", "transliteration": "Hala' ween? Mish qa'id hon!", "english": "Now where? He's not sitting here!" },
+      { "arabic": "أنا مشغول هلق، اتصل فيّ بعدين.", "transliteration": "Ana mashghul halaq, ittasil fiyyi ba'deen.", "english": "I'm busy now, call me later." }
+    ]
+  },
+  {
+    "english": "but",
+    "arabic": "لكن",
+    "arabic_levantine": "بس",
+    "transliteration": "lakin",
+    "transliteration_levantine": "bass",
+    "type": "conjunction",
+    "synonyms": ["غير أن", "إلا أن", "بيد أن"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يحبّ السفر لكنه لا يملك الوقت الكافي.", "transliteration": "Yuhibb al-safar lakinahu la yamlik al-waqt al-kafi.", "english": "He loves travelling but does not have enough time." },
+      { "arabic": "الأمر صعب لكنه ليس مستحيلًا.", "transliteration": "Al-amr sa'b lakinahu laysa mustahilan.", "english": "The matter is difficult but not impossible." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بدي أجي بس عندي شغل.", "transliteration": "Biddi aji bass 'indi shughul.", "english": "I want to come but I have work." },
+      { "arabic": "الأكل زاكي بس الكمية كتير.", "transliteration": "Il-akil zaki bass il-kammiyye ktir.", "english": "The food is delicious but the portion is too big." }
+    ]
+  },
+  {
+    "english": "city",
+    "arabic": "مدينة",
+    "arabic_levantine": "مدينة / بلد",
+    "transliteration": "madina",
+    "transliteration_levantine": "madine / balad",
+    "type": "noun",
+    "synonyms": ["حاضرة", "عاصمة", "بلدة"],
+    "antonyms": ["قرية", "ريف"],
+    "fusha_sentences": [
+      { "arabic": "عمّان مدينة تجمع بين الأصالة والحداثة.", "transliteration": "'Amman madina tajma' bayna al-asala wa al-hadatha.", "english": "Amman is a city that combines heritage and modernity." },
+      { "arabic": "تعتبر القدس من أقدم مدن العالم.", "transliteration": "Tu'tabar al-Quds min aqdam mudun al-'alam.", "english": "Jerusalem is considered one of the oldest cities in the world." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "البلد تغيرت كتير من زمان.", "transliteration": "Il-balad tghayarat ktir min zaman.", "english": "The city has changed a lot from before." },
+      { "arabic": "بحب المدينة هون، ناسها طيبين.", "transliteration": "Bhib il-madine hon, nassha tayyibin.", "english": "I love this city, its people are kind." }
+    ]
+  },
+  {
+    "english": "heart",
+    "arabic": "قلب",
+    "arabic_levantine": "قلب",
+    "transliteration": "qalb",
+    "transliteration_levantine": "qalb",
+    "type": "noun",
+    "synonyms": ["فؤاد", "كبد"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "القلب السليم مفتاح الراحة والطمأنينة.", "transliteration": "Al-qalb al-salim miftah al-raha wa al-tuma'nina.", "english": "A sound heart is the key to peace and tranquility." },
+      { "arabic": "تكلّم من القلب وستصل الكلمات.", "transliteration": "Takallam min al-qalb wa satusal al-kalimat.", "english": "Speak from the heart and the words will reach." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "قلبي بيوجعني لما بشوفه حزين.", "transliteration": "Qalbi byuje'ni lamma bshufo hazin.", "english": "My heart aches when I see him sad." },
+      { "arabic": "هاي المرأة قلبها ذهب، تساعد الكل.", "transliteration": "Hay il-mar'a qalba dahab, tsa'id il-kull.", "english": "This woman has a heart of gold, she helps everyone." }
+    ]
+  },
+  {
+    "english": "language",
+    "arabic": "لغة",
+    "arabic_levantine": "لغة",
+    "transliteration": "lugha",
+    "transliteration_levantine": "lugha",
+    "type": "noun",
+    "synonyms": ["لسان", "لهجة", "كلام"],
+    "antonyms": ["صمت"],
+    "fusha_sentences": [
+      { "arabic": "اللغة العربية من أغنى لغات العالم.", "transliteration": "Al-lugha al-'arabiyya min aghna lughat al-'alam.", "english": "Arabic is one of the richest languages in the world." },
+      { "arabic": "تعلّم لغة جديدة يوسّع الآفاق.", "transliteration": "Ta'allum lugha jadida yuwassi' al-afaq.", "english": "Learning a new language broadens horizons." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بتحكي كم لغة؟ أنا بحكي تنتين.", "transliteration": "Btehki kam lugha? Ana bhiki tintein.", "english": "How many languages do you speak? I speak two." },
+      { "arabic": "اللغة العربية صعبة بس حلوة كتير.", "transliteration": "Il-lugha il-'arabiyye sa'be bass helo ktir.", "english": "Arabic is difficult but very beautiful." }
+    ]
+  },
+  {
+    "english": "door",
+    "arabic": "باب",
+    "arabic_levantine": "باب",
+    "transliteration": "bab",
+    "transliteration_levantine": "bab",
+    "type": "noun",
+    "synonyms": ["مدخل", "بوابة"],
+    "antonyms": ["جدار"],
+    "fusha_sentences": [
+      { "arabic": "التعليم باب مفتوح لمستقبل أفضل.", "transliteration": "Al-ta'lim bab maftuh li-mustaqbal afdal.", "english": "Education is an open door to a better future." },
+      { "arabic": "طرق الباب ثلاث مرات ولم يجبه أحد.", "transliteration": "Taraqa al-bab thalatha marrat wa lam yujibhu ahad.", "english": "He knocked on the door three times and no one answered." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "سكّر الباب، في هوا بارد من برّا.", "transliteration": "Sakkar il-bab, fi hawa bared min barra.", "english": "Close the door, there's cold air from outside." },
+      { "arabic": "في حدا بيطق الباب، روح شوف مين.", "transliteration": "Fi hada bytuq il-bab, ruh shuf min.", "english": "Someone is knocking on the door, go see who it is." }
+    ]
+  },
+  {
+    "english": "yes",
+    "arabic": "نعم",
+    "arabic_levantine": "آه / إي",
+    "transliteration": "na'am",
+    "transliteration_levantine": "ah / ee",
+    "type": "adverb",
+    "synonyms": ["أجل", "بلى"],
+    "antonyms": ["لا", "كلا"],
+    "fusha_sentences": [
+      { "arabic": "نعم، سأحضر الاجتماع في الموعد المحدد.", "transliteration": "Na'am, sa-ahdar al-ijtima' fi al-maw'id al-muhaddad.", "english": "Yes, I will attend the meeting at the set time." },
+      { "arabic": "أجاب الطالب بنعم حين سأله المعلم.", "transliteration": "Ajaba al-talib bi-na'am hin sa'alahu al-mu'allim.", "english": "The student answered yes when the teacher asked him." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "آه، بعرف وين هي المحطة.", "transliteration": "Ah, ba'rif ween hiye il-mahatte.", "english": "Yes, I know where the station is." },
+      { "arabic": "إي والله، أنا موافق!", "transliteration": "Ee wallah, ana mwafiq!", "english": "Yes indeed, I agree!" }
+    ]
+  },
+  {
+    "english": "no",
+    "arabic": "لا",
+    "arabic_levantine": "لا",
+    "transliteration": "la",
+    "transliteration_levantine": "la",
+    "type": "adverb",
+    "synonyms": ["كلا", "أبدًا"],
+    "antonyms": ["نعم", "أجل"],
+    "fusha_sentences": [
+      { "arabic": "لا، لن أوافق على هذا القرار.", "transliteration": "La, lan uwafiq 'ala hadha al-qarar.", "english": "No, I will not agree to this decision." },
+      { "arabic": "أجابت بـ«لا» وغادرت الغرفة.", "transliteration": "Ajabat bi-la wa ghadat al-ghurfa.", "english": "She answered with 'no' and left the room." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "لا، مش قادر أجي اليوم.", "transliteration": "La, mish qadir aji il-yom.", "english": "No, I can't come today." },
+      { "arabic": "لا شكرًا، ما بدي شي هلأ.", "transliteration": "La shukran, ma biddi shi hala'.", "english": "No thank you, I don't want anything now." }
+    ]
+  },
+  {
+    "english": "please",
+    "arabic": "من فضلك",
+    "arabic_levantine": "لو سمحت / من فضلك",
+    "transliteration": "min fadlak",
+    "transliteration_levantine": "law samaht / min fadlak",
+    "type": "phrase",
+    "synonyms": ["أرجوك", "رجاءً"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "من فضلك، هل يمكنك مساعدتي؟", "transliteration": "Min fadlak, hal yumkinuka musa'adati?", "english": "Please, can you help me?" },
+      { "arabic": "أرجو منك، من فضلك، الصبر قليلًا.", "transliteration": "Arju minka, min fadlak, al-sabr qalilan.", "english": "I ask you, please, to be patient a little." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "لو سمحت، وين دوار الداخلية؟", "transliteration": "Law samaht, ween dawar al-dakhiliyye?", "english": "Please, where is the Interior Circle?" },
+      { "arabic": "من فضلك اخفت الصوت، في ناس نايمين.", "transliteration": "Min fadlak ikhfit il-sot, fi nas naymeen.", "english": "Please lower the volume, there are people sleeping." }
+    ]
+  },
+  {
+    "english": "sorry",
+    "arabic": "آسف",
+    "arabic_levantine": "آسف / معلش",
+    "transliteration": "asif",
+    "transliteration_levantine": "asif / ma'lesh",
+    "type": "adjective",
+    "synonyms": ["عذرًا", "أعتذر"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "أنا آسف على ما حدث بيننا.", "transliteration": "Ana asif 'ala ma hadatha baynana.", "english": "I am sorry for what happened between us." },
+      { "arabic": "أعتذر بصدق عن هذا الخطأ غير المقصود.", "transliteration": "A'tadhir bi-sidq 'an hadha al-khata' ghayr al-maqsud.", "english": "I sincerely apologize for this unintentional mistake." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "معلش، ما كنت قاصدك.", "transliteration": "Ma'lesh, ma kunt qasidak.", "english": "Sorry, I didn't mean you." },
+      { "arabic": "آسف كتير على التأخير، في زحمة بالطريق.", "transliteration": "Asif ktir 'ala il-ta'khir, fi zahme bil-tariq.", "english": "I'm really sorry for being late, there's traffic on the road." }
+    ]
+  },
+  {
+    "english": "mother",
+    "arabic": "أم",
+    "arabic_levantine": "إمّي / إمو",
+    "transliteration": "umm",
+    "transliteration_levantine": "immi / immo",
+    "type": "noun",
+    "synonyms": ["والدة", "ماما"],
+    "antonyms": ["أب"],
+    "fusha_sentences": [
+      { "arabic": "الأم هي أول معلم في حياة الطفل.", "transliteration": "Al-umm hiya awwal mu'allim fi hayat al-tifl.", "english": "A mother is the first teacher in a child's life." },
+      { "arabic": "تُضحّي الأم بكل شيء من أجل أبنائها.", "transliteration": "Tudahhi al-umm bi-kulli shay' min ajl abna'iha.", "english": "A mother sacrifices everything for her children." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "إمّي بتحكي معي كل يوم بالتلفون.", "transliteration": "Immi btehki ma'i kull yom bil-telfon.", "english": "My mom talks to me every day on the phone." },
+      { "arabic": "إمو طبّخت منسف اليوم، حلو كتير.", "transliteration": "Immo tabbakhat mansaf il-yom, helo ktir.", "english": "His mom made mansaf today, it's very delicious." }
+    ]
+  },
+  {
+    "english": "father",
+    "arabic": "أب",
+    "arabic_levantine": "أبوي / أبو",
+    "transliteration": "ab",
+    "transliteration_levantine": "abui / abu",
+    "type": "noun",
+    "synonyms": ["والد", "بابا"],
+    "antonyms": ["أم"],
+    "fusha_sentences": [
+      { "arabic": "الأب هو ركيزة الأسرة وقائدها.", "transliteration": "Al-ab huwa rakizat al-usra wa qa'iduha.", "english": "The father is the pillar and leader of the family." },
+      { "arabic": "علّمني أبي قيمة العمل الجاد.", "transliteration": "'Allamani abi qimat al-'amal al-jadd.", "english": "My father taught me the value of hard work." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "أبوي رجع من الشغل متأخر إمبارح.", "transliteration": "Abui rija' min il-shughul mit'akhkhar imbarrih.", "english": "My dad came back from work late yesterday." },
+      { "arabic": "أبو أحمد كرم كتير، دايمًا بيساعد الناس.", "transliteration": "Abu Ahmad karim ktir, dayiman bysa'id il-nas.", "english": "Ahmad's father is very generous, he always helps people." }
+    ]
+  },
+  {
+    "english": "brother",
+    "arabic": "أخ",
+    "arabic_levantine": "أخوي / أخو",
+    "transliteration": "akh",
+    "transliteration_levantine": "akhui / akhu",
+    "type": "noun",
+    "synonyms": ["شقيق"],
+    "antonyms": ["أخت"],
+    "fusha_sentences": [
+      { "arabic": "أخي الأكبر يعمل في مجال الهندسة.", "transliteration": "Akhi al-akbar ya'mal fi majal al-handasa.", "english": "My older brother works in the field of engineering." },
+      { "arabic": "تشاور مع أخيك قبل أن تتخذ أي قرار.", "transliteration": "Tashawar ma'a akhika qabla an tattakhidha ayy qarar.", "english": "Consult with your brother before making any decision." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "أخوي صغير بس أذكى مني بكتير.", "transliteration": "Akhui zghir bass adhka minni b-ktir.", "english": "My brother is younger but much smarter than me." },
+      { "arabic": "رحت مع أخوي على فلافل صاحب.", "transliteration": "Ruht ma' akhui 'ala falafel Sahib.", "english": "I went with my brother to Sahib Falafel." }
+    ]
+  },
+  {
+    "english": "sister",
+    "arabic": "أخت",
+    "arabic_levantine": "أختي",
+    "transliteration": "ukht",
+    "transliteration_levantine": "ukhti",
+    "type": "noun",
+    "synonyms": ["شقيقة"],
+    "antonyms": ["أخ"],
+    "fusha_sentences": [
+      { "arabic": "أختي الصغيرة تدرس الطب في الجامعة.", "transliteration": "Ukhti al-saghira tadrus al-tibb fi al-jami'a.", "english": "My younger sister studies medicine at the university." },
+      { "arabic": "العلاقة بين الأخت وأخيها رابطة مقدسة.", "transliteration": "Al-'alaqa bayna al-ukht wa akhiha rabita muqaddasa.", "english": "The relationship between a sister and her brother is a sacred bond." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "أختي ساعدتني بالمذاكرة لما كنت تعبان.", "transliteration": "Ukhti sa'adatni bil-muzakara lamma kunt ta'ban.", "english": "My sister helped me study when I was sick." },
+      { "arabic": "أختك طلعت معنا أمس؟ إي طلعت.", "transliteration": "Ukhtik tla'it ma'na ams? Ee tla'it.", "english": "Did your sister come out with us yesterday? Yes she did." }
+    ]
+  },
+  {
+    "english": "teacher",
+    "arabic": "معلم",
+    "arabic_levantine": "مدرّس / أستاذ",
+    "transliteration": "mu'allim",
+    "transliteration_levantine": "mudarris / ustaz",
+    "type": "noun",
+    "synonyms": ["أستاذ", "مدرّس", "مُعلِّمة"],
+    "antonyms": ["طالب"],
+    "fusha_sentences": [
+      { "arabic": "المعلم الجيد يُلهم طلابه ويحفزهم.", "transliteration": "Al-mu'allim al-jayyid yulhim tullabahy wa yuhaffizuhum.", "english": "A good teacher inspires and motivates students." },
+      { "arabic": "كرّم الطلاب معلمهم في نهاية العام الدراسي.", "transliteration": "Karrma al-tullab mu'allimahum fi nihayat al-'am al-dirasi.", "english": "Students honored their teacher at the end of the school year." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الأستاذ خالد شارح كتير منيح.", "transliteration": "Il-ustaz Khalid sharih ktir mniih.", "english": "Teacher Khalid explains very well." },
+      { "arabic": "المدرّسة طلبت منا نحضّر الدرس لبكرا.", "transliteration": "Il-mudarrisa talabat minna nhadddir il-dars la-bukra.", "english": "The teacher asked us to prepare the lesson for tomorrow." }
+    ]
+  },
+  {
+    "english": "student",
+    "arabic": "طالب",
+    "arabic_levantine": "طالب / تلميذ",
+    "transliteration": "talib",
+    "transliteration_levantine": "talib / talmiz",
+    "type": "noun",
+    "synonyms": ["تلميذ", "متعلم"],
+    "antonyms": ["معلم"],
+    "fusha_sentences": [
+      { "arabic": "يتميز الطالب المجتهد بالمثابرة والانضباط.", "transliteration": "Yatamayyaz al-talib al-mujtahid bil-muthabara wal-indibat.", "english": "A hardworking student is distinguished by perseverance and discipline." },
+      { "arabic": "يدرس الطالب ساعات طويلة استعدادًا للامتحان.", "transliteration": "Yadrus al-talib sa'at tawila isti'dadan lil-imtihan.", "english": "The student studies long hours in preparation for the exam." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الطالب هاد شاطر كتير بالرياضيات.", "transliteration": "Il-talib had shater ktir bil-riyadiyyat.", "english": "This student is very good at mathematics." },
+      { "arabic": "في كتير طلاب بالجامعة من مناطق مختلفة.", "transliteration": "Fi ktir tullab bil-jami'a min manateq mukhtalife.", "english": "There are many students at the university from different areas." }
+    ]
+  },
+  {
+    "english": "school",
+    "arabic": "مدرسة",
+    "arabic_levantine": "مدرسة",
+    "transliteration": "madrasa",
+    "transliteration_levantine": "madrasse",
+    "type": "noun",
+    "synonyms": ["معهد", "مؤسسة تعليمية"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "المدرسة هي البيت الثاني للطالب.", "transliteration": "Al-madrasa hiya al-bayt al-thani lil-talib.", "english": "School is the student's second home." },
+      { "arabic": "افتتحت المدرسة الجديدة أبوابها هذا العام.", "transliteration": "Iftatahat al-madrasa al-jadida abwabiha hadha al-'am.", "english": "The new school opened its doors this year." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "وصلت على المدرسة متأخر اليوم.", "transliteration": "Wasalt 'ala il-madrasse mit'akhkhar il-yom.", "english": "I arrived at school late today." },
+      { "arabic": "المدرسة تبعتنا فيها مسبح وملعب كبير.", "transliteration": "Il-madrasse taba'tna fiha masbah w mal'ab kbir.", "english": "Our school has a pool and a big playground." }
+    ]
+  },
+  {
+    "english": "lesson",
+    "arabic": "درس",
+    "arabic_levantine": "درس / حصة",
+    "transliteration": "dars",
+    "transliteration_levantine": "dars / hissa",
+    "type": "noun",
+    "synonyms": ["حصة", "محاضرة"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "استوعب الطلاب الدرس بشكل جيد اليوم.", "transliteration": "Istawab al-tullab al-dars bi-shakl jayyid al-yawm.", "english": "The students understood the lesson well today." },
+      { "arabic": "في كل تجربة حياتية درس نتعلمه.", "transliteration": "Fi kulli tajruba hayatiyya dars nata'allamuhu.", "english": "In every life experience there is a lesson to learn." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الدرس اليوم كان صعب، ما فهمت كتير.", "transliteration": "Il-dars il-yom kan sa'b, ma fhimt ktir.", "english": "Today's lesson was difficult, I didn't understand much." },
+      { "arabic": "الحصة الجاية بتكون رياضيات أو علوم؟", "transliteration": "Il-hissa il-jaye btukun riyadiyyat aw 'ulum?", "english": "Will the next period be math or science?" }
+    ]
+  },
+  {
+    "english": "bread",
+    "arabic": "خبز",
+    "arabic_levantine": "خبز / تنور",
+    "transliteration": "khubz",
+    "transliteration_levantine": "khubz / tannur",
+    "type": "noun",
+    "synonyms": ["رغيف", "عيش"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الخبز غذاء أساسي في معظم الثقافات.", "transliteration": "Al-khubz ghidha' asasi fi mu'zam al-thaqafat.", "english": "Bread is a staple food in most cultures." },
+      { "arabic": "رائحة الخبز الطازج تُبهج النفس.", "transliteration": "Ra'ihat al-khubz al-tazij tubbhij al-nafs.", "english": "The smell of fresh bread delights the soul." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "روح جيب خبز من الفرن قبل ما يقفل.", "transliteration": "Ruh jeeb khubz min il-furn qabul ma yqfel.", "english": "Go get bread from the bakery before it closes." },
+      { "arabic": "الخبز التنور تبعنا طازج كل صبح.", "transliteration": "Il-khubz il-tannur taba'na tazij kull subh.", "english": "Our tandoor bread is fresh every morning." }
+    ]
+  },
+  {
+    "english": "coffee",
+    "arabic": "قهوة",
+    "arabic_levantine": "قهوة",
+    "transliteration": "qahwa",
+    "transliteration_levantine": "qahwe",
+    "type": "noun",
+    "synonyms": ["كافيين", "نسكافيه"],
+    "antonyms": ["شاي"],
+    "fusha_sentences": [
+      { "arabic": "القهوة العربية رمز الكرم والضيافة.", "transliteration": "Al-qahwa al-'arabiyya ramz al-karam wal-diyafa.", "english": "Arabic coffee is a symbol of generosity and hospitality." },
+      { "arabic": "أشرب فنجانًا من القهوة كل صباح.", "transliteration": "Ashrabu finjaanan min al-qahwa kull sabah.", "english": "I drink a cup of coffee every morning." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بدك قهوة؟ عم باعمل لحالي.", "transliteration": "Baddak qahwe? 'Am ba'mul la-hali.", "english": "Do you want coffee? I'm making some for myself." },
+      { "arabic": "القهوة بالهيل أحسن من القهوة العادية.", "transliteration": "Il-qahwe bil-heil ahsan min il-qahwe il-'adiyye.", "english": "Cardamom coffee is better than regular coffee." }
+    ]
+  },
+  {
+    "english": "tea",
+    "arabic": "شاي",
+    "arabic_levantine": "شاي",
+    "transliteration": "shay",
+    "transliteration_levantine": "shai",
+    "type": "noun",
+    "synonyms": ["تي", "مشروب ساخن"],
+    "antonyms": ["قهوة"],
+    "fusha_sentences": [
+      { "arabic": "يشرب المصريون الشاي في معظم أوقات اليوم.", "transliteration": "Yashrabu al-masriyyun al-shay fi mu'zam awqat al-yawm.", "english": "Egyptians drink tea most times of the day." },
+      { "arabic": "أضف قليلًا من النعناع إلى الشاي.", "transliteration": "Adif qalilan min al-na'na' ila al-shay.", "english": "Add a little mint to the tea." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شاي بالنعنع ولا سادة؟", "transliteration": "Shai bil-na'na' walla sade?", "english": "Tea with mint or plain?" },
+      { "arabic": "في شي أحسن من شاي ساخن بالشتا؟", "transliteration": "Fi shi ahsan min shai sakhin bil-shita?", "english": "Is there anything better than hot tea in winter?" }
+    ]
+  },
+  {
+    "english": "milk",
+    "arabic": "حليب",
+    "arabic_levantine": "حليب",
+    "transliteration": "halib",
+    "transliteration_levantine": "halib",
+    "type": "noun",
+    "synonyms": ["لبن"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الحليب غني بالكالسيوم والبروتين.", "transliteration": "Al-halib ghani bil-kalsyum wal-burutin.", "english": "Milk is rich in calcium and protein." },
+      { "arabic": "تشرب الأطفال الحليب لينموا بصحة جيدة.", "transliteration": "Tashrabu al-atfal al-halib li-yanmu bi-sihha jayyida.", "english": "Children drink milk to grow up healthy." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "جيب حليب من الدكان لما ترجع.", "transliteration": "Jeeb halib min il-dukkan lamma tirja'.", "english": "Bring milk from the store when you come back." },
+      { "arabic": "الحليب خلص، لازم نشتري.", "transliteration": "Il-halib khilas, lazim nishtiri.", "english": "The milk is finished, we need to buy some." }
+    ]
+  },
+  {
+    "english": "rice",
+    "arabic": "أرز",
+    "arabic_levantine": "رز",
+    "transliteration": "aruzz",
+    "transliteration_levantine": "rizz",
+    "type": "noun",
+    "synonyms": ["حبوب"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الأرز طبق أساسي في المطبخ الأردني.", "transliteration": "Al-aruzz tabaq asasi fi al-matbakh al-urdunni.", "english": "Rice is a staple dish in Jordanian cuisine." },
+      { "arabic": "طهت الأم كميةً كبيرة من الأرز للضيوف.", "transliteration": "Tahhat al-umm kammiyya kabira min al-aruzz lil-duyuf.", "english": "The mother cooked a large amount of rice for the guests." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الرز بالشعيرية أحسن من الرز السادة.", "transliteration": "Il-rizz bil-sha'iriyye ahsan min il-rizz il-sade.", "english": "Rice with vermicelli is better than plain rice." },
+      { "arabic": "عملت رز وفريكة مع اللحمة اليوم.", "transliteration": "Amalit rizz w freike ma' il-lahme il-yom.", "english": "I made rice and freekeh with meat today." }
+    ]
+  },
+  {
+    "english": "red",
+    "arabic": "أحمر",
+    "arabic_levantine": "أحمر",
+    "transliteration": "ahmar",
+    "transliteration_levantine": "ahmar",
+    "type": "adjective",
+    "synonyms": ["قرمزي", "حمراء"],
+    "antonyms": ["أبيض", "أزرق"],
+    "fusha_sentences": [
+      { "arabic": "الوردة الحمراء رمز الحب والعاطفة.", "transliteration": "Al-warda al-hamra' ramz al-hubb wal-'atifa.", "english": "The red rose is a symbol of love and affection." },
+      { "arabic": "القلب الأحمر يُعبّر عن المشاعر العميقة.", "transliteration": "Al-qalb al-ahmar yu'abbir 'an al-masha'ir al-'amiqa.", "english": "The red heart expresses deep emotions." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "اشتريت فستان أحمر للعيد.", "transliteration": "Ishtareet fustan ahmar lil-'eid.", "english": "I bought a red dress for Eid." },
+      { "arabic": "الضو الأحمر يعني وقف، مش مشي.", "transliteration": "Il-daw il-ahmar ya'ni waqif, mish mashi.", "english": "The red light means stop, not go." }
+    ]
+  },
+  {
+    "english": "blue",
+    "arabic": "أزرق",
+    "arabic_levantine": "أزرق",
+    "transliteration": "azraq",
+    "transliteration_levantine": "azraq",
+    "type": "adjective",
+    "synonyms": ["سماوي", "نيلي"],
+    "antonyms": ["أحمر", "أصفر"],
+    "fusha_sentences": [
+      { "arabic": "السماء الزرقاء تجلب السكينة للنفس.", "transliteration": "Al-sama' al-zarqa' tajlib al-sakina lil-nafs.", "english": "The blue sky brings tranquility to the soul." },
+      { "arabic": "يُعدّ اللون الأزرق من أكثر الألوان هدوءًا.", "transliteration": "Yu'addu al-lawn al-azraq min akthar al-alwan hudu'an.", "english": "Blue is considered one of the most calming colors." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "البحر أزرق وصافي اليوم، يا حلو!", "transliteration": "Il-bahr azraq w safi il-yom, ya helo!", "english": "The sea is blue and clear today, how beautiful!" },
+      { "arabic": "عيونك زرقا ولا خضرا؟", "transliteration": "Uyunak zarqa walla khadra?", "english": "Are your eyes blue or green?" }
+    ]
+  },
+  {
+    "english": "green",
+    "arabic": "أخضر",
+    "arabic_levantine": "أخضر",
+    "transliteration": "akhdar",
+    "transliteration_levantine": "akhdar",
+    "type": "adjective",
+    "synonyms": ["زمردي", "فاتح"],
+    "antonyms": ["أحمر"],
+    "fusha_sentences": [
+      { "arabic": "اللون الأخضر يرمز إلى الطبيعة والحياة.", "transliteration": "Al-lawn al-akhdar yarmuz ila al-tabi'a wal-hayah.", "english": "The color green symbolizes nature and life." },
+      { "arabic": "تُغطي الأشجار الخضراء جانبَي الطريق.", "transliteration": "Tughabbi al-ashjar al-khadra' janibay al-tariq.", "english": "Green trees cover both sides of the road." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "البيت تبعنا فيه حديقة خضرا كتير.", "transliteration": "Il-beit taba'na fih hadiqe khadra ktir.", "english": "Our house has a very green garden." },
+      { "arabic": "شيل اللمبة الخضرا وحط الصفرا.", "transliteration": "Shil il-lumbe il-khadra w hutt il-safra.", "english": "Remove the green bulb and put the yellow one." }
+    ]
+  },
+  {
+    "english": "white",
+    "arabic": "أبيض",
+    "arabic_levantine": "أبيض",
+    "transliteration": "abyad",
+    "transliteration_levantine": "abyad",
+    "type": "adjective",
+    "synonyms": ["فضي", "ناصع"],
+    "antonyms": ["أسود"],
+    "fusha_sentences": [
+      { "arabic": "الثلج الأبيض يغطي قمم الجبال في الشتاء.", "transliteration": "Al-thalj al-abyad yughatti qimam al-jibal fi al-shita'.", "english": "White snow covers mountain peaks in winter." },
+      { "arabic": "ترمز الراية البيضاء إلى السلام.", "transliteration": "Tarmuz al-raya al-bayda' ila al-salam.", "english": "The white flag symbolizes peace." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الثوب الأبيض أحسن للصيف.", "transliteration": "Il-thob il-abyad ahsan lil-sif.", "english": "A white robe is better for summer." },
+      { "arabic": "صبغ الجدران أبيض خلّى البيت يبان كبير.", "transliteration": "Sabbagh il-judran abyad khalla il-beit yban kbir.", "english": "Painting the walls white made the house look bigger." }
+    ]
+  },
+  {
+    "english": "black",
+    "arabic": "أسود",
+    "arabic_levantine": "أسود",
+    "transliteration": "aswad",
+    "transliteration_levantine": "aswad",
+    "type": "adjective",
+    "synonyms": ["داكن", "حالك"],
+    "antonyms": ["أبيض"],
+    "fusha_sentences": [
+      { "arabic": "اللون الأسود يضفي على الملابس رونقًا خاصًا.", "transliteration": "Al-lawn al-aswad yudfi 'ala al-malabis rawnaqan khasan.", "english": "The color black gives clothes a special elegance." },
+      { "arabic": "الليل الأسود الحالك أجمل ما يُرى فيه النجوم.", "transliteration": "Al-layl al-aswad al-halik ajmal ma yura fihi al-nujum.", "english": "In the darkest night, the stars are most beautiful to see." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "لبست أسود لأني حزين هالفترة.", "transliteration": "Libist aswad la'anni hazin hal-fatra.", "english": "I wore black because I've been sad lately." },
+      { "arabic": "القهوة السودا بدون سكر هيك أشرب.", "transliteration": "Il-qahwe il-soda bidun sukkar heik beshrab.", "english": "I drink black coffee without sugar like that." }
+    ]
+  },
+  {
+    "english": "yellow",
+    "arabic": "أصفر",
+    "arabic_levantine": "أصفر",
+    "transliteration": "asfar",
+    "transliteration_levantine": "asfar",
+    "type": "adjective",
+    "synonyms": ["ذهبي", "ليموني"],
+    "antonyms": ["أزرق"],
+    "fusha_sentences": [
+      { "arabic": "دوّار عباد الشمس الأصفر يُبهج الحقول.", "transliteration": "Dawwar 'abbad al-shams al-asfar yubhij al-huqul.", "english": "The yellow sunflower brightens the fields." },
+      { "arabic": "اشترت الطفلة فستانًا أصفر زاهيًا.", "transliteration": "Ishtarat al-tifla fustanan asfara zahiyan.", "english": "The little girl bought a bright yellow dress." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شجرة الليمون مليانة حبات صفرا.", "transliteration": "Shajarat il-lemon malyane habbat safra.", "english": "The lemon tree is full of yellow fruits." },
+      { "arabic": "ليش وجهك أصفر؟ كل شي تمام؟", "transliteration": "Leish wajhak asfar? Kull shi tamam?", "english": "Why does your face look pale? Is everything okay?" }
+    ]
+  },
+  {
+    "english": "one",
+    "arabic": "واحد",
+    "arabic_levantine": "واحد",
+    "transliteration": "wahid",
+    "transliteration_levantine": "wahad",
+    "type": "number",
+    "synonyms": ["أحد"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "واحد زائد واحد يساوي اثنين.", "transliteration": "Wahid za'id wahid yusawi ithnayn.", "english": "One plus one equals two." },
+      { "arabic": "يكفي درهمٌ واحد لشراء هذه الحلوى.", "transliteration": "Yakfi dirhamun wahid li-shira' hadhihi al-halwa.", "english": "One dirham is enough to buy this sweet." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بدي واحد فلافل بدون حارّة.", "transliteration": "Biddi wahad falafel bidun harra.", "english": "I want one falafel without hot sauce." },
+      { "arabic": "في واحد هون بسألك عنك.", "transliteration": "Fi wahad hon byis'al 'anak.", "english": "There's someone here asking about you." }
+    ]
+  },
+  {
+    "english": "two",
+    "arabic": "اثنان",
+    "arabic_levantine": "تنين",
+    "transliteration": "ithnan",
+    "transliteration_levantine": "tnayn",
+    "type": "number",
+    "synonyms": ["اثنين", "زوج"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "اشترى كتابَين اثنين من معرض الكتاب.", "transliteration": "Ishtara kitabayn ithnayn min ma'rad al-kitab.", "english": "He bought two books from the book fair." },
+      { "arabic": "مرّت ساعتان اثنتان على انتظاره.", "transliteration": "Marrat sa'atan ithnatan 'ala intidharihi.", "english": "Two hours passed while waiting for him." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "جيبلي تنين قهوة لو سمحت.", "transliteration": "Jeebli tnayn qahwe law samaht.", "english": "Bring me two coffees please." },
+      { "arabic": "اشتريت تنين تذكرة للفيلم.", "transliteration": "Ishtareet tnayn tazkara lil-film.", "english": "I bought two tickets for the movie." }
+    ]
+  },
+  {
+    "english": "three",
+    "arabic": "ثلاثة",
+    "arabic_levantine": "تلاتة",
+    "transliteration": "thalatha",
+    "transliteration_levantine": "talate",
+    "type": "number",
+    "synonyms": [],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يقوم المثلث على ثلاثة أضلاع.", "transliteration": "Yaqum al-muthalath 'ala thalatha adla'.", "english": "A triangle is based on three sides." },
+      { "arabic": "قرأت ثلاثة كتب خلال إجازة الصيف.", "transliteration": "Qara'tu thalatha kutub khilal ijazat al-sayf.", "english": "I read three books during the summer vacation." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "رجعت على البيت بعد تلاتة أيام.", "transliteration": "Rja't 'ala il-beit ba'd talate iyyam.", "english": "I came back home after three days." },
+      { "arabic": "عندي تلاتة امتحانات هالأسبوع.", "transliteration": "'Indi talate imtihanat hal-asbu'.", "english": "I have three exams this week." }
+    ]
+  },
+  {
+    "english": "ten",
+    "arabic": "عشرة",
+    "arabic_levantine": "عشرة",
+    "transliteration": "'ashara",
+    "transliteration_levantine": "'ashara",
+    "type": "number",
+    "synonyms": [],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "العشرة الأوائل في الصف يحصلون على جوائز.", "transliteration": "Al-'ashara al-awa'il fi al-saff yahsalun 'ala jawa'iz.", "english": "The top ten in the class receive prizes." },
+      { "arabic": "يتدرب الفريق عشرة ساعات في الأسبوع.", "transliteration": "Yatadarrab al-fariq 'ashara sa'at fi al-usbu'.", "english": "The team trains ten hours per week." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عطيني عشرة دقائق وأنا معك.", "transliteration": "'Atini 'ashara daqayiq w ana ma'ak.", "english": "Give me ten minutes and I'll be with you." },
+      { "arabic": "اشتريته بعشرة دنانير.", "transliteration": "Ishtaretu b-'ashara dananir.", "english": "I bought it for ten dinars." }
+    ]
+  },
+  {
+    "english": "hundred",
+    "arabic": "مئة",
+    "arabic_levantine": "مية",
+    "transliteration": "mi'a",
+    "transliteration_levantine": "miyyeh",
+    "type": "number",
+    "synonyms": [],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "بلغت نسبة نجاحه مئة بالمئة.", "transliteration": "Balaghat nisbat najahibi mi'a bil-mi'a.", "english": "His success rate reached one hundred percent." },
+      { "arabic": "يتجاوز عدد طلاب الكلية مئة طالب.", "transliteration": "Yatajawaz 'adad tullab al-kulliyya mi'at talib.", "english": "The number of college students exceeds a hundred." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد البضاعة بالمية دينار، رخيصة!", "transliteration": "Had il-bada'a bil-miyyeh dinar, rakhise!", "english": "This item costs one hundred dinars, cheap!" },
+      { "arabic": "مية بالمية هاد الشي صح.", "transliteration": "Miyyeh bil-miyyeh had il-shi sah.", "english": "One hundred percent this thing is correct." }
+    ]
+  },
+  {
+    "english": "sun",
+    "arabic": "شمس",
+    "arabic_levantine": "شمس",
+    "transliteration": "shams",
+    "transliteration_levantine": "shams",
+    "type": "noun",
+    "synonyms": ["الكوكب النجمي", "نجم"],
+    "antonyms": ["قمر", "ظلام"],
+    "fusha_sentences": [
+      { "arabic": "تشرق الشمس في الشرق وتغرب في الغرب.", "transliteration": "Tashriq al-shams fi al-sharq wa taghrib fi al-gharb.", "english": "The sun rises in the east and sets in the west." },
+      { "arabic": "ضوء الشمس مصدر الطاقة والحياة.", "transliteration": "Daw' al-shams masdar al-taqa wal-hayah.", "english": "Sunlight is the source of energy and life." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الشمس حارقة اليوم، لبس واقي شمس.", "transliteration": "Il-shams harqa il-yom, labis waqi shams.", "english": "The sun is scorching today, wear sunscreen." },
+      { "arabic": "بحب أشوف غروب الشمس من على الجبل.", "transliteration": "Bhibb ashuf ghurub il-shams min 'al il-jabal.", "english": "I love watching the sunset from the mountain." }
+    ]
+  },
+  {
+    "english": "moon",
+    "arabic": "قمر",
+    "arabic_levantine": "قمر",
+    "transliteration": "qamar",
+    "transliteration_levantine": "qamar",
+    "type": "noun",
+    "synonyms": ["بدر", "هلال"],
+    "antonyms": ["شمس"],
+    "fusha_sentences": [
+      { "arabic": "القمر يُضيء الليل بضوئه الفضي.", "transliteration": "Al-qamar yudi' al-layl bi-daw'ihi al-fiddi.", "english": "The moon lights up the night with its silver glow." },
+      { "arabic": "رصد الفلكيون القمر بالتلسكوب.", "transliteration": "Rasada al-falakiyyun al-qamar bil-tiliskub.", "english": "Astronomers observed the moon with a telescope." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "القمر الليلة كامل وحلو كتير.", "transliteration": "Il-qamar il-leile kamil w helo ktir.", "english": "The moon tonight is full and very beautiful." },
+      { "arabic": "يا قمر! كيف هيك وجهها حلو.", "transliteration": "Ya qamar! Kif heik wajha helo.", "english": "Like the moon! How beautiful her face is like that." }
+    ]
+  },
+  {
+    "english": "rain",
+    "arabic": "مطر",
+    "arabic_levantine": "مطر / شتا",
+    "transliteration": "matar",
+    "transliteration_levantine": "matar / shita",
+    "type": "noun",
+    "synonyms": ["هطول", "رذاذ"],
+    "antonyms": ["جفاف", "جفف"],
+    "fusha_sentences": [
+      { "arabic": "هطل المطر بغزارة طوال الليل.", "transliteration": "Hatala al-matar bi-ghazara tawala al-layl.", "english": "It rained heavily throughout the night." },
+      { "arabic": "يُنعش المطر الأرض ويُحيي الزرع.", "transliteration": "Yun'ish al-matar al-ard wa yuhyi al-zar'.", "english": "Rain refreshes the earth and revives crops." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عم بشتي، لازم تاخد مظلة معك.", "transliteration": "'Am bishtii, lazim takhodh mazalla ma'ak.", "english": "It's raining, you need to take an umbrella with you." },
+      { "arabic": "بحب ريحة المطر على الأرض، شي بجنن.", "transliteration": "Bhibb rihet il-matar 'al il-ard, shi byjannen.", "english": "I love the smell of rain on the ground, it's amazing." }
+    ]
+  },
+  {
+    "english": "sky",
+    "arabic": "سماء",
+    "arabic_levantine": "سما",
+    "transliteration": "sama'",
+    "transliteration_levantine": "sama",
+    "type": "noun",
+    "synonyms": ["فضاء", "أفق"],
+    "antonyms": ["أرض"],
+    "fusha_sentences": [
+      { "arabic": "السماء الصافية تمتد بلا حدود.", "transliteration": "Al-sama' al-safiya tamtadd bi-la hudud.", "english": "The clear sky stretches endlessly." },
+      { "arabic": "تزيّن النجوم السماء في ليالي الصحراء.", "transliteration": "Tuzayyin al-nujum al-sama' fi layali al-sahra'.", "english": "Stars decorate the sky on desert nights." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "السما اليوم زرقا وما في غيم.", "transliteration": "Il-sama il-yom zarqa w ma fi ghaym.", "english": "The sky is blue today and there are no clouds." },
+      { "arabic": "شفت طيارة عم تطير بالسما هلأ.", "transliteration": "Shift tayyare 'am bitir bil-sama hala'.", "english": "I just saw a plane flying in the sky." }
+    ]
+  },
+  {
+    "english": "sea",
+    "arabic": "بحر",
+    "arabic_levantine": "بحر",
+    "transliteration": "bahr",
+    "transliteration_levantine": "bahr",
+    "type": "noun",
+    "synonyms": ["محيط", "يم"],
+    "antonyms": ["بر", "صحراء"],
+    "fusha_sentences": [
+      { "arabic": "يمتد البحر الأحمر على طول ساحل العقبة.", "transliteration": "Yamtadd al-bahr al-ahmar 'ala tul sahil al-'Aqaba.", "english": "The Red Sea extends along the coast of Aqaba." },
+      { "arabic": "يعشق الصيادون صخب البحر وأمواجه.", "transliteration": "Ya'shaq al-sayyadin sakhab al-bahr wa amwajahu.", "english": "Fishermen are captivated by the roar of the sea and its waves." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "روحنا على العقبة وسبحنا بالبحر.", "transliteration": "Ruhna 'ala il-'Aqaba w sibahna bil-bahr.", "english": "We went to Aqaba and swam in the sea." },
+      { "arabic": "البحر هناك أزرق وصافي ما شاء الله.", "transliteration": "Il-bahr hunak azraq w safi ma sha' allah.", "english": "The sea there is blue and clear, mashallah." }
+    ]
+  },
+  {
+    "english": "mountain",
+    "arabic": "جبل",
+    "arabic_levantine": "جبل",
+    "transliteration": "jabal",
+    "transliteration_levantine": "jabal",
+    "type": "noun",
+    "synonyms": ["تل", "قمة", "هضبة"],
+    "antonyms": ["سهل", "وادي"],
+    "fusha_sentences": [
+      { "arabic": "تكتسي قمم الجبال بالثلج في فصل الشتاء.", "transliteration": "Taktasi qimam al-jibal bil-thalj fi fasl al-shita'.", "english": "Mountain peaks are covered with snow in winter." },
+      { "arabic": "يتسلق المغامرون الجبال بحثًا عن الإثارة.", "transliteration": "Yatasallaq al-mughammirun al-jibal bahathan 'an al-ithara.", "english": "Adventurers climb mountains in search of excitement." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "جبال عجلون خضر وحلوة كتير بالربيع.", "transliteration": "Jibal Ajlun khudr w helwe ktir bil-rabi'.", "english": "The mountains of Ajloun are very green and beautiful in spring." },
+      { "arabic": "صعدنا الجبل ومشينا ساعتين.", "transliteration": "Si'idna il-jabal w mishina sa'tayn.", "english": "We climbed the mountain and walked for two hours." }
+    ]
+  },
+  {
+    "english": "flower",
+    "arabic": "زهرة",
+    "arabic_levantine": "وردة / زهرة",
+    "transliteration": "zahra",
+    "transliteration_levantine": "warde / zahra",
+    "type": "noun",
+    "synonyms": ["وردة", "نور", "زهر"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "تتفتح الزهور في الربيع بألوانها الزاهية.", "transliteration": "Tatafattah al-zuhur fi al-rabi' bi-alwaniha al-zahiya.", "english": "Flowers bloom in spring with their vivid colors." },
+      { "arabic": "أهدى الشاب زهرةً للفتاة تعبيرًا عن مشاعره.", "transliteration": "Ahda al-shabab zahratan lil-fata ta'biran 'an masha'irib.", "english": "The young man gave the girl a flower to express his feelings." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "اشتريت وردات حمرا لأمي.", "transliteration": "Ishtareet wardat humra la-immi.", "english": "I bought red flowers for my mom." },
+      { "arabic": "الحديقة مليانة ورود وزهور، يا حلو!", "transliteration": "Il-hadiqa malyane wrud w zuhur, ya helo!", "english": "The garden is full of roses and flowers, how beautiful!" }
+    ]
+  },
+  {
+    "english": "tree",
+    "arabic": "شجرة",
+    "arabic_levantine": "شجرة",
+    "transliteration": "shajara",
+    "transliteration_levantine": "shajara",
+    "type": "noun",
+    "synonyms": ["نبتة", "غابة"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الشجرة العتيقة شاهدٌ على مرور الزمن.", "transliteration": "Al-shajara al-'atiqa shahidun 'ala murur al-zaman.", "english": "The ancient tree is a witness to the passage of time." },
+      { "arabic": "تُنتج شجرة الزيتون ثمارًا طوال القرون.", "transliteration": "Tuntij shajarat al-zaytun thamaran tawala al-qurun.", "english": "The olive tree produces fruit throughout the centuries." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "في شجرة تين كبيرة بأول البيت.", "transliteration": "Fi shajarat teen kbiire b-awwal il-beit.", "english": "There's a big fig tree at the front of the house." },
+      { "arabic": "قطفنا الزيتون من الشجرة اليوم.", "transliteration": "Qatafna il-zaytun min il-shajara il-yom.", "english": "We picked olives from the tree today." }
+    ]
+  },
+  {
+    "english": "fire",
+    "arabic": "نار",
+    "arabic_levantine": "نار",
+    "transliteration": "nar",
+    "transliteration_levantine": "nar",
+    "type": "noun",
+    "synonyms": ["لهب", "جمر", "حريق"],
+    "antonyms": ["ماء", "جليد"],
+    "fusha_sentences": [
+      { "arabic": "النار تدفئ في الشتاء لكنها تُؤذي بالقرب.", "transliteration": "Al-nar tuda'fi' fi al-shita' lakinaha tu'dhi bil-qurb.", "english": "Fire warms in winter but harms when close." },
+      { "arabic": "اشتعلت النار في الغابة بسبب الجفاف.", "transliteration": "Ishta'alat al-nar fi al-ghaba bi-sabab al-jafaf.", "english": "Fire broke out in the forest due to drought." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شعلنا نار وقعدنا حواليها بالشتا.", "transliteration": "Sha'alna nar w qa'adna hwaliyha bil-shita.", "english": "We lit a fire and sat around it in winter." },
+      { "arabic": "الأكل على النار أحسن طعمًا من الفرن.", "transliteration": "Il-akil 'ala il-nar ahsan ta'man min il-furn.", "english": "Food cooked on fire tastes better than oven-cooked." }
+    ]
+  },
+  {
+    "english": "dog",
+    "arabic": "كلب",
+    "arabic_levantine": "كلب",
+    "transliteration": "kalb",
+    "transliteration_levantine": "kalb",
+    "type": "noun",
+    "synonyms": ["جرو", "ذئب أليف"],
+    "antonyms": ["قطة"],
+    "fusha_sentences": [
+      { "arabic": "الكلب يُعدّ من أوفى الحيوانات للإنسان.", "transliteration": "Al-kalb yu'add min awfa al-hayawanat lil-insan.", "english": "The dog is considered one of the most loyal animals to humans." },
+      { "arabic": "يُستخدم الكلب في عمليات الإنقاذ والبحث.", "transliteration": "Yustakhdim al-kalb fi 'amaliyyat al-inqadh wal-bahth.", "english": "Dogs are used in rescue and search operations." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عندنا كلب بالبيت اسمه روكي.", "transliteration": "'Indna kalb bil-beit ismu Rocky.", "english": "We have a dog at home named Rocky." },
+      { "arabic": "الكلب نبح طول الليل وما خلانا ننام.", "transliteration": "Il-kalb nabah tul il-leil w ma khallana nnam.", "english": "The dog barked all night and wouldn't let us sleep." }
+    ]
+  },
+  {
+    "english": "cat",
+    "arabic": "قطة",
+    "arabic_levantine": "بسّة / قطة",
+    "transliteration": "qitta",
+    "transliteration_levantine": "basse / qitte",
+    "type": "noun",
+    "synonyms": ["هرّ", "سنّور"],
+    "antonyms": ["كلب"],
+    "fusha_sentences": [
+      { "arabic": "القطة حيوان أليف نظيف ومستقل.", "transliteration": "Al-qitta hayawan alif nadhif wa mustaqill.", "english": "The cat is a clean and independent pet." },
+      { "arabic": "تنام القطة معظم ساعات اليوم.", "transliteration": "Tanam al-qitta mu'zam sa'at al-yawm.", "english": "The cat sleeps most hours of the day." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "في بسة جنب الباب عم تطلب أكل.", "transliteration": "Fi basse janb il-bab 'am titlub akil.", "english": "There's a cat by the door asking for food." },
+      { "arabic": "البسة تبعتنا ولدت أربع بسيسات.", "transliteration": "Il-basse taba'tna waldatt arba' bsaysat.", "english": "Our cat gave birth to four kittens." }
+    ]
+  },
+  {
+    "english": "bird",
+    "arabic": "طائر",
+    "arabic_levantine": "عصفور / طائر",
+    "transliteration": "ta'ir",
+    "transliteration_levantine": "'asfur / ta'ir",
+    "type": "noun",
+    "synonyms": ["عصفور", "جناح"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يُرمز للطائر في الشعر بالحرية والانطلاق.", "transliteration": "Yurmaz lil-ta'ir fi al-shi'r bil-hurriyya wal-intilaaq.", "english": "Birds symbolize freedom and soaring in poetry." },
+      { "arabic": "تهاجر الطيور جنوبًا في فصل الخريف.", "transliteration": "Tuhajir al-tuyur januban fi fasl al-kharif.", "english": "Birds migrate south in autumn." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "في عصفور صغير عم يغني بالحديقة.", "transliteration": "Fi 'asfur zghir 'am yghanni bil-hadiqa.", "english": "There's a small bird singing in the garden." },
+      { "arabic": "الطيور الصباحية بتصحّيني كل يوم.", "transliteration": "Il-tuyur il-sabahiyye bitsahhini kull yom.", "english": "The morning birds wake me up every day." }
+    ]
+  },
+  {
+    "english": "fish",
+    "arabic": "سمكة",
+    "arabic_levantine": "سمكة / سمك",
+    "transliteration": "samaka",
+    "transliteration_levantine": "samake / samak",
+    "type": "noun",
+    "synonyms": ["حوت صغير", "أسماك"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "السمكة حيوان مائي يعيش في البحار والأنهار.", "transliteration": "Al-samaka hayawan ma'i ya'ish fi al-bihar wal-anhar.", "english": "Fish is an aquatic animal living in seas and rivers." },
+      { "arabic": "يُعدّ السمك من أغنى المصادر الغذائية بالبروتين.", "transliteration": "Yu'addu al-samak min aghna al-masadir al-ghidha'iyya bil-burutin.", "english": "Fish is one of the richest food sources in protein." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "اكلنا سمك مقلي على ضفاف البحر.", "transliteration": "Akalana samak maqli 'ala difaf il-bahr.", "english": "We ate fried fish by the seashore." },
+      { "arabic": "بتحب سمك مشوي ولا مقلي؟", "transliteration": "Bthibb samak mashwi walla maqli?", "english": "Do you like grilled or fried fish?" }
+    ]
+  },
+  {
+    "english": "horse",
+    "arabic": "حصان",
+    "arabic_levantine": "حصان / فرس",
+    "transliteration": "hisan",
+    "transliteration_levantine": "hisan / faras",
+    "type": "noun",
+    "synonyms": ["فرس", "جواد", "مهر"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الحصان العربي الأصيل مشهور بسرعته وجماله.", "transliteration": "Al-hisan al-'arabi al-asil mashhur bi-sur'atihi wa jamalihi.", "english": "The purebred Arabian horse is famous for its speed and beauty." },
+      { "arabic": "ركب الفارس حصانه وانطلق عبر الصحراء.", "transliteration": "Rakiba al-faris hisanahu wa intalaqa 'abra al-sahra'.", "english": "The knight rode his horse and galloped across the desert." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ركبت حصان للأول بحياتي بالبتراء.", "transliteration": "Rikbit hisan lil-awwal b-hayati bil-Batra.", "english": "I rode a horse for the first time in my life at Petra." },
+      { "arabic": "الحصان هاد سريع كتير وجميل.", "transliteration": "Il-hisan had sari' ktir w jamil.", "english": "This horse is very fast and beautiful." }
+    ]
+  },
+  {
+    "english": "head",
+    "arabic": "رأس",
+    "arabic_levantine": "راس",
+    "transliteration": "ra's",
+    "transliteration_levantine": "ras",
+    "type": "noun",
+    "synonyms": ["جمجمة", "هامة"],
+    "antonyms": ["قدم"],
+    "fusha_sentences": [
+      { "arabic": "يحمي الخوذة الرأس من الإصابات.", "transliteration": "Yahmi al-khudha al-ra's min al-isabat.", "english": "A helmet protects the head from injuries." },
+      { "arabic": "أصابه صداع شديد في الرأس.", "transliteration": "Asabahu suda' shadid fi al-ra's.", "english": "He got a severe headache." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "راسي بيوجعني من الصبح.", "transliteration": "Rasi byuje'ni min il-subh.", "english": "My head has been hurting since morning." },
+      { "arabic": "ارفع راسك وكون واثق من حالك.", "transliteration": "Irfa' rasak w kun wathiq min halak.", "english": "Hold your head up and be confident in yourself." }
+    ]
+  },
+  {
+    "english": "eye",
+    "arabic": "عين",
+    "arabic_levantine": "عين",
+    "transliteration": "'ayn",
+    "transliteration_levantine": "'ein",
+    "type": "noun",
+    "synonyms": ["بصر", "ناظر"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "العين هي نافذة الروح على العالم.", "transliteration": "Al-'ayn hiya nafidhat al-ruh 'ala al-'alam.", "english": "The eye is the window of the soul to the world." },
+      { "arabic": "تحمي الأجفان العين من الأتربة.", "transliteration": "Tahmi al-ajfan al-'ayn min al-athriba.", "english": "Eyelids protect the eye from dust." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عيني بتوجعني من كتر الشاشة.", "transliteration": "'Eini btwje'ni min ktir il-shasha.", "english": "My eye hurts from too much screen time." },
+      { "arabic": "عيونك الخضر مشهورين بالمدرسة كلها!", "transliteration": "'Uyunak il-khudr mashhuriin bil-madrasse kullha!", "english": "Your green eyes are famous throughout the whole school!" }
+    ]
+  },
+  {
+    "english": "hand",
+    "arabic": "يد",
+    "arabic_levantine": "إيد",
+    "transliteration": "yad",
+    "transliteration_levantine": "iid",
+    "type": "noun",
+    "synonyms": ["كف", "راحة"],
+    "antonyms": ["قدم"],
+    "fusha_sentences": [
+      { "arabic": "مدّ يده لمساعدة زميله المتعثر.", "transliteration": "Madda yadahu li-musa'adat zamilihi al-muta'aththir.", "english": "He extended his hand to help his struggling colleague." },
+      { "arabic": "باليد تُبنى الحضارات وتُصنع المعجزات.", "transliteration": "Bil-yad tubna al-hadaraat wa tusna' al-mu'jizat.", "english": "With the hand civilizations are built and miracles are made." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "يسلمو إيديك على الطبخ الحلو.", "transliteration": "Yislamu iidik 'ala il-tabkh il-helo.", "english": "Bless your hands for the wonderful cooking." },
+      { "arabic": "أعطيني إيدك قبل ما تعبر الشارع.", "transliteration": "A'tini iidak qabul ma ta'bir il-shari'.", "english": "Give me your hand before you cross the street." }
+    ]
+  },
+  {
+    "english": "foot",
+    "arabic": "قدم",
+    "arabic_levantine": "رجل / قدم",
+    "transliteration": "qadam",
+    "transliteration_levantine": "rijil / qadam",
+    "type": "noun",
+    "synonyms": ["رِجل", "باطن القدم"],
+    "antonyms": ["يد", "رأس"],
+    "fusha_sentences": [
+      { "arabic": "تؤلمه قدمه بعد المشي الطويل.", "transliteration": "Tu'limuhu qadamahu ba'da al-mashi al-tawil.", "english": "His foot hurts after the long walk." },
+      { "arabic": "وطأت قدماه أرض المطار للمرة الأولى.", "transliteration": "Wata'at qadamahu ard al-matar lil-marra al-ula.", "english": "His feet stepped on the airport floor for the first time." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "رجلي بتوجعني من كتر الوقوف.", "transliteration": "Rijli btwje'ni min ktir il-wuquf.", "english": "My foot hurts from standing too long." },
+      { "arabic": "خلع حذاءه وحط رجله بالماء البارد.", "transliteration": "Khala' hadha'u w hatt rijlo bil-may il-bared.", "english": "He took off his shoe and put his foot in the cold water." }
+    ]
+  },
+  {
+    "english": "ear",
+    "arabic": "أذن",
+    "arabic_levantine": "ودن",
+    "transliteration": "udhn",
+    "transliteration_levantine": "wudun",
+    "type": "noun",
+    "synonyms": ["صماخ"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الأذن الصاغية أثمن هدية يمكن تقديمها.", "transliteration": "Al-udhn al-saghiya athamm hadiyya yumkin taqdimuha.", "english": "A listening ear is the most precious gift you can give." },
+      { "arabic": "أصابته طنين في الأذن بعد الحفلة.", "transliteration": "Asabathu tanin fi al-udhn ba'da al-hafla.", "english": "He got ringing in his ear after the concert." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ودني بتوجعني من هالزكام اللعين.", "transliteration": "Wudni btwje'ni min hal-zakam il-la'in.", "english": "My ear hurts from this awful cold." },
+      { "arabic": "حكيلك مرتين وما دخل بودنك!", "transliteration": "Haki-lak marrtein w ma dakhal b-wudnak!", "english": "I told you twice and it didn't go into your ear!" }
+    ]
+  },
+  {
+    "english": "nose",
+    "arabic": "أنف",
+    "arabic_levantine": "أنف / منخار",
+    "transliteration": "anf",
+    "transliteration_levantine": "anf / mankhir",
+    "type": "noun",
+    "synonyms": ["خشم"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الأنف يُميّز الروائح ويُصفّي الهواء.", "transliteration": "Al-anf yumayyiz al-rawa'ih wa yusaffi al-hawa'.", "english": "The nose distinguishes smells and filters air." },
+      { "arabic": "يُعاني المريض من احتقان في الأنف.", "transliteration": "Yu'ani al-marid min ihtiqan fi al-anf.", "english": "The patient suffers from nasal congestion." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ريحة الطبخ وصلت على أنفي من الشارع.", "transliteration": "Rihet il-tabkh wasalit 'ala anfi min il-shari'.", "english": "The smell of cooking reached my nose from the street." },
+      { "arabic": "تعبان؟ أنفك أحمر وعيونك دامعة.", "transliteration": "Ta'ban? Anfak ahmar w 'uyunak dam'a.", "english": "Are you sick? Your nose is red and your eyes are watery." }
+    ]
+  },
+  {
+    "english": "mouth",
+    "arabic": "فم",
+    "arabic_levantine": "تم",
+    "transliteration": "famm",
+    "transliteration_levantine": "timm",
+    "type": "noun",
+    "synonyms": ["شفتان", "ثغر"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الكلمة الطيبة تخرج من فمٍ كريم.", "transliteration": "Al-kalima al-tayyiba takhruj min fammin karim.", "english": "A kind word comes from a generous mouth." },
+      { "arabic": "لا تتكلم وفمك ممتلئ بالطعام.", "transliteration": "La tatakallam wa fammuka mumtali' bil-ta'am.", "english": "Do not speak with your mouth full of food." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "تمّك كبير بس قلبك أكبر.", "transliteration": "Timmak kbir bass qalbak akbar.", "english": "Your mouth is big but your heart is bigger." },
+      { "arabic": "سكّر تمّك لما الكبار عم يحكوا.", "transliteration": "Sakkar timmak lamma il-kbar 'am yuhku.", "english": "Keep your mouth closed when elders are speaking." }
+    ]
+  },
+  {
+    "english": "big",
+    "arabic": "كبير",
+    "arabic_levantine": "كبير",
+    "transliteration": "kabir",
+    "transliteration_levantine": "kbir",
+    "type": "adjective",
+    "synonyms": ["ضخم", "عظيم", "واسع"],
+    "antonyms": ["صغير", "ضئيل"],
+    "fusha_sentences": [
+      { "arabic": "يحلم كل طفل بمستقبل كبير ومشرق.", "transliteration": "Yahlam kull tifl bi-mustaqbal kabir wa mushriq.", "english": "Every child dreams of a big and bright future." },
+      { "arabic": "بنوا مبنى كبيرًا في وسط المدينة.", "transliteration": "Banaw mabna kabiran fi wasat al-madina.", "english": "They built a big building in the city center." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "البيت كبير بس محتاج تجديد.", "transliteration": "Il-beit kbir bass muhtaj tajdid.", "english": "The house is big but needs renovation." },
+      { "arabic": "عنده قلب كبير، بساعد كل الناس.", "transliteration": "'Indo qalb kbir, bysa'id kull il-nas.", "english": "He has a big heart, he helps everyone." }
+    ]
+  },
+  {
+    "english": "small",
+    "arabic": "صغير",
+    "arabic_levantine": "صغير / زغير",
+    "transliteration": "saghir",
+    "transliteration_levantine": "zghir",
+    "type": "adjective",
+    "synonyms": ["ضئيل", "قزم", "دقيق"],
+    "antonyms": ["كبير", "ضخم"],
+    "fusha_sentences": [
+      { "arabic": "من الصغير تُبنى العادات الحسنة.", "transliteration": "Min al-saghir tubna al-'adat al-hasana.", "english": "Good habits are built from a young age." },
+      { "arabic": "اشترى شقة صغيرة لكنها مريحة.", "transliteration": "Ishtara shaqqa saghira lakinaha mriha.", "english": "He bought a small but comfortable apartment." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد الحجم كتير زغير، في أكبر منو؟", "transliteration": "Had il-hajm ktir zghir, fi akbar minno?", "english": "This size is too small, is there a bigger one?" },
+      { "arabic": "لما كان زغير كان يحب يرسم.", "transliteration": "Lamma kan zghir kan yhibb yirsim.", "english": "When he was small he loved to draw." }
+    ]
+  },
+  {
+    "english": "new",
+    "arabic": "جديد",
+    "arabic_levantine": "جديد",
+    "transliteration": "jadid",
+    "transliteration_levantine": "jdid",
+    "type": "adjective",
+    "synonyms": ["حديث", "طازج", "عصري"],
+    "antonyms": ["قديم", "عتيق"],
+    "fusha_sentences": [
+      { "arabic": "افتتح مطعم جديد في الحي بالأمس.", "transliteration": "Iftataḥa mat'am jadid fi al-hayy bil-ams.", "english": "A new restaurant opened in the neighborhood yesterday." },
+      { "arabic": "كل يوم جديد هو فرصة لبداية جديدة.", "transliteration": "Kull yawm jadid huwa fursa li-bidaya jadida.", "english": "Every new day is a chance for a new beginning." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شفت سيارته الجديدة؟ حلوة كتير.", "transliteration": "Shift sayyartu il-jdide? Helwe ktir.", "english": "Did you see his new car? It's very nice." },
+      { "arabic": "لبست تياب جديدة للعيد.", "transliteration": "Libist tyab jdide lil-'eid.", "english": "I wore new clothes for Eid." }
+    ]
+  },
+  {
+    "english": "old",
+    "arabic": "قديم",
+    "arabic_levantine": "قديم / عتيق",
+    "transliteration": "qadim",
+    "transliteration_levantine": "qdim / 'atiq",
+    "type": "adjective",
+    "synonyms": ["عتيق", "كلاسيكي", "موروث"],
+    "antonyms": ["جديد", "حديث"],
+    "fusha_sentences": [
+      { "arabic": "المدينة القديمة تحمل إرثًا حضاريًا عريقًا.", "transliteration": "Al-madina al-qadima tahmil irathan hadariyan 'ariqan.", "english": "The old city carries a deep civilizational heritage." },
+      { "arabic": "يحتفظ جدي بكتب قديمة نادرة.", "transliteration": "Yahtafiz jaddi bi-kutub qadima nadira.", "english": "My grandfather keeps rare old books." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد الجهاز قديم، لازم تشتري غيره.", "transliteration": "Had il-jihaz qdim, lazim tishtiri gheiro.", "english": "This device is old, you need to buy another one." },
+      { "arabic": "بحب الأغاني القديمة أكتر من الجديدة.", "transliteration": "Bhibb il-aghani il-qdime aktar min il-jdide.", "english": "I prefer old songs over new ones." }
+    ]
+  },
+  {
+    "english": "hot",
+    "arabic": "حار",
+    "arabic_levantine": "حار / سخن",
+    "transliteration": "harr",
+    "transliteration_levantine": "harr / sakhin",
+    "type": "adjective",
+    "synonyms": ["ساخن", "ملتهب", "حامي"],
+    "antonyms": ["بارد", "فاتر"],
+    "fusha_sentences": [
+      { "arabic": "الطقس حار جدًا في فصل الصيف.", "transliteration": "Al-taqas harr jiddan fi fasl al-sayf.", "english": "The weather is very hot in summer." },
+      { "arabic": "لا تلمس الإناء الحار بيديك مباشرة.", "transliteration": "La talmas al-ina' al-harr bi-yadayk mubashara.", "english": "Don't touch the hot pot with your hands directly." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الجو حار اليوم، بدي مي بارد.", "transliteration": "Il-jaww harr il-yom, biddi may bared.", "english": "It's hot today, I want cold water." },
+      { "arabic": "الأكل لسا سخن، استنى شوي.", "transliteration": "Il-akil lissa sakhin, istanna shwayy.", "english": "The food is still hot, wait a little." }
+    ]
+  },
+  {
+    "english": "cold",
+    "arabic": "بارد",
+    "arabic_levantine": "بارد",
+    "transliteration": "barid",
+    "transliteration_levantine": "bared",
+    "type": "adjective",
+    "synonyms": ["قارس", "جليدي"],
+    "antonyms": ["حار", "ساخن"],
+    "fusha_sentences": [
+      { "arabic": "شتاء عمّان بارد ورطب في الغالب.", "transliteration": "Shita' 'Amman barid wa ratib fi al-ghalab.", "english": "Amman's winter is usually cold and humid." },
+      { "arabic": "يشرب الناس الشاي الساخن في الطقس البارد.", "transliteration": "Yashrabu al-nas al-shay al-sakhin fi al-taqas al-barid.", "english": "People drink hot tea in cold weather." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "جيبلي مي بارد من الثلاجة.", "transliteration": "Jeebli may bared min il-tallaje.", "english": "Bring me cold water from the fridge." },
+      { "arabic": "الجو بارد كتير اليوم، لبس جاكيت.", "transliteration": "Il-jaww bared ktir il-yom, libis jakkit.", "english": "It's very cold today, wear a jacket." }
+    ]
+  },
+  {
+    "english": "fast",
+    "arabic": "سريع",
+    "arabic_levantine": "سريع",
+    "transliteration": "sari'",
+    "transliteration_levantine": "sari'",
+    "type": "adjective",
+    "synonyms": ["خفيف", "عاجل", "مسرع"],
+    "antonyms": ["بطيء", "متأخر"],
+    "fusha_sentences": [
+      { "arabic": "القطار السريع يختصر وقت السفر إلى النصف.", "transliteration": "Al-qitar al-sari' yakhtasir waqt al-safar ila al-nisf.", "english": "The fast train cuts travel time in half." },
+      { "arabic": "الحل السريع ليس دائمًا الأفضل.", "transliteration": "Al-hall al-sari' laysa da'iman al-afdal.", "english": "The fast solution is not always the best." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "سيارته سريعة كتير، بخوّف!", "transliteration": "Sayyartu sari'a ktir, bkhawwif!", "english": "His car is very fast, it's scary!" },
+      { "arabic": "تكلم بس بطي شوي، ما فهمت عليك.", "transliteration": "Takallem bass bati shwayy, ma fhimt 'alak.", "english": "Talk but slow down a bit, I didn't understand you." }
+    ]
+  },
+  {
+    "english": "slow",
+    "arabic": "بطيء",
+    "arabic_levantine": "بطيء",
+    "transliteration": "bati'",
+    "transliteration_levantine": "bati",
+    "type": "adjective",
+    "synonyms": ["متأخر", "كسول"],
+    "antonyms": ["سريع", "عاجل"],
+    "fusha_sentences": [
+      { "arabic": "التقدم البطيء خيرٌ من الوقوف التام.", "transliteration": "Al-taqaddum al-bati' khayrun min al-wuquf al-tamm.", "english": "Slow progress is better than a complete stop." },
+      { "arabic": "يتحرك بطيئًا بسبب الإصابة في قدمه.", "transliteration": "Yataharrk bati'an bi-sabab al-isabha fi qadamih.", "english": "He moves slowly due to the injury in his foot." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الانترنت بطيء كتير اليوم، شو صاير؟", "transliteration": "Il-internet bati ktir il-yom, shu sayir?", "english": "The internet is very slow today, what's happening?" },
+      { "arabic": "تمشي بطي، الكل راح قدامك.", "transliteration": "Timshi bati, il-kull rah qddamak.", "english": "You walk slowly, everyone has gone ahead of you." }
+    ]
+  },
+  {
+    "english": "easy",
+    "arabic": "سهل",
+    "arabic_levantine": "سهل",
+    "transliteration": "sahl",
+    "transliteration_levantine": "sahl",
+    "type": "adjective",
+    "synonyms": ["بسيط", "يسير", "هيّن"],
+    "antonyms": ["صعب", "عسير"],
+    "fusha_sentences": [
+      { "arabic": "السؤال سهل لمن درس جيدًا.", "transliteration": "Al-su'al sahl li-man darasa jayyidan.", "english": "The question is easy for one who studied well." },
+      { "arabic": "تعلّم اللغة العربية سهل إذا اتبعت المنهج الصحيح.", "transliteration": "Ta'allum al-lugha al-'arabiyya sahl idha ittaba'ta al-manhaj al-sahih.", "english": "Learning Arabic is easy if you follow the right method." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الامتحان كان سهل، كلنا نجحنا.", "transliteration": "Il-imtihan kan sahl, kullna nijahhna.", "english": "The exam was easy, we all passed." },
+      { "arabic": "هاد الشغل سهل، بتخلصه بساعة.", "transliteration": "Had il-shughul sahl, btikhalliso b-sa'a.", "english": "This task is easy, you'll finish it in an hour." }
+    ]
+  },
+  {
+    "english": "difficult",
+    "arabic": "صعب",
+    "arabic_levantine": "صعب",
+    "transliteration": "sa'b",
+    "transliteration_levantine": "sa'b",
+    "type": "adjective",
+    "synonyms": ["عسير", "شاق", "معقد"],
+    "antonyms": ["سهل", "يسير"],
+    "fusha_sentences": [
+      { "arabic": "التغيير صعب في البداية لكنه ممكن دائمًا.", "transliteration": "Al-taghyir sa'b fi al-bidaya lakinahu mumkin da'iman.", "english": "Change is difficult at first but always possible." },
+      { "arabic": "المسألة صعبة وتحتاج تركيزًا عاليًا.", "transliteration": "Al-mas'ala sa'ba wa tahtaj tarkizan 'aliyan.", "english": "The problem is difficult and requires high concentration." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الدرس صعب كتير، ما فهمت منه إشي.", "transliteration": "Il-dars sa'b ktir, ma fhimt minno ishi.", "english": "The lesson is very difficult, I didn't understand anything from it." },
+      { "arabic": "الحياة صعبة بس الله معنا.", "transliteration": "Il-hayye sa'be bass allah ma'na.", "english": "Life is difficult but God is with us." }
+    ]
+  },
+  {
+    "english": "go",
+    "arabic": "يذهب",
+    "arabic_levantine": "يروح",
+    "transliteration": "yadhabu",
+    "transliteration_levantine": "yiruh",
+    "type": "verb",
+    "synonyms": ["يتوجه", "ينطلق", "يسير"],
+    "antonyms": ["يبقى", "يعود"],
+    "fusha_sentences": [
+      { "arabic": "يذهب إلى العمل سيرًا على الأقدام.", "transliteration": "Yadhabu ila al-'amal sayran 'ala al-aqdaom.", "english": "He goes to work on foot." },
+      { "arabic": "قررت أن أذهب إلى الجامعة في الخارج.", "transliteration": "Qarrart an adhhaba ila al-jami'a fi al-kharij.", "english": "I decided to go to university abroad." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "وين رايح؟ بدك تجي معنا؟", "transliteration": "Ween rayih? Baddak tiji ma'na?", "english": "Where are you going? Do you want to come with us?" },
+      { "arabic": "رح أروح السوق بعد الظهر.", "transliteration": "Rah aruh il-suq ba'd il-duhr.", "english": "I'll go to the market after noon." }
+    ]
+  },
+  {
+    "english": "come",
+    "arabic": "يأتي",
+    "arabic_levantine": "يجي",
+    "transliteration": "ya'ti",
+    "transliteration_levantine": "yiji",
+    "type": "verb",
+    "synonyms": ["يحضر", "يقدم", "يصل"],
+    "antonyms": ["يذهب", "يغادر"],
+    "fusha_sentences": [
+      { "arabic": "يأتي الربيع بعد الشتاء دائمًا.", "transliteration": "Ya'ti al-rabi' ba'da al-shita' da'iman.", "english": "Spring always comes after winter." },
+      { "arabic": "هل يمكنك أن تأتي مبكرًا غدًا؟", "transliteration": "Hal yumkinuka an ta'tiya mubakkiran ghadan?", "english": "Can you come early tomorrow?" }
+    ],
+    "levantine_sentences": [
+      { "arabic": "تعا هون، في شي بدي أقلك ياه.", "transliteration": "Ta'a hon, fi shi biddi a'ullak iyyah.", "english": "Come here, there's something I want to tell you." },
+      { "arabic": "إيمتى رح تجي زورنا؟ منوحشك.", "transliteration": "Eimta rah tiji tzurna? Mnawwishak.", "english": "When will you come visit us? We miss you." }
+    ]
+  },
+  {
+    "english": "see",
+    "arabic": "يرى",
+    "arabic_levantine": "يشوف",
+    "transliteration": "yara",
+    "transliteration_levantine": "yishuf",
+    "type": "verb",
+    "synonyms": ["يُبصر", "يلاحظ", "يشاهد"],
+    "antonyms": ["يعمى", "يغفل"],
+    "fusha_sentences": [
+      { "arabic": "أرى في هذه الخطة فرصة كبيرة للنجاح.", "transliteration": "Ara fi hadhihi al-khutta fursa kabira lil-najah.", "english": "I see in this plan a great opportunity for success." },
+      { "arabic": "يرى الأطباء في الوقاية خير من العلاج.", "transliteration": "Yara al-atibba' fi al-wiqaya khayran min al-'ilaj.", "english": "Doctors see prevention as better than cure." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شفت الفيلم الجديد؟ كيف كان؟", "transliteration": "Shift il-film il-jdid? Kif kan?", "english": "Did you see the new movie? How was it?" },
+      { "arabic": "ما شفته من زمان، وين غاب؟", "transliteration": "Ma shufto min zaman, ween ghab?", "english": "I haven't seen him in a long time, where has he been?" }
+    ]
+  },
+  {
+    "english": "give",
+    "arabic": "يعطي",
+    "arabic_levantine": "يعطي",
+    "transliteration": "yu'ti",
+    "transliteration_levantine": "yi'ti",
+    "type": "verb",
+    "synonyms": ["يهب", "يمنح", "يقدم"],
+    "antonyms": ["يأخذ", "يسلب"],
+    "fusha_sentences": [
+      { "arabic": "تعطي الأم أطفالها حبًا بلا حدود.", "transliteration": "Tu'ti al-umm atfalaha hubban bila hudud.", "english": "A mother gives her children boundless love." },
+      { "arabic": "أعطاه الفرصة ليُثبت نفسه.", "transliteration": "A'tahu al-fursa li-yuthbita nafsahu.", "english": "He gave him the opportunity to prove himself." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عطيني القلم لو سمحت.", "transliteration": "'Atini il-qalam law samaht.", "english": "Give me the pen please." },
+      { "arabic": "بعطيك رقمي وتتصل فيي متى ما بدك.", "transliteration": "Ba'tik raqmi w tattasil fiyyi mata ma baddak.", "english": "I'll give you my number and you can call me whenever you want." }
+    ]
+  },
+  {
+    "english": "take",
+    "arabic": "يأخذ",
+    "arabic_levantine": "ياخذ / ياخد",
+    "transliteration": "ya'khudh",
+    "transliteration_levantine": "yakhudh / yakhid",
+    "type": "verb",
+    "synonyms": ["يمسك", "يحمل", "يقبض"],
+    "antonyms": ["يعطي", "يترك"],
+    "fusha_sentences": [
+      { "arabic": "يأخذ العلم من مصادره الأصيلة.", "transliteration": "Ya'khudh al-'ilm min masadrih al-asilah.", "english": "He takes knowledge from its original sources." },
+      { "arabic": "لا تأخذ ما لا يخصك.", "transliteration": "La ta'khudh ma la yakhussuk.", "english": "Don't take what doesn't belong to you." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "خذ معك مظلة، شكلو رح يشتي.", "transliteration": "Khudh ma'ak mazalla, shakloh rah yishtii.", "english": "Take an umbrella with you, it looks like it's going to rain." },
+      { "arabic": "مين أخذ مفاتيحي من فوق الطاولة؟", "transliteration": "Miin akhadh mafatihi min foo' il-tawle?", "english": "Who took my keys from on top of the table?" }
+    ]
+  },
+  {
+    "english": "write",
+    "arabic": "يكتب",
+    "arabic_levantine": "يكتب",
+    "transliteration": "yaktub",
+    "transliteration_levantine": "yiktib",
+    "type": "verb",
+    "synonyms": ["يُدوّن", "يُسطّر", "يُؤلّف"],
+    "antonyms": ["يمحو"],
+    "fusha_sentences": [
+      { "arabic": "يكتب الصحفي مقالاته بعناية فائقة.", "transliteration": "Yaktub al-sahafi maqalatahu bi-'inaya fa'iqa.", "english": "The journalist writes his articles with great care." },
+      { "arabic": "اكتب أفكارك يوميًا في مفكرة.", "transliteration": "Uktub afkaarak yawmiyan fi mufakkira.", "english": "Write your ideas daily in a notebook." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "كتبت الواجب كله باللغة العربية.", "transliteration": "Kitabt il-wajib kullo bil-lugha il-'arabiyye.", "english": "I wrote all the homework in Arabic." },
+      { "arabic": "بتكتب منيح، الخط تبعك حلو.", "transliteration": "Bitkitib mniih, il-khatt taba'ak helo.", "english": "You write nicely, your handwriting is beautiful." }
+    ]
+  },
+  {
+    "english": "read",
+    "arabic": "يقرأ",
+    "arabic_levantine": "يقرأ",
+    "transliteration": "yaqra'",
+    "transliteration_levantine": "yiqra",
+    "type": "verb",
+    "synonyms": ["يطّلع", "يتصفح"],
+    "antonyms": ["يجهل"],
+    "fusha_sentences": [
+      { "arabic": "يقرأ كتابًا جديدًا كل أسبوع.", "transliteration": "Yaqra' kitaban jadidan kull usbu'.", "english": "He reads a new book every week." },
+      { "arabic": "اقرأ كثيرًا فالقراءة تُوسّع الأفق.", "transliteration": "Iqra' kathiran fa al-qira'a tuwassi' al-ufuq.", "english": "Read a lot, for reading broadens the horizon." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بتحب تقرأ؟ أنا بحب كتير.", "transliteration": "Bthibb tiqra? Ana bhibb ktir.", "english": "Do you like to read? I really like it." },
+      { "arabic": "قرأت الرواية هاي بيوم وليلة.", "transliteration": "Qara't il-riwaye hay b-yom w leile.", "english": "I read this novel in a day and a night." }
+    ]
+  },
+  {
+    "english": "sleep",
+    "arabic": "ينام",
+    "arabic_levantine": "ينام",
+    "transliteration": "yanam",
+    "transliteration_levantine": "ynam",
+    "type": "verb",
+    "synonyms": ["يرقد", "يهجع", "يستريح"],
+    "antonyms": ["يستيقظ", "يصحو"],
+    "fusha_sentences": [
+      { "arabic": "ينام الجسم وتظل الروح في يقظة.", "transliteration": "Yanam al-jism wa tazill al-ruh fi yaqza.", "english": "The body sleeps while the soul remains awake." },
+      { "arabic": "ينبغي أن ينام الإنسان ثماني ساعات يوميًا.", "transliteration": "Yanbaghi an yanam al-insan thamani sa'at yawmiyan.", "english": "A person should sleep eight hours daily." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "نمت أمس بدري، كنت تعبان كتير.", "transliteration": "Nimt ams badri, kunt ta'ban ktir.", "english": "I slept early yesterday, I was very tired." },
+      { "arabic": "كيف نمت البارحة؟ أنا ما نمت منيح.", "transliteration": "Kif nimt il-bariha? Ana ma nimt mniih.", "english": "How did you sleep last night? I didn't sleep well." }
+    ]
+  },
+  {
+    "english": "walk",
+    "arabic": "يمشي",
+    "arabic_levantine": "يمشي",
+    "transliteration": "yamshi",
+    "transliteration_levantine": "yimshi",
+    "type": "verb",
+    "synonyms": ["يسير", "يتجول", "يخطو"],
+    "antonyms": ["يقف", "يجري"],
+    "fusha_sentences": [
+      { "arabic": "يمشي ساعة كل يوم للحفاظ على صحته.", "transliteration": "Yamshi sa'a kull yawm lil-hafaz 'ala sihhatih.", "english": "He walks an hour every day to maintain his health." },
+      { "arabic": "المشي في الطبيعة يُريح الأعصاب.", "transliteration": "Al-mashi fi al-tabi'a yurih al-a'sab.", "english": "Walking in nature calms the nerves." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "نمشي على البلد ولا نركب سيارة؟", "transliteration": "Nimshi 'al il-balad walla nirkab sayyara?", "english": "Shall we walk downtown or take a car?" },
+      { "arabic": "مشيت من البيت على المدرسة اليوم.", "transliteration": "Mishit min il-beit 'ala il-madrasse il-yom.", "english": "I walked from home to school today." }
+    ]
+  },
+  {
+    "english": "run",
+    "arabic": "يجري",
+    "arabic_levantine": "يركض",
+    "transliteration": "yajri",
+    "transliteration_levantine": "yirkud",
+    "type": "verb",
+    "synonyms": ["يسرع", "يعدو"],
+    "antonyms": ["يقف", "يمشي"],
+    "fusha_sentences": [
+      { "arabic": "يجري الرياضي كل صباح في الحديقة.", "transliteration": "Yajri al-riyadi kull sabah fi al-hadiqa.", "english": "The athlete runs every morning in the park." },
+      { "arabic": "جرى بأقصى سرعته ليلحق بالحافلة.", "transliteration": "Jara bi-aqsa sur'atihi li-yilhaq bil-hafila.", "english": "He ran at full speed to catch the bus." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ركضت وراءه بس ما لحقته.", "transliteration": "Rikadht wara' bass ma lahaqto.", "english": "I ran after him but didn't catch him." },
+      { "arabic": "بيركض كل يوم الصبح قبل الشغل.", "transliteration": "Byirkud kull yom il-subh qabul il-shughul.", "english": "He runs every morning before work." }
+    ]
+  },
+  {
+    "english": "help",
+    "arabic": "يساعد",
+    "arabic_levantine": "يساعد",
+    "transliteration": "yusa'id",
+    "transliteration_levantine": "yisa'id",
+    "type": "verb",
+    "synonyms": ["يعين", "يدعم", "يسند"],
+    "antonyms": ["يعرقل", "يضر"],
+    "fusha_sentences": [
+      { "arabic": "يساعد الجيران بعضهم في الأوقات الصعبة.", "transliteration": "Yusa'id al-jiran ba'dahum fi al-awqat al-sa'ba.", "english": "Neighbors help each other in difficult times." },
+      { "arabic": "هل يمكنك مساعدتي في حل هذه المسألة؟", "transliteration": "Hal yumkinuka musa'adati fi hall hadhihi al-mas'ala?", "english": "Can you help me solve this problem?" }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بتساعدني بالمشروع؟ لحالي ما قادر.", "transliteration": "Btisa'idni bil-mashroo'? La-hali ma qadir.", "english": "Will you help me with the project? I can't do it alone." },
+      { "arabic": "هو دايمًا جاهز يساعد أي حدا.", "transliteration": "Huwwe dayiman jahiz yisa'id ayy hada.", "english": "He's always ready to help anyone." }
+    ]
+  },
+  {
+    "english": "think",
+    "arabic": "يفكر",
+    "arabic_levantine": "يفكر",
+    "transliteration": "yufakkir",
+    "transliteration_levantine": "yfakkir",
+    "type": "verb",
+    "synonyms": ["يتأمل", "يتدبر", "يتخيل"],
+    "antonyms": ["يتصرف باندفاع"],
+    "fusha_sentences": [
+      { "arabic": "فكّر قبل أن تتكلم، الكلمة لا تُردّ.", "transliteration": "Fakkir qabla an tatakallam, al-kalima la turaddu.", "english": "Think before you speak; a word cannot be taken back." },
+      { "arabic": "يُفكّر المبدع خارج حدود المألوف.", "transliteration": "Yufakkir al-mubdi' kharij hudud al-ma'luf.", "english": "The creative thinker thinks outside the bounds of the familiar." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "لازم تفكر كتير قبل ما تاخذ هاد القرار.", "transliteration": "Lazim tfakkir ktir qabul ma takhodh had il-qarar.", "english": "You need to think a lot before making this decision." },
+      { "arabic": "شو عم تفكر فيه؟ وجهك مش هون.", "transliteration": "Shu 'am tfakkir fih? Wajhak mish hon.", "english": "What are you thinking about? Your mind is elsewhere." }
+    ]
+  },
+  {
+    "english": "sit",
+    "arabic": "يجلس",
+    "arabic_levantine": "يقعد",
+    "transliteration": "yajlis",
+    "transliteration_levantine": "yiq'ud",
+    "type": "verb",
+    "synonyms": ["يستقر", "يستوي"],
+    "antonyms": ["يقف", "ينهض"],
+    "fusha_sentences": [
+      { "arabic": "اجلس واسترح قليلًا، أنت مرهق.", "transliteration": "Ijlis wa startih qalilan, anta murhaq.", "english": "Sit and rest a little, you are exhausted." },
+      { "arabic": "يجلس الأستاذ أمام طلابه ويشرح.", "transliteration": "Yajlis al-ustaz amam tullabihi wa yashrahu.", "english": "The teacher sits in front of his students and explains." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "قعدنا بالحديقة لساعة كاملة.", "transliteration": "Qa'adna bil-hadiqa la-sa'a kamle.", "english": "We sat in the garden for a full hour." },
+      { "arabic": "قعدك، لا توقف هون، الكرسي فاضي.", "transliteration": "Qu'dak, la twaqif hon, il-kursi fadi.", "english": "Have a seat, don't stand here, the chair is empty." }
+    ]
+  },
+  {
+    "english": "forget",
+    "arabic": "ينسى",
+    "arabic_levantine": "ينسى",
+    "transliteration": "yansa",
+    "transliteration_levantine": "yinsa",
+    "type": "verb",
+    "synonyms": ["يُهمل", "يتغافل"],
+    "antonyms": ["يتذكر", "يحفظ"],
+    "fusha_sentences": [
+      { "arabic": "لا تنسَ أبدًا من ساعدك في وقت الضيق.", "transliteration": "La tansa abadan man sa'adaka fi waqt al-dayyq.", "english": "Never forget those who helped you in times of hardship." },
+      { "arabic": "نسي موعده المهم بسبب انشغاله.", "transliteration": "Nasiya maw'idahu al-muhimm bi-sabab inshighalih.", "english": "He forgot his important appointment due to being busy." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "نسيت تلفوني بالبيت، رح أرجع أجيبه.", "transliteration": "Nisit telfoni bil-beit, rah arji' ajiibo.", "english": "I forgot my phone at home, I'll go back to get it." },
+      { "arabic": "ما بنسى إياه أبدًا، عمل فيي خير كتير.", "transliteration": "Ma binsa iyyah abadan, 'amal fiyyi khair ktir.", "english": "I'll never forget him, he did a lot of good for me." }
+    ]
+  },
+  {
+    "english": "remember",
+    "arabic": "يتذكر",
+    "arabic_levantine": "يتذكر",
+    "transliteration": "yatadhakkar",
+    "transliteration_levantine": "ytdhakkar",
+    "type": "verb",
+    "synonyms": ["يستحضر", "يستعيد"],
+    "antonyms": ["ينسى", "يتغافل"],
+    "fusha_sentences": [
+      { "arabic": "يتذكر دائمًا كلمات معلمه الحكيمة.", "transliteration": "Yatadhakkar da'iman kalimat mu'allimihi al-hakima.", "english": "He always remembers his wise teacher's words." },
+      { "arabic": "تذكّر الجيدَ وانسَ السيئَ، حياتك تُصبح أجمل.", "transliteration": "Tadhakkar al-jayyid wa insa al-sayyi', hayatuka tusbih ajmal.", "english": "Remember the good and forget the bad, your life becomes more beautiful." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ما بتتذكرني؟ درسنا مع بعض بالمدرسة!", "transliteration": "Ma btitdhakkarni? Darasna ma' ba'd bil-madrasse!", "english": "You don't remember me? We studied together at school!" },
+      { "arabic": "تذكّرت إنو عندي موعد الساعة خمسة!", "transliteration": "Tdhakkart inno 'indi maw'id il-sa'a khamse!", "english": "I just remembered that I have an appointment at five!" }
+    ]
+  },
+  {
+    "english": "travel",
+    "arabic": "يسافر",
+    "arabic_levantine": "يسافر",
+    "transliteration": "yusafir",
+    "transliteration_levantine": "yisafir",
+    "type": "verb",
+    "synonyms": ["يرحل", "يتنقل", "يجوب"],
+    "antonyms": ["يستقر", "يبقى"],
+    "fusha_sentences": [
+      { "arabic": "السفر يُوسّع مدارك الإنسان ويُثري تجربته.", "transliteration": "Al-safar yuwassi' madarik al-insan wa yutri tajrubatahu.", "english": "Travel broadens a person's horizons and enriches their experience." },
+      { "arabic": "يُسافر كل عام إلى بلد جديد لاكتشافه.", "transliteration": "Yusafir kull 'am ila balad jadid liktishafih.", "english": "He travels every year to a new country to explore it." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بدي أسافر هالصيف، مش عارف وين.", "transliteration": "Biddi asafir hal-sif, mish 'arif ween.", "english": "I want to travel this summer, I don't know where." },
+      { "arabic": "سافرت كتير بحياتي بس عمان دايمًا بقلبي.", "transliteration": "Safart ktir b-hayati bass 'Amman dayiman b-qalbi.", "english": "I've traveled a lot in my life but Amman is always in my heart." }
+    ]
+  },
+  {
+    "english": "buy",
+    "arabic": "يشتري",
+    "arabic_levantine": "يشتري",
+    "transliteration": "yashtari",
+    "transliteration_levantine": "yishtiri",
+    "type": "verb",
+    "synonyms": ["يقتني", "يقتضي"],
+    "antonyms": ["يبيع"],
+    "fusha_sentences": [
+      { "arabic": "اشترى هدية ثمينة لوالدته بمناسبة عيد الأم.", "transliteration": "Ishtara hadiyya thamina li-walidatihi bi-munasabat 'eid al-umm.", "english": "He bought a precious gift for his mother on Mother's Day." },
+      { "arabic": "لا تشتري ما لا تحتاجه.", "transliteration": "La tashtari ma la tahtajuhu.", "english": "Don't buy what you don't need." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "اشتريت تذاكر الحفلة من الموقع.", "transliteration": "Ishtareet tazakar il-hafle min il-mawqi'.", "english": "I bought concert tickets from the website." },
+      { "arabic": "وين بتشتري خضار طازج؟ عندي سوق قريب.", "transliteration": "Ween btishtiri khudra tazij? 'Indi suq qarib.", "english": "Where do you buy fresh vegetables? I have a nearby market." }
+    ]
+  },
+  {
+    "english": "ask",
+    "arabic": "يسأل",
+    "arabic_levantine": "يسأل",
+    "transliteration": "yas'al",
+    "transliteration_levantine": "yis'al",
+    "type": "verb",
+    "synonyms": ["يستفسر", "يستوضح"],
+    "antonyms": ["يجيب", "يرد"],
+    "fusha_sentences": [
+      { "arabic": "لا تتردد في السؤال إن لم تفهم.", "transliteration": "La tataraddad fi al-su'al in lam tafham.", "english": "Don't hesitate to ask if you don't understand." },
+      { "arabic": "سأله عن سر نجاحه فأجاب بابتسامة.", "transliteration": "Sa'alahu 'an sirr najahibi fa-ajaba bi-ibtisama.", "english": "He asked him about the secret of his success and he answered with a smile." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "لو ما بتعرف اسأل، ما في زلمة.", "transliteration": "Law ma bta'rif is'al, ma fi zallame.", "english": "If you don't know, ask, there's no shame." },
+      { "arabic": "سألتو عن السعر وقالي كتير غالي.", "transliteration": "Sa'alto 'an il-si'r w qal-li ktir ghali.", "english": "I asked him about the price and he told me it's very expensive." }
+    ]
+  },
+  {
+    "english": "day",
+    "arabic": "يوم",
+    "arabic_levantine": "يوم",
+    "transliteration": "yawm",
+    "transliteration_levantine": "yom",
+    "type": "noun",
+    "synonyms": ["نهار", "ضحى"],
+    "antonyms": ["ليل"],
+    "fusha_sentences": [
+      { "arabic": "يوم جديد يعني فرصة جديدة للإنجاز.", "transliteration": "Yawm jadid ya'ni fursa jadida lil-injaz.", "english": "A new day means a new opportunity for achievement." },
+      { "arabic": "مرّت الأيام سريعًا دون أن نشعر.", "transliteration": "Marrat al-ayyam sari'an dun an nush'ir.", "english": "The days passed quickly without us noticing." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "يوم حلو إن شاء الله، كيفك؟", "transliteration": "Yom helo inshallah, kifak?", "english": "Have a good day God willing, how are you?" },
+      { "arabic": "هاد كان أحسن يوم بحياتي.", "transliteration": "Had kan ahsan yom b-hayati.", "english": "That was the best day of my life." }
+    ]
+  },
+  {
+    "english": "week",
+    "arabic": "أسبوع",
+    "arabic_levantine": "أسبوع",
+    "transliteration": "usbu'",
+    "transliteration_levantine": "isbu'",
+    "type": "noun",
+    "synonyms": ["سبعة أيام"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يتألف الأسبوع من سبعة أيام.", "transliteration": "Yata'allaf al-usbu' min sab'at ayyam.", "english": "A week consists of seven days." },
+      { "arabic": "كل أسبوع نلتقي لمناقشة التقدم في العمل.", "transliteration": "Kull usbu' naltaqi li-munaqashat al-taqaddum fi al-'amal.", "english": "Every week we meet to discuss progress at work." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الأسبوع الجاي رح يكون مشغول كتير.", "transliteration": "Il-isbu' il-jay rah ykun mashghul ktir.", "english": "Next week is going to be very busy." },
+      { "arabic": "ما شفتك من أسبوع، وين اختفيت؟", "transliteration": "Ma shuftak min isbu', ween ikhtafayt?", "english": "I haven't seen you for a week, where did you disappear?" }
+    ]
+  },
+  {
+    "english": "month",
+    "arabic": "شهر",
+    "arabic_levantine": "شهر",
+    "transliteration": "shahr",
+    "transliteration_levantine": "shahar",
+    "type": "noun",
+    "synonyms": ["أيام", "فترة"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "شهر رمضان المبارك يجمع المسلمين على الصيام.", "transliteration": "Shahr Ramadan al-mubarak yajma' al-muslimin 'ala al-siyam.", "english": "The blessed month of Ramadan unites Muslims in fasting." },
+      { "arabic": "يبدأ العام الدراسي في شهر سبتمبر.", "transliteration": "Yabda' al-'am al-dirasi fi shahr Sibtambir.", "english": "The academic year begins in the month of September." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الشهر الجاي رح يكون في عيد ميلادي.", "transliteration": "Il-shahar il-jay rah ykun fi 'eid miladi.", "english": "Next month will be my birthday." },
+      { "arabic": "قبضت مرتبي اليوم، أخيرًا آخر الشهر.", "transliteration": "Qabadat murattabi il-yom, akhiran akhir il-shahar.", "english": "I received my salary today, finally it's end of the month." }
+    ]
+  },
+  {
+    "english": "year",
+    "arabic": "سنة",
+    "arabic_levantine": "سنة",
+    "transliteration": "sana",
+    "transliteration_levantine": "sane",
+    "type": "noun",
+    "synonyms": ["عام", "حول"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "تمر السنوات سريعًا حين نكون مشغولين.", "transliteration": "Tamurr al-sanawat sari'an hin nakun mashghulin.", "english": "Years pass quickly when we are busy." },
+      { "arabic": "يُحتفل برأس السنة الجديدة في جميع أنحاء العالم.", "transliteration": "Yuhtafal bi-ra's al-sana al-jadida fi jami' anha' al-'alam.", "english": "New Year is celebrated all over the world." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "كل سنة وانت بخير، سنة حلوة عليك!", "transliteration": "Kull sane w inta b-khair, sane helwe 'alaik!", "english": "Happy new year to you, may it be a wonderful year for you!" },
+      { "arabic": "هاد البيت بنيناه قبل عشر سنين.", "transliteration": "Had il-beit banina qabul 'ashar snin.", "english": "We built this house ten years ago." }
+    ]
+  },
+  {
+    "english": "hour",
+    "arabic": "ساعة",
+    "arabic_levantine": "ساعة",
+    "transliteration": "sa'a",
+    "transliteration_levantine": "sa'a",
+    "type": "noun",
+    "synonyms": ["ستون دقيقة", "وقت"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "تتكون الساعة من ستين دقيقة.", "transliteration": "Tatakawwan al-sa'a min sittin daqiqa.", "english": "An hour consists of sixty minutes." },
+      { "arabic": "في الساعة الأولى من الصباح يكون الذهن صافيًا.", "transliteration": "Fi al-sa'a al-ula min al-sabah yakun al-dhihn safiyan.", "english": "In the first hour of the morning the mind is clear." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "انتظرته ساعة كاملة وما جا.", "transliteration": "Intazartu sa'a kamle w ma ja.", "english": "I waited for him a full hour and he didn't come." },
+      { "arabic": "عندي ساعة فاضية بشوفك فيها.", "transliteration": "'Indi sa'a fadye bashufak fiha.", "english": "I have a free hour, I'll see you during it." }
+    ]
+  },
+  {
+    "english": "street",
+    "arabic": "شارع",
+    "arabic_levantine": "شارع",
+    "transliteration": "shara'",
+    "transliteration_levantine": "shari'",
+    "type": "noun",
+    "synonyms": ["طريق", "زقاق", "درب"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "الشارع الرئيسي مزدحم في ساعات الذروة.", "transliteration": "Al-shara' al-ra'isi muzdiham fi sa'at al-dhurwa.", "english": "The main street is crowded during rush hours." },
+      { "arabic": "نظّف الأطفال الشارع أمام مدرستهم.", "transliteration": "Nazzafa al-atfal al-shara' amam madrasatihim.", "english": "The children cleaned the street in front of their school." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "عيش بالشارع هاد من عشرين سنة.", "transliteration": "A'ish bil-shari' had min 'ishriin sane.", "english": "I've been living on this street for twenty years." },
+      { "arabic": "الشارع زحمة كتير، روح الطريق الثاني.", "transliteration": "Il-shari' zahme ktir, ruh il-tariq il-thani.", "english": "The street is very congested, take the other road." }
+    ]
+  },
+  {
+    "english": "hospital",
+    "arabic": "مستشفى",
+    "arabic_levantine": "مستشفى",
+    "transliteration": "mustashfa",
+    "transliteration_levantine": "mustashfa",
+    "type": "noun",
+    "synonyms": ["عيادة", "مركز طبي"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يعمل المستشفى على مدار الساعة لخدمة المرضى.", "transliteration": "Ya'mal al-mustashfa 'ala madar al-sa'a li-khidmat al-marda.", "english": "The hospital operates around the clock to serve patients." },
+      { "arabic": "تبرّع رجل الأعمال لبناء مستشفى جديد.", "transliteration": "Tabarru' rajul al-a'mal li-bina' mustashfa jadid.", "english": "The businessman donated to build a new hospital." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "روحو على المستشفى هلأ، الوضع مش كويس.", "transliteration": "Ruhu 'ala il-mustashfa hala', il-wad' mish kwayyis.", "english": "Go to the hospital now, the situation isn't good." },
+      { "arabic": "زرته بالمستشفى وكان أحسن الحمد لله.", "transliteration": "Zurtu bil-mustashfa w kan ahsan, il-hamdu lillah.", "english": "I visited him at the hospital and he was better, praise God." }
+    ]
+  },
+  {
+    "english": "mosque",
+    "arabic": "مسجد",
+    "arabic_levantine": "مسجد / جامع",
+    "transliteration": "masjid",
+    "transliteration_levantine": "masjid / jami'",
+    "type": "noun",
+    "synonyms": ["جامع", "بيت الله"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "المسجد مكان للعبادة والتأمل والسلام الداخلي.", "transliteration": "Al-masjid makan lil-'ibada wal-ta'ammul wal-salam al-dakhili.", "english": "The mosque is a place for worship, reflection, and inner peace." },
+      { "arabic": "يُصلي المسلمون في المسجد خمس مرات يوميًا.", "transliteration": "Yusalli al-muslimun fi al-masjid khams marrat yawmiyan.", "english": "Muslims pray in the mosque five times daily." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "المسجد الحسيني بوسط البلد معلم مشهور.", "transliteration": "Il-masjid il-Husayni b-wasit il-balad ma'lam mashhur.", "english": "The Husseini Mosque in downtown is a famous landmark." },
+      { "arabic": "رحنا على الجامع صلينا الجمعة مع بعض.", "transliteration": "Ruhna 'ala il-jami' sallaina il-jum'a ma' ba'd.", "english": "We went to the mosque and prayed Friday prayer together." }
+    ]
+  },
+  {
+    "english": "university",
+    "arabic": "جامعة",
+    "arabic_levantine": "جامعة",
+    "transliteration": "jami'a",
+    "transliteration_levantine": "jami'a",
+    "type": "noun",
+    "synonyms": ["أكاديمية", "كلية"],
+    "antonyms": ["مدرسة"],
+    "fusha_sentences": [
+      { "arabic": "الجامعة بيئة خصبة للتعلم والنمو.", "transliteration": "Al-jami'a bi'a khasba lil-ta'allum wal-numuw.", "english": "The university is a fertile environment for learning and growth." },
+      { "arabic": "تُخرّج الجامعة الأردنية آلاف الطلاب سنويًا.", "transliteration": "Tukhharrij al-Jami'a al-Urdunniyya alaf al-tullab sanawiyyan.", "english": "The University of Jordan graduates thousands of students annually." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "بكرا أول يوم بالجامعة، متحمس كتير.", "transliteration": "Bukra awwal yom bil-jami'a, mutahammas ktir.", "english": "Tomorrow is the first day at university, I'm very excited." },
+      { "arabic": "درست أربع سنين بالجامعة وخرّجت طب.", "transliteration": "Darasat arba' snin bil-jami'a w kharrjat tibb.", "english": "She studied four years at university and graduated with medicine." }
+    ]
+  },
+  {
+    "english": "market",
+    "arabic": "سوق",
+    "arabic_levantine": "سوق",
+    "transliteration": "suq",
+    "transliteration_levantine": "suq",
+    "type": "noun",
+    "synonyms": ["بازار", "متجر", "مركز تجاري"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "يعجّ السوق بالباعة والمشترين.", "transliteration": "Ya'ijj al-suq bil-ba'a wal-mushtarin.", "english": "The market is bustling with sellers and buyers." },
+      { "arabic": "تشتهر أسواق البلدة القديمة بتراثها العريق.", "transliteration": "Tashtahir aswaaq al-balda al-qadima bi-turathiha al-'ariq.", "english": "The old town markets are famous for their deep heritage." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "روحنا على سوق وسط البلد اشترينا خضار.", "transliteration": "Ruhna 'ala suq wasit il-balad ishtareena khudra.", "english": "We went to the downtown market and bought vegetables." },
+      { "arabic": "سوق الجمعة فيه كل شي بأسعار منيحة.", "transliteration": "Suq il-jum'a fih kull shi b-as'ar mnihe.", "english": "The Friday market has everything at good prices." }
+    ]
+  },
+  {
+    "english": "restaurant",
+    "arabic": "مطعم",
+    "arabic_levantine": "مطعم",
+    "transliteration": "mat'am",
+    "transliteration_levantine": "mat'am",
+    "type": "noun",
+    "synonyms": ["مقهى", "كافيتيريا"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "افتتح مطعم جديد يقدم الأكلات الأردنية التقليدية.", "transliteration": "Iftataḥa mat'am jadid yuqaddim al-akalat al-urdunniyya al-taqlidiyya.", "english": "A new restaurant opened serving traditional Jordanian food." },
+      { "arabic": "يتميز هذا المطعم بجودة طعامه وخدمته.", "transliteration": "Yatamayyaz hadha al-mat'am bi-jawdat ta'amihi wa khidmatih.", "english": "This restaurant is distinguished by the quality of its food and service." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "نروح على أي مطعم الليلة؟", "transliteration": "Niruh 'ala ayy mat'am il-leile?", "english": "Which restaurant shall we go to tonight?" },
+      { "arabic": "المطعم هاد مشهور بالمنسف والمقلوبة.", "transliteration": "Il-mat'am had mashhur bil-mansaf w il-maqluba.", "english": "This restaurant is famous for its mansaf and maqluba." }
+    ]
+  },
+  {
+    "english": "who",
+    "arabic": "من",
+    "arabic_levantine": "مين",
+    "transliteration": "man",
+    "transliteration_levantine": "miin",
+    "type": "pronoun",
+    "synonyms": ["أيّ شخص"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "من يعمل الصالحات يجني ثمارها.", "transliteration": "Man ya'mal al-salihat yajni thamaraha.", "english": "Whoever does good deeds will reap their fruits." },
+      { "arabic": "سأل: من قام بهذا العمل الرائع؟", "transliteration": "Sa'ala: man qama bi-hadha al-'amal al-ra'i'?", "english": "He asked: who did this wonderful work?" }
+    ],
+    "levantine_sentences": [
+      { "arabic": "مين طق الباب؟ روح شوف.", "transliteration": "Miin taqa il-bab? Ruh shuf.", "english": "Who knocked on the door? Go see." },
+      { "arabic": "مين بدو يجي معنا على الرحلة؟", "transliteration": "Miin biddo yiji ma'na 'ala il-rihle?", "english": "Who wants to come with us on the trip?" }
+    ]
+  },
+  {
+    "english": "what",
+    "arabic": "ماذا",
+    "arabic_levantine": "شو",
+    "transliteration": "madha",
+    "transliteration_levantine": "shu",
+    "type": "pronoun",
+    "synonyms": ["ما", "أيّ شيء"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "ماذا تريد أن تتعلم في هذا البرنامج؟", "transliteration": "Madha turid an tata'allam fi hadha al-barnameij?", "english": "What do you want to learn in this program?" },
+      { "arabic": "ماذا حدث في الاجتماع أمس؟", "transliteration": "Madha hadatha fi al-ijtima' ams?", "english": "What happened in the meeting yesterday?" }
+    ],
+    "levantine_sentences": [
+      { "arabic": "شو في آخر أخبار؟ في إشي جديد؟", "transliteration": "Shu fi akhir akhbar? Fi ishi jdid?", "english": "What's the latest news? Is there anything new?" },
+      { "arabic": "شو بدك تاكل؟ قلي وبعمل إلك.", "transliteration": "Shu baddak takul? Qul-li w ba'mul 'ilak.", "english": "What do you want to eat? Tell me and I'll make it for you." }
+    ]
+  },
+  {
+    "english": "where",
+    "arabic": "أين",
+    "arabic_levantine": "وين",
+    "transliteration": "ayna",
+    "transliteration_levantine": "ween",
+    "type": "adverb",
+    "synonyms": ["في أي مكان"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "أين تقع مدينة البتراء بالضبط؟", "transliteration": "Ayna taqa' madinat al-Batra bil-dabt?", "english": "Where exactly is the city of Petra located?" },
+      { "arabic": "لا أعلم أين ذهب منذ الأمس.", "transliteration": "La a'lam ayna dhahaba mundhu al-ams.", "english": "I don't know where he went since yesterday." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "وين حطيت مفاتيحي؟ دور معي.", "transliteration": "Ween hattayt mafatihi? Dawwir ma'i.", "english": "Where did I put my keys? Help me look." },
+      { "arabic": "وين صرت؟ كنا منستناك من ساعة!", "transliteration": "Ween sirt? Kunna minstannak min sa'a!", "english": "Where have you been? We've been waiting for you for an hour!" }
+    ]
+  },
+  {
+    "english": "why",
+    "arabic": "لماذا",
+    "arabic_levantine": "ليش",
+    "transliteration": "limadha",
+    "transliteration_levantine": "leish",
+    "type": "adverb",
+    "synonyms": ["ما السبب", "لأي سبب"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "لماذا تأخرت عن موعدنا؟", "transliteration": "Limadha ta'akhkharta 'an maw'idina?", "english": "Why were you late for our appointment?" },
+      { "arabic": "يتساءل الفيلسوف لماذا نحن هنا.", "transliteration": "Yatasa'al al-faylasuf limadha nahnu huna.", "english": "The philosopher asks why we are here." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "ليش ما جيت الأمس؟ كنا منستناك.", "transliteration": "Leish ma jeet il-ams? Kunna minstannak.", "english": "Why didn't you come yesterday? We were waiting for you." },
+      { "arabic": "ليش حزين؟ صار إشي؟", "transliteration": "Leish hazin? Sar ishi?", "english": "Why are you sad? Did something happen?" }
+    ]
+  },
+  {
+    "english": "how",
+    "arabic": "كيف",
+    "arabic_levantine": "كيف",
+    "transliteration": "kayfa",
+    "transliteration_levantine": "kif",
+    "type": "adverb",
+    "synonyms": ["بأي طريقة"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "كيف حالك؟ أتمنى أن تكون بخير.", "transliteration": "Kayfa halak? Atamanna an takuna bi-khayr.", "english": "How are you? I hope you are well." },
+      { "arabic": "يتساءل الجميع كيف وصل إلى هذا النجاح.", "transliteration": "Yatasa'al al-jami' kayfa wasala ila hadha al-najah.", "english": "Everyone wonders how he achieved this success." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "كيفك؟ كيف الأهل؟ كلهم بخير؟", "transliteration": "Kifak? Kif il-ahil? Kullhum b-kheir?", "english": "How are you? How is the family? Everyone is well?" },
+      { "arabic": "كيف صرت تحكي عربي هيك منيح؟", "transliteration": "Kif sirt tehki 'arabi heik mniih?", "english": "How did you become so good at speaking Arabic?" }
+    ]
+  },
+  {
+    "english": "good",
+    "arabic": "جيد",
+    "arabic_levantine": "منيح / تمام",
+    "transliteration": "jayyid",
+    "transliteration_levantine": "mniih / tamam",
+    "type": "adjective",
+    "synonyms": ["حسن", "طيب", "ممتاز"],
+    "antonyms": ["سيء", "رديء"],
+    "fusha_sentences": [
+      { "arabic": "العمل الجيد يتحدث عن نفسه.", "transliteration": "Al-'amal al-jayyid yatahaddath 'an nafsihi.", "english": "Good work speaks for itself." },
+      { "arabic": "كان جيدًا في الرياضيات منذ صغره.", "transliteration": "Kana jayyidan fi al-riyadiyyat mundhu sughurihi.", "english": "He was good at mathematics since childhood." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "كيفك؟ كل شي منيح؟ تمام؟", "transliteration": "Kifak? Kull shi mniih? Tamam?", "english": "How are you? Is everything good? Alright?" },
+      { "arabic": "الأكل منيح كتير، يسلمو إيديكي.", "transliteration": "Il-akil mniih ktir, yislamu iidiki.", "english": "The food is very good, bless your hands." }
+    ]
+  },
+  {
+    "english": "bad",
+    "arabic": "سيء",
+    "arabic_levantine": "وحش / مش منيح",
+    "transliteration": "sayyi'",
+    "transliteration_levantine": "wahish / mish mniih",
+    "type": "adjective",
+    "synonyms": ["رديء", "فاسد", "مذموم"],
+    "antonyms": ["جيد", "حسن", "منيح"],
+    "fusha_sentences": [
+      { "arabic": "العادات السيئة يصعب التخلص منها.", "transliteration": "Al-'adat al-sayyi'a yas'ub al-takhalllus minha.", "english": "Bad habits are hard to get rid of." },
+      { "arabic": "الطقس السيئ أخّر موعد الرحلة.", "transliteration": "Al-taqas al-sayyi' akhkhara maw'id al-rihla.", "english": "Bad weather delayed the trip schedule." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "الأكل وحش كتير، ما اكلت منو.", "transliteration": "Il-akil wahish ktir, ma akalt minno.", "english": "The food was very bad, I didn't eat from it." },
+      { "arabic": "مش منيح هيك تتصرف مع الناس.", "transliteration": "Mish mniih heik titasarraf ma' il-nas.", "english": "It's not good to behave like this with people." }
+    ]
+  },
+  {
+    "english": "right",
+    "arabic": "صحيح",
+    "arabic_levantine": "صح",
+    "transliteration": "sahih",
+    "transliteration_levantine": "sah",
+    "type": "adjective",
+    "synonyms": ["دقيق", "سليم", "مضبوط"],
+    "antonyms": ["خطأ", "غلط"],
+    "fusha_sentences": [
+      { "arabic": "الجواب الصحيح يحتاج إلى تفكير عميق.", "transliteration": "Al-jawab al-sahih yahtaj ila tafkir 'amiq.", "english": "The right answer requires deep thinking." },
+      { "arabic": "تأكد أن المعلومات التي تنقلها صحيحة.", "transliteration": "Ta'akkad anna al-ma'lumat allati tanquluha sahiha.", "english": "Make sure the information you convey is correct." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد الكلام صح مية بالمية.", "transliteration": "Had il-kalam sah miyyeh bil-miyyeh.", "english": "This is one hundred percent correct." },
+      { "arabic": "صح قلت، لازم نفكر قبل ما نحكي.", "transliteration": "Sah qult, lazim nfakkir qabul ma nhki.", "english": "You're right, we need to think before we speak." }
+    ]
+  },
+  {
+    "english": "wrong",
+    "arabic": "خطأ",
+    "arabic_levantine": "غلط",
+    "transliteration": "khata'",
+    "transliteration_levantine": "ghalat",
+    "type": "adjective",
+    "synonyms": ["خاطئ", "فاسد", "مغلوط"],
+    "antonyms": ["صحيح", "صح"],
+    "fusha_sentences": [
+      { "arabic": "الاعتراف بالخطأ فضيلة عظيمة.", "transliteration": "Al-i'tiraf bil-khata' fadila 'azima.", "english": "Admitting a mistake is a great virtue." },
+      { "arabic": "كان قراره خاطئًا لكنه تعلم منه.", "transliteration": "Kana qaraaru khat'an lakinahu ta'allama minho.", "english": "His decision was wrong but he learned from it." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "هاد الجواب غلط، جرب تاني.", "transliteration": "Had il-jawab ghalat, jarrib tani.", "english": "This answer is wrong, try again." },
+      { "arabic": "غلطت وبعرف، بس صعب أعترف.", "transliteration": "Ghalatat w ba'rif, bass sa'b a'tiref.", "english": "I was wrong and I know it, but it's hard to admit." }
+    ]
+  },
+  {
+    "english": "maybe",
+    "arabic": "ربما",
+    "arabic_levantine": "يمكن / ممكن",
+    "transliteration": "rubbama",
+    "transliteration_levantine": "yimkin / mumkin",
+    "type": "adverb",
+    "synonyms": ["لعلّ", "قد", "عسى"],
+    "antonyms": ["بالتأكيد", "حتمًا"],
+    "fusha_sentences": [
+      { "arabic": "ربما يأتي غدًا، لم يُحدد بعد.", "transliteration": "Rubbama ya'ti ghadan, lam yuhaddid ba'd.", "english": "Maybe he'll come tomorrow, he hasn't decided yet." },
+      { "arabic": "ربما الصمت أحيانًا أبلغ من الكلام.", "transliteration": "Rubbama al-samt ahyanan ablag min al-kalam.", "english": "Maybe silence is sometimes more eloquent than words." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "يمكن أجي معكم، بس مش متأكد.", "transliteration": "Yimkin aji ma'kum, bass mish mita'kkid.", "english": "Maybe I'll come with you, but I'm not sure." },
+      { "arabic": "ممكن تكون معه حق، بتعرف.", "transliteration": "Mumkin tkun ma'o haqq, bta'rif.", "english": "Maybe he's right, you know." }
+    ]
+  },
+  {
+    "english": "phone",
+    "arabic": "هاتف",
+    "arabic_levantine": "تلفون / موبايل",
+    "transliteration": "hatif",
+    "transliteration_levantine": "telfon / mobile",
+    "type": "noun",
+    "synonyms": ["جوال", "موبايل", "خلوي"],
+    "antonyms": [],
+    "fusha_sentences": [
+      { "arabic": "أصبح الهاتف الذكي جزءًا لا يتجزأ من حياتنا.", "transliteration": "Asbaha al-hatif al-dhaki juz'an la yatajazza' min hayatina.", "english": "The smartphone has become an inseparable part of our lives." },
+      { "arabic": "اتصل به عبر الهاتف بمجرد وصوله.", "transliteration": "Ittasala bihi 'abra al-hatif bi-mujarrad wusulihi.", "english": "He called him by phone as soon as he arrived." }
+    ],
+    "levantine_sentences": [
+      { "arabic": "تلفوني وقع وانكسرت شاشته.", "transliteration": "Telfoni waqa' w inkasar shashto.", "english": "My phone fell and its screen broke." },
+      { "arabic": "اتصل فيّ لما توصل، ما بعرف الطريق.", "transliteration": "Ittasil fiyyi lamma tusal, ma ba'rif il-tariq.", "english": "Call me when you arrive, I don't know the way." }
+    ]
+  }
+]
