@@ -41,6 +41,10 @@ dependencies:
   firebase_auth: ^6.5.2
   google_sign_in: ^7.2.0
   cloud_firestore: 6.5.0
+  url_launcher: ^6.3.2
+  flutter_launcher_icons: ^0.14.4
+
+
 
 dev_dependencies:
   flutter_test:
@@ -105,3 +109,10 @@ flutter:
           weight: 800
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/appLogo.png"
+  # optional: adaptive icon for Android
