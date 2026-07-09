@@ -1,4 +1,10 @@
+import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
+import 'package:deewan_institute_app/core/app_drawer.dart';
+import 'package:deewan_institute_app/core/app_loading.dart';
+import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +30,34 @@ class ArabicCoursesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryLight,
+      extendBody: true,
+      drawer: const AppDrawer(selectedIndex: AppDrawer.coursesIndex),
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: -1,
+        onTap: (i) {
+          if (i == 0) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            return;
+          }
+          if (i == 1) {
+            AppLoading.navigate(context, const WordSearchPage());
+            return;
+          }
+          if (i == 2) {
+            AppLoading.navigate(context, const PodcastHome());
+            return;
+          }
+        },
+      ),
       body: Column(
         children: [
+          const SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: AppTopNav(),
+            ),
+          ),
           // ── Hero header ──────────────────────────────────────────
           Container(
             color: AppColors.primary,
@@ -112,7 +144,7 @@ class ArabicCoursesPage extends StatelessWidget {
                   ),
                 ),
                 GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 126),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,

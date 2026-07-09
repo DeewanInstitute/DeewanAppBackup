@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
+import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
+import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/flashcards/flashcard_session.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
@@ -32,23 +34,39 @@ class _FlashcardsHomeState extends State<FlashcardsHome> {
 
   @override
   Widget build(BuildContext context) {
-    final topPad = MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F2),
+      extendBody: true,
+      drawer: const AppDrawer(selectedIndex: AppDrawer.flashcardsIndex),
       bottomNavigationBar: AppBottomNav(
-        currentIndex: 2,
+        currentIndex: -1,
         onTap: (i) {
-          if (i == 2) return;
-          if (i == 0) { Navigator.pop(context); return; }
-          if (i == 1) { AppLoading.navigate(context, const WordSearchPage()); return; }
-          if (i == 3) { AppLoading.navigate(context, const PodcastHome()); return; }
+          if (i == 0) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            return;
+          }
+          if (i == 1) {
+            AppLoading.navigate(context, const WordSearchPage());
+            return;
+          }
+          if (i == 2) {
+            AppLoading.navigate(context, const PodcastHome());
+            return;
+          }
         },
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(topPad),
+            const SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: AppTopNav(),
+              ),
+            ),
+            _buildHeader(0),
             const SizedBox(height: 24),
             if (_allWords.isEmpty)
               const Padding(
@@ -82,7 +100,7 @@ class _FlashcardsHomeState extends State<FlashcardsHome> {
                 icon: Icons.sentiment_dissatisfied_rounded,
                 words: _allWords.sublist(19, 30),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 126),
             ],
           ],
         ),

@@ -1,15 +1,12 @@
-import 'package:deewan_institute_app/auth/login.dart';
-import 'package:deewan_institute_app/core/app_bottom_nav.dart';
-import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
-import 'package:deewan_institute_app/core/auth_service.dart';
-import 'package:deewan_institute_app/courses/arabic_courses_page.dart';
+import 'package:deewan_institute_app/core/app_bottom_nav.dart';
+import 'package:deewan_institute_app/core/app_drawer.dart';
+import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,205 +16,124 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _dialectIndex = 0;
   int _navIndex = 0;
-  final List<_Course> _newCourses = const [
-    _Course(
-      category: 'Guide to Deewan \nArabic Podcasts',
-      title: 'Season 1',
-      color: Color(0xFF765D29),
-      duration: '6 weeks',
-      students: 342,
+
+
+  final List<_FlashcardPreview> _flashcards = const [
+    _FlashcardPreview(
+      word: 'Marhaba',
+      meaning: 'Hello',
+      color: AppColors.green,
+      iconColor: AppColors.orange,
+      icon: Icons.check_rounded,
     ),
-    _Course(
-      category: 'Guide to Deewan \nArabic Podcasts',
-      title: 'Season 2',
-      color: Color(0xFF9F7F3A),
-      duration: '4 weeks',
-      students: 218,
+    _FlashcardPreview(
+      word: 'Shukraan',
+      meaning: 'Thank you',
+      color: AppColors.orange,
+      iconColor: AppColors.green,
+      icon: Icons.bolt_rounded,
     ),
-    _Course(
-      category: 'Guide to Deewan \nArabic Podcasts',
-      title: 'Season 3',
-      color: Color(0xFFC8A24E),
-      duration: '3 weeks',
-      students: 157,
+    _FlashcardPreview(
+      word: 'As-salamu\nalaykum',
+      meaning: 'Peace be upon you',
+      color: AppColors.coral,
+      iconColor: Colors.white,
+      icon: Icons.error_outline_rounded,
     ),
   ];
 
-  final List<_MyCourse> _myCourses = const [
-    _MyCourse(
-      category: 'Arabic',
-      title: 'Levantine\nDialect',
-      color: Color(0xFF765D29), // ← was 0xFF9B7FE8
-      progress: 0.46,
-      current: 11,
-      total: 24,
-    ),
-    _MyCourse(
-      category: 'English',
-      title: 'IELTS\nPrep',
-      color: Color(0xFF9F7F3A), // ← was 0xFFFF7A5A
-      progress: 0.12,
-      current: 3,
-      total: 20,
-    ),
-  ];
+  void _openTab(int index) {
+    setState(() => _navIndex = index);
 
-  final List<_AvatarColor> _avatars = const [
-    _AvatarColor(Color(0xFFFFB3BA)),
-    _AvatarColor(Color(0xFFFFDFBA)),
-    _AvatarColor(Color(0xFFBAFFBA)),
-    _AvatarColor(Color(0xFFBAD7FF)),
-  ];
+    if (index == 1) {
+      AppLoading.navigate(context, const WordSearchPage());
+      return;
+    }
+
+    if (index == 2) {
+      AppLoading.navigate(context, const PodcastHome());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5F2),
+      backgroundColor: AppColors.cream,
+      extendBody: true,
+      drawer: const AppDrawer(),
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          const Positioned.fill(child: _HomeBackdrop()),
           SafeArea(
+            bottom: false,
             child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(20, 20, 0, 126 + bottomPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top bar
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Row(
-                      children: [
-                        // Avatar
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.primaryLight,
-                            border: Border.all(
-                              color: AppColors.primary,
-                              width: 2,
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            color: AppColors.primary,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Merhaba 👋',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black.withOpacity(0.45),
-                                fontFamily: 'PlusJakartaSans',
-                              ),
-                            ),
-                            Text(
-                              FirebaseAuth.instance.currentUser?.displayName ??
-                                  'there',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'PlusJakartaSans',
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        // _IconBtn(
-                        //   icon: Icons.notifications_outlined,
-                        //   bgColor: AppColors.primary,
-                        //   iconColor: Colors.white,
-                        // ),
-                        GestureDetector(
-                          onTap: () async {
-                            await AuthService.signOut();
-                            if (!context.mounted) return;
-                            AppLoading.navigate(
-                              context,
-                              const Login(),
-                              clearStack: true,
-                            );
-                          },
-                          child: _IconBtn(
-                            icon: Icons.logout,
-                            bgColor: AppColors.primary,
-                            iconColor: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-                  // Upcoming Events
-                  _SectionHeader(
-                    title: 'Upcoming Events',
-                    onTap: () {},
-                    showViewAll: false,
-                  ),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _EventCard(),
+                    padding: const EdgeInsets.only(right: 20),
+                    child: const AppTopNav(),
                   ),
                   const SizedBox(height: 28),
-
-                  // Arabic Courses
-                  _SectionHeader(
-                    title: 'Our Arabic Courses',
-                    onTap: () {
-                      AppLoading.navigate(context, const ArabicCoursesPage());
-                    },
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: _HeroIntro(),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 190,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: _myCourses.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 14),
-                      itemBuilder: (_, i) =>
-                          _MyCourseCard(course: _myCourses[i]),
-                    ),
-                  ),
-
                   const SizedBox(height: 28),
-                  // New Courses
-                  _SectionHeader(
-                    title: 'Deewan Arabic Podcasts',
-                    onTap: () {
-                      AppLoading.navigate(context, const PodcastHome());
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: _newCourses.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 14),
-                      itemBuilder: (_, i) => _NewCourseCard(
-                        course: _newCourses[i],
-                        avatars: _avatars,
+                  const _SectionTitle('Dictionary'),
+                  const SizedBox(height: 14),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: _SearchField(
+                      onTap: () => AppLoading.navigate(
+                        context,
+                        const WordSearchPage(),
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 12),
+                  _DialectSwitch(
+                    selectedIndex: _dialectIndex,
+                    onSelected: (index) {
+                      setState(() => _dialectIndex = index);
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: _FlashcardsHeader(
+                      onViewMore: () => AppLoading.navigate(
+                        context,
+                        const FlashcardsHome(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    height: 158,
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(right: 20),
+                      itemCount: _flashcards.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 14),
+                      itemBuilder: (_, index) {
+                        return _FlashcardTile(card: _flashcards[index]);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 34),
+                  const _SectionTitle('Quiz'),
+                  const SizedBox(height: 18),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: _QuizCard(),
+                  ),
                 ],
               ),
             ),
@@ -226,200 +142,400 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _navIndex,
-        onTap: (i) {
-          if (i == 1) {
-            AppLoading.navigate(context, const WordSearchPage());
-            return;
-          }
-          if (i == 2) {
-            AppLoading.navigate(context, const FlashcardsHome());
-            return;
-          }
-          if (i == 3) {
-            AppLoading.navigate(context, const PodcastHome());
-            return;
-          }
-          setState(() => _navIndex = i);
-        },
+        onTap: _openTab,
       ),
     );
   }
 }
 
-// ── New Course Card ───────────────────────────────────────────────────────────
-
-class _NewCourseCard extends StatelessWidget {
-  final _Course course;
-  final List<_AvatarColor> avatars;
-  const _NewCourseCard({required this.course, required this.avatars});
+class _HeroIntro extends StatelessWidget {
+  const _HeroIntro();
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        AppLoading.navigate(context, const PodcastHome());
-      },
-      child: Container(
-        width: 210,
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: course.color,
-          borderRadius: BorderRadius.circular(24),
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Ready for your next\nword?',
+          style: TextStyle(
+            color: AppColors.coral,
+            fontFamily: 'Lora',
+            fontSize: 45,
+            fontWeight: FontWeight.w600,
+            height: 1.08,
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  course.category,
+        SizedBox(height: 18),
+        Text(
+          'Immerse yourself in Levantine and Fusha with a daily dose of vocabulary, flashcards, and quizzes.',
+          style: TextStyle(
+            color: AppColors.muted,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            height: 1.45,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: AppColors.green,
+        fontFamily: 'Lora',
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        height: 1,
+      ),
+    );
+  }
+}
+
+class _SearchField extends StatelessWidget {
+  const _SearchField({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(36),
+        onTap: onTap,
+        child: Container(
+          height: 66,
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(36),
+            border: Border.all(color: AppColors.orange, width: 1.2),
+            color: Colors.white.withValues(alpha: 0.16),
+          ),
+          child: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Search for a word...',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 12,
-                    fontFamily: 'PlusJakartaSans',
+                    color: Color(0xFF8E8B8F),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.arrow_outward_rounded,
-                    size: 16,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              course.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'PlusJakartaSans',
-                height: 1.2,
               ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                // Stacked avatars
-                SizedBox(
-                  width: 70,
-                  height: 24,
-                  child: Stack(
-                    children: List.generate(
-                      avatars.length > 3 ? 3 : avatars.length,
-                      (i) => Positioned(
-                        left: i * 16.0,
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: avatars[i].color,
-                            border: Border.all(color: Colors.white, width: 1.5),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  '+${course.students}',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 12,
-                    fontFamily: 'PlusJakartaSans',
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  course.duration,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 12,
-                    fontFamily: 'PlusJakartaSans',
-                  ),
-                ),
-              ],
-            ),
-          ],
+              Icon(
+                Icons.search_rounded,
+                color: AppColors.orange,
+                size: 31,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ── My Course Card ────────────────────────────────────────────────────────────
+class _DialectSwitch extends StatelessWidget {
+  const _DialectSwitch({
+    required this.selectedIndex,
+    required this.onSelected,
+  });
 
-class _MyCourseCard extends StatelessWidget {
-  final _MyCourse course;
-  const _MyCourseCard({required this.course});
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _DialectChip(
+          label: 'Levantine',
+          selected: selectedIndex == 0,
+          onTap: () => onSelected(0),
+        ),
+        const SizedBox(width: 10),
+        _DialectChip(
+          label: 'Fusha',
+          selected: selectedIndex == 1,
+          onTap: () => onSelected(1),
+        ),
+      ],
+    );
+  }
+}
+
+class _DialectChip extends StatelessWidget {
+  const _DialectChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? AppColors.green : Colors.transparent,
+      borderRadius: BorderRadius.circular(26),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(26),
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 38,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(26),
+            border: Border.all(
+              color: selected ? AppColors.green : AppColors.coral,
+              width: 1.8,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (selected) ...[
+                const Icon(
+                  Icons.circle,
+                  color: Colors.white,
+                  size: 10,
+                ),
+                const SizedBox(width: 9),
+              ],
+              Text(
+                label,
+                style: TextStyle(
+                  color: selected ? Colors.white : AppColors.coral,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FlashcardsHeader extends StatelessWidget {
+  const _FlashcardsHeader({required this.onViewMore});
+
+  final VoidCallback onViewMore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const _SectionTitle('Flashcards'),
+        FilledButton(
+          onPressed: onViewMore,
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColors.coral,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            minimumSize: const Size(0, 40),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+          ),
+          child: const Text(
+            'View More',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FlashcardTile extends StatelessWidget {
+  const _FlashcardTile({required this.card});
+
+  final _FlashcardPreview card;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: card.color,
+      borderRadius: BorderRadius.circular(22),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(22),
+        onTap: () => AppLoading.navigate(context, const FlashcardsHome()),
+        child: Container(
+          width: 136,
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: [
+              BoxShadow(
+                color: card.color.withValues(alpha: 0.24),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                card.word,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Lora',
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600,
+                  height: 1.15,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                card.meaning,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.78),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: card.iconColor,
+                ),
+                child: Icon(
+                  card.icon,
+                  color: card.iconColor == Colors.white
+                      ? AppColors.coral
+                      : Colors.white,
+                  size: 22,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _QuizCard extends StatelessWidget {
+  const _QuizCard();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.fromLTRB(24, 25, 24, 24),
       decoration: BoxDecoration(
-        color: course.color,
-        borderRadius: BorderRadius.circular(24),
+        color: Colors.white.withValues(alpha: 0.54),
+        borderRadius: BorderRadius.circular(26),
+        border: Border.all(color: const Color(0xFFE7E7E7), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.orange.withValues(alpha: 0.28),
+            blurRadius: 28,
+            spreadRadius: -4,
+            offset: const Offset(0, 20),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            course.category,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.75),
-              fontSize: 12,
-              fontFamily: 'PlusJakartaSans',
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            course.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'PlusJakartaSans',
-              height: 1.2,
-            ),
-          ),
-          const Spacer(),
-          const SizedBox(height: 12),
-          GestureDetector(
-            onTap:() async {
-              final url = Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLScKQTLvV48wnnLa-MG4VYBXHLXQS-5aP7IrO-8_InTxnRqGIQ/viewform');
-              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-              // optional: handle the case where the link can't open
-              debugPrint('Could not launch $url');
-              }
-            },
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'Sign Up',
-                style: TextStyle(
-                  color: course.color,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'PlusJakartaSans',
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Level One',
+                      style: TextStyle(
+                        color: AppColors.ink,
+                        fontFamily: 'Lora',
+                        fontSize: 26,
+                        fontWeight: FontWeight.w700,
+                        height: 1,
+                      ),
+                    ),
+                    SizedBox(height: 11),
+                    Text(
+                      'Section 1: Alphabets',
+                      style: TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              Icon(
+                Icons.menu_book_outlined,
+                color: AppColors.orange,
+                size: 27,
+              ),
+            ],
+          ),
+          const SizedBox(height: 34),
+          const Center(
+            child: _ProgressRing(progress: 0.29),
+          ),
+          const SizedBox(height: 34),
+          SizedBox(
+            width: double.infinity,
+            height: 58,
+            child: FilledButton(
+              onPressed: () {},
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.coral,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      'Continue the Lesson',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 13),
+                  Icon(Icons.arrow_forward_rounded, size: 24),
+                ],
               ),
             ),
           ),
@@ -429,194 +545,192 @@ class _MyCourseCard extends StatelessWidget {
   }
 }
 
-// ── Event Card ────────────────────────────────────────────────────────────────
+class _ProgressRing extends StatelessWidget {
+  const _ProgressRing({required this.progress});
 
-class _EventCard extends StatelessWidget {
+  final double progress;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
+    return SizedBox(
+      width: 122,
+      height: 122,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'This Week',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
-                  ),
+          CustomPaint(
+            size: const Size.square(122),
+            painter: _ProgressRingPainter(progress: progress),
+          ),
+          const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '29%',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 35,
+                  fontWeight: FontWeight.w800,
+                  height: 1,
                 ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Book Fair &\nLanguage Exchange',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'PlusJakartaSans',
-                    height: 1.3,
-                  ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Progress',
+                style: TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  'Jan 25 – Jan 30 · Deewan Institute',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.75),
-                    fontSize: 12,
-                    fontFamily: 'PlusJakartaSans',
-                  ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProgressRingPainter extends CustomPainter {
+  const _ProgressRingPainter({required this.progress});
+
+  final double progress;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 12
+      ..strokeCap = StrokeCap.butt;
+
+    canvas.drawArc(
+      rect.deflate(6),
+      -1.5708,
+      6.28318,
+      false,
+      stroke..color = const Color(0xFFE7E9EC),
+    );
+
+    canvas.drawArc(
+      rect.deflate(6),
+      -1.5708,
+      6.28318 * progress,
+      false,
+      stroke..color = AppColors.green,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _ProgressRingPainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
+}
+
+class _HomeBackdrop extends StatelessWidget {
+  const _HomeBackdrop();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(color: AppColors.cream),
+        Positioned(
+          top: -120,
+          right: -90,
+          child: Container(
+            width: 250,
+            height: 330,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFEEE0).withValues(alpha: 0.65),
+              borderRadius: BorderRadius.circular(150),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFFEEE0).withValues(alpha: 0.68),
+                  blurRadius: 80,
+                  spreadRadius: 40,
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 16),
-          Container(
-            width: 52,
-            height: 52,
+        ),
+        Positioned(
+          top: 220,
+          right: -60,
+          child: CustomPaint(
+            size: const Size(190, 112),
+            painter: _OutlineShapePainter(),
+          ),
+        ),
+        Positioned(
+          bottom: 80,
+          left: -70,
+          child: Container(
+            width: 190,
+            height: 230,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: const Icon(
-              Icons.event_rounded,
-              color: Colors.white,
-              size: 28,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Section Header ────────────────────────────────────────────────────────────
-
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  final bool showViewAll;
-  const _SectionHeader({
-    required this.title,
-    required this.onTap,
-    this.showViewAll = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'PlusJakartaSans',
-            ),
-          ),
-          if (showViewAll)
-            GestureDetector(
-              onTap: onTap,
-              child: Text(
-                'View all',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.primary,
-                  fontFamily: 'PlusJakartaSans',
-                  fontWeight: FontWeight.w600,
+              color: const Color(0xFFFFE8BC).withValues(alpha: 0.22),
+              borderRadius: BorderRadius.circular(120),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFFE8BC).withValues(alpha: 0.38),
+                  blurRadius: 90,
+                  spreadRadius: 36,
                 ),
-              ),
+              ],
             ),
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-// ── Icon Button ───────────────────────────────────────────────────────────────
+class _OutlineShapePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFFE5EDE2)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
 
-class _IconBtn extends StatelessWidget {
-  final IconData icon;
-  final Color? bgColor;
-  final Color? iconColor;
-  const _IconBtn({required this.icon, this.bgColor, this.iconColor});
+    final path = Path()
+      ..moveTo(size.width * 0.08, size.height * 0.74)
+      ..lineTo(size.width * 0.36, size.height * 0.18)
+      ..quadraticBezierTo(
+        size.width * 0.42,
+        size.height * 0.04,
+        size.width * 0.55,
+        size.height * 0.04,
+      )
+      ..lineTo(size.width * 0.96, size.height * 0.04)
+      ..quadraticBezierTo(
+        size.width * 1.04,
+        size.height * 0.04,
+        size.width * 1.1,
+        size.height * 0.12,
+      )
+      ..lineTo(size.width * 1.22, size.height * 0.26);
+
+    canvas.drawPath(path, paint);
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: bgColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Icon(icon, size: 20, color: iconColor ?? Colors.black87),
-    );
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-// ── Data Models ───────────────────────────────────────────────────────────────
-
-class _Course {
-  final String category;
-  final String title;
-  final Color color;
-  final String duration;
-  final int students;
-  const _Course({
-    required this.category,
-    required this.title,
+class _FlashcardPreview {
+  const _FlashcardPreview({
+    required this.word,
+    required this.meaning,
     required this.color,
-    required this.duration,
-    required this.students,
+    required this.iconColor,
+    required this.icon,
   });
-}
 
-class _MyCourse {
-  final String category;
-  final String title;
+  final String word;
+  final String meaning;
   final Color color;
-  final double progress;
-  final int current;
-  final int total;
-  const _MyCourse({
-    required this.category,
-    required this.title,
-    required this.color,
-    required this.progress,
-    required this.current,
-    required this.total,
-  });
-}
-
-class _AvatarColor {
-  final Color color;
-  const _AvatarColor(this.color);
+  final Color iconColor;
+  final IconData icon;
 }

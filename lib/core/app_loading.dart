@@ -7,27 +7,28 @@ class AppLoading {
     Widget page, {
     bool clearStack = false,
   }) async {
+    final navigator = Navigator.of(context);
+
     showDialog(
-      context: context,
+      context: navigator.context,
       barrierDismissible: false,
-      barrierColor: Colors.white.withOpacity(0.90),
+      barrierColor: Colors.white.withValues(alpha: 0.90),
       builder: (_) => const _LoadingDialog(),
     );
 
     await Future.delayed(const Duration(milliseconds: 1900));
 
-    if (!context.mounted) return;
-    Navigator.pop(context);
+    if (!navigator.mounted) return;
+    navigator.pop();
 
-    if (!context.mounted) return;
+    if (!navigator.mounted) return;
     if (clearStack) {
-      Navigator.pushAndRemoveUntil(
-        context,
+      navigator.pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => page),
         (_) => false,
       );
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+      navigator.push(MaterialPageRoute(builder: (_) => page));
     }
   }
 }

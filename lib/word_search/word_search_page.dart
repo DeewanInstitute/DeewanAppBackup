@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
+import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
-import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
+import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,14 +58,24 @@ class _WordSearchPageState extends State<WordSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final topPad = MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F2),
+      extendBody: true,
+      drawer: const AppDrawer(selectedIndex: AppDrawer.dictionaryIndex),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(child: _buildHeader(topPad)),
+          const SliverToBoxAdapter(
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: AppTopNav(),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(child: _buildHeader(0)),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 126),
             sliver: SliverToBoxAdapter(
               child: _result != null
                   ? _ResultCard(word: _result!)
@@ -83,9 +94,14 @@ class _WordSearchPageState extends State<WordSearchPage> {
         currentIndex: 1,
         onTap: (i) {
           if (i == 1) return;
-          if (i == 0) { Navigator.pop(context); return; }
-          if (i == 2) { AppLoading.navigate(context, const FlashcardsHome()); return; }
-          if (i == 3) { AppLoading.navigate(context, const PodcastHome()); return; }
+          if (i == 0) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            return;
+          }
+          if (i == 2) {
+            AppLoading.navigate(context, const PodcastHome());
+            return;
+          }
         },
       ),
     );

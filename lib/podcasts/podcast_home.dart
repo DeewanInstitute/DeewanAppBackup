@@ -1,13 +1,12 @@
-import 'package:deewan_institute_app/auth/login.dart';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
+import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
-import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
+import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/podcasts/podcast_detail.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
 import 'package:deewan_institute_app/podcasts/podcast_player.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PodcastHome extends StatefulWidget {
@@ -18,463 +17,314 @@ class PodcastHome extends StatefulWidget {
 }
 
 class _PodcastHomeState extends State<PodcastHome> {
-  int _navIndex = 3;
+  int _selectedFilter = 0;
 
-  final List<PodcastData> _featured = const [
-    PodcastData(
-      title: 'Pixel by Pixel',
-      description:
-          'A podcast about design, interfaces, and the people who create the digital world around us.',
-      bgColor: Color(0xFF1E1E1E),
-      artColor: Color(0xFFE85D3A),
-    ),
-    PodcastData(
-      title: 'Loud Thoughts',
-      description: 'How sound shapes your voice and never stops evolving.',
-      bgColor: Color(0xFF1A2E2A),
-      artColor: Color(0xFF4ECBA8),
-    ),
-    PodcastData(
-      title: 'Deep Focus',
-      description: 'Conversations about mindfulness, creativity, and flow.',
-      bgColor: Color(0xFF1C1C2E),
-      artColor: Color(0xFF7C6FCD),
-    ),
-  ];
+  static const _filters = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
-  final List<EpisodeData> _popular = const [
-    EpisodeData(
-      title: 'Why silence is the best tool...',
-      podcast: 'Loud Thoughts',
-      duration: '33:37',
-      artColor: Color(0xFF4ECBA8),
+  final PodcastData _featuredPodcast = const PodcastData(
+    title: 'Episode 12: At the Market',
+    description:
+        'Arabic Daily helps you build listening confidence through simple, practical conversations.',
+    bgColor: AppColors.coral,
+    artColor: AppColors.podcastCoverOrange,
+  );
+
+  final EpisodeData _featuredEpisode = const EpisodeData(
+    title: 'Episode 12: At the Market',
+    podcast: 'Arabic Daily',
+    duration: '18:24',
+    artColor: AppColors.podcastCoverOrange,
+  );
+
+  final List<_SeasonData> _seasons = const [
+    _SeasonData(
+      number: '1',
+      title: 'At the Market',
+      episodes: '6 eps',
+      color: AppColors.podcastRedGradient,
+      accentColor: AppColors.podcastBadgeLight,
     ),
-    EpisodeData(
-      title: 'How design systems save months...',
-      podcast: 'Pixel by Pixel',
-      duration: '33:37',
-      artColor: Color(0xFFE85D3A),
+    _SeasonData(
+      number: '2',
+      title: 'Daily Life',
+      episodes: '5 eps',
+      color: AppColors.podcastGreenGradient,
+      accentColor: Color(0xFF43AA8B),
     ),
-    EpisodeData(
-      title: 'Freelance or office: where to go...',
-      podcast: 'Money Microscope',
-      duration: '33:37',
-      artColor: Color(0xFF7C6FCD),
+    _SeasonData(
+      number: '3',
+      title: 'Culture &\nTraditions',
+      episodes: '7 eps',
+      color: AppColors.podcastBlackGradient,
+      accentColor: AppColors.podcastDarkBadge,
+    ),
+    _SeasonData(
+      number: '4',
+      title: 'Travel &\nTransport',
+      episodes: '8 eps',
+      color: AppColors.podcastYellowGradient,
+      accentColor: AppColors.podcastYellowBadge,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cream,
+      extendBody: true,
+      drawer: const AppDrawer(selectedIndex: AppDrawer.podcastsIndex),
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
           SafeArea(
+            bottom: false,
             child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 126),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top bar
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Row(
-                      children: [
-                        // Avatar
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.primaryLight,
-                            border: Border.all(color: AppColors.primary, width: 2),
-                          ),
-                          child: const Icon(Icons.person, color: AppColors.primary, size: 24),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Merhaba 👋',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black.withOpacity(0.45),
-                                fontFamily: 'PlusJakartaSans',
-                              ),
-                            ),
-                            Text(
-                              FirebaseAuth.instance.currentUser?.displayName ?? 'there',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'PlusJakartaSans',
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        // _IconBtn(
-                        //   icon: Icons.notifications_outlined,
-                        //   bgColor: AppColors.primary,
-                        //   iconColor: Colors.white,
-                        // ),
-                        GestureDetector(
-                          onTap: () => AppLoading.navigate(context, const Login(), clearStack: true),
-                          child: _IconBtn(
-                            icon: Icons.logout,
-                            bgColor: AppColors.primary,
-                            iconColor: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
+                  const AppTopNav(),
+                  const SizedBox(height: 58),
+                  const _PodcastHeroText(),
+                  const SizedBox(height: 30),
+                  _FilterChips(
+                    filters: _filters,
+                    selectedIndex: _selectedFilter,
+                    onSelected: (index) {
+                      setState(() => _selectedFilter = index);
+                    },
                   ),
-
-                  // Header
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Deewan Arabic \nPodcasts',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'PlusJakartaSans',
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 34),
+                  const _SectionTitle('Featured'),
+                  const SizedBox(height: 22),
+                  _FeaturedEpisodeCard(
+                    podcast: _featuredPodcast,
+                    episode: _featuredEpisode,
                   ),
-
-                  // Featured cards
-                  SizedBox(
-                    height: 230,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: _featured.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
-                      itemBuilder: (_, i) => GestureDetector(
-                        onTap: () => AppLoading.navigate(context, PodcastDetail(podcast: _featured[i])),
-                        child: _FeaturedCard(podcast: _featured[i]),
-                      ),
-                    ),
-                  ),
-
-                  // Popular Episodes
-                  _SectionHeader(title: 'Popular Episodes', onTap: () {}),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _popular.length,
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 1, indent: 72),
-                    itemBuilder: (_, i) => _EpisodeTile(episode: _popular[i]),
-                  ),
+                  const SizedBox(height: 34),
+                  const _SectionTitle('Seasons'),
+                  const SizedBox(height: 22),
+                  _SeasonsGrid(seasons: _seasons),
                 ],
               ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _MiniPlayer(episode: _popular[1]),
-          AppBottomNav(
-            currentIndex: 3,
-            onTap: (i) {
-              if (i == 3) return;
-              if (i == 0) { Navigator.pop(context); return; }
-              if (i == 1) { AppLoading.navigate(context, const WordSearchPage()); return; }
-              if (i == 2) { AppLoading.navigate(context, const FlashcardsHome()); return; }
-            },
-          ),
-        ],
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: 2,
+        onTap: (index) {
+          if (index == 2) return;
+          if (index == 0) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            return;
+          }
+          if (index == 1) {
+            AppLoading.navigate(context, const WordSearchPage());
+          }
+        },
       ),
     );
   }
 }
 
-// ── Featured Card ─────────────────────────────────────────────────────────────
-
-class _FeaturedCard extends StatelessWidget {
-  final PodcastData podcast;
-  const _FeaturedCard({required this.podcast});
+class _PodcastHeroText extends StatelessWidget {
+  const _PodcastHeroText();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 180,
-      decoration: BoxDecoration(
-        color: podcast.bgColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: 16,
-            left: 16,
-            right: 16,
-            child: SizedBox(
-              height: 110,
-              child: CustomPaint(painter: _ArtPainter(color: podcast.artColor)),
-            ),
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Podcasts',
+          style: TextStyle(
+            color: AppColors.ink,
+            fontFamily: 'Lora',
+            fontSize: 45,
+            fontWeight: FontWeight.w600,
+            height: 1,
           ),
-          Positioned(
-            left: 16,
-            right: 16,
-            bottom: 16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  podcast.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'PlusJakartaSans',
-                  ),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Listen & Learn Arabic',
+          style: TextStyle(
+            color: Color(0xFF898783),
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+            height: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FilterChips extends StatelessWidget {
+  const _FilterChips({
+    required this.filters,
+    required this.selectedIndex,
+    required this.onSelected,
+  });
+
+  final List<String> filters;
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 45,
+      child: ListView.separated(
+        clipBehavior: Clip.none,
+        scrollDirection: Axis.horizontal,
+        itemCount: filters.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          final selected = selectedIndex == index;
+
+          return Material(
+            color: selected ? AppColors.green : Colors.transparent,
+            borderRadius: BorderRadius.circular(28),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(28),
+              onTap: () => onSelected(index),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(28),
+                  border: selected
+                      ? null
+                      : Border.all(
+                          color: AppColors.podcastChipBorder,
+                          width: 1.3,
+                        ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  podcast.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                alignment: Alignment.center,
+                child: Text(
+                  filters[index],
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.65),
-                    fontSize: 11,
-                    fontFamily: 'PlusJakartaSans',
+                    color: selected ? Colors.white : AppColors.ink,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
 
-// ── Episode Tile ──────────────────────────────────────────────────────────────
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.title);
 
-class _EpisodeTile extends StatelessWidget {
-  final EpisodeData episode;
-  const _EpisodeTile({required this.episode});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      leading: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: episode.artColor.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(Icons.mic, color: episode.artColor, size: 22),
-      ),
-      title: Text(
-        episode.title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'PlusJakartaSans',
-        ),
-      ),
-      subtitle: Text(
-        episode.podcast,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.black.withOpacity(0.45),
-          fontFamily: 'PlusJakartaSans',
-        ),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            episode.duration,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.black.withOpacity(0.4),
-              fontFamily: 'PlusJakartaSans',
-            ),
-          ),
-          const SizedBox(width: 8),
-          Icon(
-            Icons.more_horiz,
-            color: Colors.black.withOpacity(0.3),
-            size: 20,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Category Chip ─────────────────────────────────────────────────────────────
-
-class _CategoryChip extends StatelessWidget {
-  final _Category category;
-  const _CategoryChip({required this.category});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-      decoration: BoxDecoration(
-        color: category.color,
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Text(
-        category.name,
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'PlusJakartaSans',
-        ),
-      ),
-    );
-  }
-}
-
-// ── Section Header ────────────────────────────────────────────────────────────
-
-class _SectionHeader extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
-  const _SectionHeader({required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 12, 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'PlusJakartaSans',
-            ),
-          ),
-          GestureDetector(
-            onTap: onTap,
-            child: Row(
-              children: [
-                Text(
-                  'See all',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black.withOpacity(0.4),
-                    fontFamily: 'PlusJakartaSans',
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 14,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ],
-            ),
-          ),
-        ],
+    return Text(
+      title,
+      style: const TextStyle(
+        color: AppColors.green,
+        fontFamily: 'Lora',
+        fontSize: 27,
+        fontWeight: FontWeight.w600,
+        height: 1,
       ),
     );
   }
 }
 
-// ── Mini Player ───────────────────────────────────────────────────────────────
+class _FeaturedEpisodeCard extends StatelessWidget {
+  const _FeaturedEpisodeCard({required this.podcast, required this.episode});
 
-class _MiniPlayer extends StatelessWidget {
+  final PodcastData podcast;
   final EpisodeData episode;
-  const _MiniPlayer({required this.episode});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppLoading.navigate(
-        context,
-        PodcastPlayer(
-          podcast: PodcastData(
-            title: episode.podcast,
-            description: '',
-            bgColor: const Color(0xFF1E1E1E),
-            artColor: episode.artColor,
-          ),
-          episode: episode,
-        ),
-      ),
+      onTap: () =>
+          AppLoading.navigate(context, PodcastDetail(podcast: podcast)),
       child: Container(
-        margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        height: 288,
+        width: double.infinity,
+        padding: const EdgeInsets.all(26),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E1E1E),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(32),
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [AppColors.orange, AppColors.coral],
+          ),
         ),
-        child: Row(
+        child: Stack(
           children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: episode.artColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(Icons.mic, color: episode.artColor, size: 18),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    episode.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _PodcastCoverArt(),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        episode.podcast.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          height: 1,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        episode.title,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Lora',
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                          height: 1.25,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    episode.podcast,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
-                      fontSize: 11,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(50),
+
+            Positioned(
+              right: 0,
+              bottom: 8,
+              child: FilledButton.icon(
+                onPressed: () => AppLoading.navigate(
+                  context,
+                  PodcastPlayer(podcast: podcast, episode: episode),
+                ),
+                icon: const Icon(Icons.play_circle_outline_rounded, size: 22),
+                label: const Text(
+                  'Play Now',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                ),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.coral,
+                  minimumSize: const Size(146, 52),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                ),
               ),
-              child: const Icon(Icons.pause, color: Colors.white, size: 18),
             ),
           ],
         ),
@@ -483,58 +333,168 @@ class _MiniPlayer extends StatelessWidget {
   }
 }
 
-// ── Art Painter ───────────────────────────────────────────────────────────────
-
-class _ArtPainter extends CustomPainter {
-  final Color color;
-  _ArtPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width * 0.28;
-    canvas.drawCircle(Offset(cx + r, cy - r), r, paint);
-    canvas.drawCircle(Offset(cx - r, cy - r), r, paint);
-    canvas.drawCircle(Offset(cx + r, cy + r), r, paint);
-    canvas.drawCircle(Offset(cx - r, cy + r), r, paint);
-  }
-
-  @override
-  bool shouldRepaint(_ArtPainter old) => old.color != color;
-}
-
-// ── Icon Button ───────────────────────────────────────────────────────────────
-
-class _IconBtn extends StatelessWidget {
-  final IconData icon;
-  final Color? bgColor;
-  final Color? iconColor;
-  const _IconBtn({required this.icon, this.bgColor, this.iconColor});
+class _PodcastCoverArt extends StatelessWidget {
+  const _PodcastCoverArt();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40,
-      height: 40,
+      width: 85,
+      height: 85,
       decoration: BoxDecoration(
-        color: bgColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 2))],
+        borderRadius: BorderRadius.circular(18),
+        gradient: const RadialGradient(
+          center: Alignment.topLeft,
+          radius: 1.15,
+          colors: [
+            Color(0xFFFFC14A),
+            AppColors.podcastCoverOrange,
+            AppColors.coral,
+          ],
+        ),
       ),
-      child: Icon(icon, size: 20, color: iconColor ?? Colors.black87),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Image(
+            image: AssetImage('assets/images/logos/logo.png'),
+            width: 85,
+            height: 85,
+            fit: BoxFit.contain,
+          ),
+        ],
+      ),
     );
   }
 }
 
-// ── Data Models ───────────────────────────────────────────────────────────────
+class _SeasonsGrid extends StatelessWidget {
+  const _SeasonsGrid({required this.seasons});
 
-class _Category {
-  final String name;
-  final Color color;
-  const _Category({required this.name, required this.color});
+  final List<_SeasonData> seasons;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 18,
+        mainAxisSpacing: 18,
+        childAspectRatio: 0.96,
+      ),
+      itemCount: seasons.length,
+      itemBuilder: (context, index) {
+        return _SeasonCard(season: seasons[index]);
+      },
+    );
+  }
 }
 
+class _SeasonCard extends StatelessWidget {
+  const _SeasonCard({required this.season});
+
+  final _SeasonData season;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => AppLoading.navigate(
+        context,
+        PodcastDetail(
+          podcast: PodcastData(
+            title:
+                'Season ${season.number}: ${season.title.replaceAll('\n', ' ')}',
+            description:
+                'Practice Arabic listening through ${season.title.toLowerCase().replaceAll('\n', ' ')} episodes.',
+            bgColor: season.color.colors.last,
+            artColor: season.accentColor,
+          ),
+        ),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          gradient: season.color,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Text(
+                season.number,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Lora',
+                  fontSize: 44,
+                  fontWeight: FontWeight.w500,
+                  height: 1,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: season.accentColor,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Text(
+                  season.episodes,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    height: 1,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Text(
+                season.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Lora',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  height: 1.16,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SeasonData {
+  const _SeasonData({
+    required this.number,
+    required this.title,
+    required this.episodes,
+    required this.color,
+    required this.accentColor,
+  });
+
+  final String number;
+  final String title;
+  final String episodes;
+  final LinearGradient color;
+  final Color accentColor;
+}
