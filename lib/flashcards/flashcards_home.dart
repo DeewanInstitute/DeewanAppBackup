@@ -37,7 +37,7 @@ class _FlashcardsHomeState extends State<FlashcardsHome> {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F2),
       extendBody: true,
-      drawer: const AppDrawer(selectedIndex: AppDrawer.flashcardsIndex),
+      drawer: AppDrawer(),
       bottomNavigationBar: AppBottomNav(
         currentIndex: -1,
         onTap: (i) {

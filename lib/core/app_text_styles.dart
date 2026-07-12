@@ -6,13 +6,13 @@ class AppTextStyles {
 
   static const TextStyle heading = TextStyle(
     fontSize: 28,
-    fontFamily: 'PlusJakartaSans-SemiBold',
+    fontFamily: 'Prociono',
     color: AppColors.primary,
   );
 
   static const TextStyle subheading = TextStyle(
     fontSize: 14,
-    fontFamily: 'PlusJakartaSans',
+    fontFamily: 'Prociono',
     color: AppColors.textMuted,
   );
 
@@ -30,7 +30,7 @@ class AppTextStyles {
 
   static const TextStyle body = TextStyle(
     fontSize: 15,
-    fontFamily: 'PlusJakartaSans',
+    fontFamily: 'Inter',
     color: AppColors.black,
   );
 

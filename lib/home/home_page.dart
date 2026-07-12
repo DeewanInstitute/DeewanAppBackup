@@ -90,10 +90,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: _SearchField(
-                      onTap: () => AppLoading.navigate(
-                        context,
-                        const WordSearchPage(),
-                      ),
+                      onTap: () => {}
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -115,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 18),
                   SizedBox(
-                    height: 158,
+                    height: MediaQuery.sizeOf(context).height * .30,
                     child: ListView.separated(
                       clipBehavior: Clip.none,
                       scrollDirection: Axis.horizontal,
@@ -157,12 +154,11 @@ class _HeroIntro extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Ready for your next\nword?',
+          'Ready for your next word?',
           style: TextStyle(
             color: AppColors.coral,
-            fontFamily: 'Lora',
-            fontSize: 45,
-            fontWeight: FontWeight.w600,
+            fontFamily: 'Prociono',
+            fontSize: 48,
             height: 1.08,
           ),
         ),
@@ -171,7 +167,7 @@ class _HeroIntro extends StatelessWidget {
           'Immerse yourself in Levantine and Fusha with a daily dose of vocabulary, flashcards, and quizzes.',
           style: TextStyle(
             color: AppColors.muted,
-            fontSize: 17,
+            fontSize: 15,
             fontWeight: FontWeight.w500,
             height: 1.45,
           ),
@@ -192,9 +188,8 @@ class _SectionTitle extends StatelessWidget {
       title,
       style: const TextStyle(
         color: AppColors.green,
-        fontFamily: 'Lora',
+        fontFamily: 'Prociono',
         fontSize: 24,
-        fontWeight: FontWeight.w600,
         height: 1,
       ),
     );
@@ -208,37 +203,39 @@ class _SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(36),
-        onTap: onTap,
-        child: Container(
-          height: 66,
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(36),
-            border: Border.all(color: AppColors.orange, width: 1.2),
-            color: Colors.white.withValues(alpha: 0.16),
+    return TextField(
+      onTap: onTap,
+      decoration: InputDecoration(
+        hintText: 'Search for a word...',
+        hintStyle: const TextStyle(
+          color: Color(0xFF8E8B8F),
+          fontSize: 15,
+          fontFamily: "Inter",
+          fontWeight: FontWeight.w400,
+        ),
+        prefixIcon: const Icon(
+          Icons.search_rounded,
+          color: AppColors.orange,
+          size: 31,
+        ),
+        filled: true,
+        fillColor: Colors.white.withValues(alpha: 0.16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 20,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(36),
+          borderSide: const BorderSide(
+            color: AppColors.orange,
+            width: 1.2,
           ),
-          child: const Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Search for a word...',
-                  style: TextStyle(
-                    color: Color(0xFF8E8B8F),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              Icon(
-                Icons.search_rounded,
-                color: AppColors.orange,
-                size: 31,
-              ),
-            ],
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(36),
+          borderSide: const BorderSide(
+            color: AppColors.orange,
+            width: 1.2,
           ),
         ),
       ),
@@ -320,8 +317,9 @@ class _DialectChip extends StatelessWidget {
                 label,
                 style: TextStyle(
                   color: selected ? Colors.white : AppColors.coral,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w800,
+                  fontSize: 14.5,
+                  fontFamily: "Inter",
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -381,7 +379,7 @@ class _FlashcardTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
         onTap: () => AppLoading.navigate(context, const FlashcardsHome()),
         child: Container(
-          width: 136,
+          width: MediaQuery.sizeOf(context).width * 0.50,
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
@@ -402,7 +400,7 @@ class _FlashcardTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Lora',
+                  fontFamily: 'Prociono',
                   fontSize: 21,
                   fontWeight: FontWeight.w600,
                   height: 1.15,
@@ -477,9 +475,8 @@ class _QuizCard extends StatelessWidget {
                       'Level One',
                       style: TextStyle(
                         color: AppColors.ink,
-                        fontFamily: 'Lora',
+                        fontFamily: 'Prociono',
                         fontSize: 26,
-                        fontWeight: FontWeight.w700,
                         height: 1,
                       ),
                     ),
@@ -488,7 +485,8 @@ class _QuizCard extends StatelessWidget {
                       'Section 1: Alphabets',
                       style: TextStyle(
                         color: AppColors.muted,
-                        fontSize: 16,
+                        fontSize: 14,
+                        fontFamily: "Inter",
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -528,8 +526,9 @@ class _QuizCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 15,
+                        fontFamily: "Inter",
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -569,7 +568,7 @@ class _ProgressRing extends StatelessWidget {
                 '29%',
                 style: TextStyle(
                   color: AppColors.ink,
-                  fontSize: 35,
+                  fontSize: 30,
                   fontWeight: FontWeight.w800,
                   height: 1,
                 ),
@@ -579,7 +578,7 @@ class _ProgressRing extends StatelessWidget {
                 'Progress',
                 style: TextStyle(
                   color: AppColors.muted,
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
               ),

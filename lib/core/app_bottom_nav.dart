@@ -14,7 +14,7 @@ class AppBottomNav extends StatelessWidget {
 
   static const _items = [
     (Icons.home_outlined, 'Home'),
-    (Icons.search_rounded, 'Search'),
+    (Icons.search_rounded, 'Dictionary'),
     (Icons.access_time_outlined, 'History'),
   ];
 

@@ -2,9 +2,7 @@ import 'package:deewan_institute_app/auth/login.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
 import 'package:deewan_institute_app/courses/arabic_courses_page.dart';
-import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
-import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +16,9 @@ class AppDrawer extends StatelessWidget {
   final int selectedIndex;
 
   static const homeIndex = 0;
-  static const dictionaryIndex = 1;
-  static const flashcardsIndex = 2;
-  static const quizIndex = 3;
-  static const coursesIndex = 4;
-  static const podcastsIndex = 5;
-  static const settingsIndex = 6;
+  static const coursesIndex = 1;
+  static const podcastsIndex = 2;
+  static const settingsIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +46,6 @@ class AppDrawer extends StatelessWidget {
                       label: 'Home',
                       selected: selectedIndex == homeIndex,
                       onTap: () => _goHome(context),
-                    ),
-                    const SizedBox(height: 12),
-                    _DrawerItem(
-                      icon: Icons.search,
-                      label: 'Dictionary',
-                      selected: selectedIndex == dictionaryIndex,
-                      onTap: selectedIndex == dictionaryIndex
-                          ? () => Navigator.pop(context)
-                          : () => _open(context, const WordSearchPage()),
-                    ),
-                    const SizedBox(height: 12),
-                    _DrawerItem(
-                      icon: Icons.layers_outlined,
-                      label: 'Flashcards',
-                      selected: selectedIndex == flashcardsIndex,
-                      onTap: selectedIndex == flashcardsIndex
-                          ? () => Navigator.pop(context)
-                          : () => _open(context, const FlashcardsHome()),
-                    ),
-                    const SizedBox(height: 12),
-                    _DrawerItem(
-                      icon: Icons.quiz_outlined,
-                      label: 'Quiz',
-                      selected: selectedIndex == quizIndex,
-                      onTap: () => Navigator.pop(context),
                     ),
                     const SizedBox(height: 12),
                     _DrawerItem(
@@ -157,7 +127,7 @@ class _DrawerProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 126,
+      height: MediaQuery.sizeOf(context).height * .15,
       padding: const EdgeInsets.fromLTRB(28, 22, 22, 22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(34),
@@ -185,8 +155,8 @@ class _DrawerProfileCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'Lora',
-                    fontSize: 31,
+                    fontFamily: 'Prociono',
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     height: 1,
                   ),
@@ -198,7 +168,8 @@ class _DrawerProfileCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontFamily: "Inter",
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                     height: 1,
                   ),
@@ -218,8 +189,8 @@ class _DrawerAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 78,
-      height: 78,
+      width: 65,
+      height: 65,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: const Color(0xFFEADCCA),
@@ -264,7 +235,7 @@ class _DrawerItem extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          height: 76,
+          height: 60,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
@@ -277,8 +248,8 @@ class _DrawerItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(icon, color: foreground, size: 34),
-              const SizedBox(width: 24),
+              Icon(icon, color: foreground, size: 30),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   label,
@@ -286,8 +257,9 @@ class _DrawerItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: foreground,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                    fontFamily: "Inter",
+                    fontWeight: FontWeight.w500,
                     height: 1,
                   ),
                 ),
@@ -308,15 +280,16 @@ class _LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 73,
+      width: MediaQuery.sizeOf(context).width * .90,
+      height: MediaQuery.sizeOf(context).height *.07,
       child: FilledButton.icon(
         onPressed: onTap,
         icon: const Icon(Icons.logout_rounded, size: 30),
         label: const Text(
           'Log Out',
           style: TextStyle(
-            fontSize: 22,
+            fontFamily: "Inter",
+            fontSize: 16,
             fontWeight: FontWeight.w800,
           ),
         ),

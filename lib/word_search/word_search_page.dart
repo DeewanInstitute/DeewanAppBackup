@@ -61,7 +61,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F2),
       extendBody: true,
-      drawer: const AppDrawer(selectedIndex: AppDrawer.dictionaryIndex),
+      drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(
