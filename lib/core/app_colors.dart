@@ -20,6 +20,7 @@ class AppColors {
   static const orange = Color(0xFFFF7327);
   static const ink = Color(0xFF1F1E28);
   static const muted = Color(0xFF8F8C88);
+
   static const podcastChipBorder = Color(0xFF8F8C88);
   static const podcastCoverOrange = Color(0xFFF47A2A);
   static const podcastSeasonGreen = Color.fromRGBO(93, 203, 169, 1.0);

@@ -1,11 +1,13 @@
 import "package:cloud_firestore/cloud_firestore.dart";
+import "package:deewan_institute_app/auth/auth_widgets.dart";
 import "package:deewan_institute_app/core/app_colors.dart";
 import "package:deewan_institute_app/core/app_text_styles.dart";
 import "package:deewan_institute_app/core/auth_service.dart";
 import "package:deewan_institute_app/home/home_page.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import "package:flutter/cupertino.dart";
+
+import "../core/app_navbar.dart";
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -18,16 +20,21 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
+  bool _agreeToTerms = false;
   bool _isLoading = false;
+
+  String _dialCode = '+961';
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -46,6 +53,10 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
+    if (!_agreeToTerms) {
+      _showError('Please agree to the Terms of Service and Privacy Policy.');
+      return;
+    }
     setState(() => _isLoading = true);
     try {
       final credential = await AuthService.signUpWithEmail(
@@ -60,6 +71,7 @@ class _SignUpState extends State<SignUp> {
             .set({
           'name': _nameController.text.trim(),
           'email': _emailController.text.trim(),
+          'phone': '$_dialCode${_phoneController.text.trim()}',
           'createdAt': FieldValue.serverTimestamp(),
         });
       } catch (_) {
@@ -81,125 +93,175 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryLight,
+      backgroundColor: AppColors.cream,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: const Icon(
-                  CupertinoIcons.arrow_left_circle_fill,
-                  color: AppColors.primary,
-                  size: 40,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppNavBar(),
+                const SizedBox(height: 24),
+                Text("Create Account", style: AppTextStyles.headingOne),
+                const SizedBox(height: 6),
+                Text("Join thousands of Arabic learners", style: AppTextStyles.subheading),
+                const SizedBox(height: 28),
+
+                Text("Full Name", style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: authFieldDecoration(hint: "Enter your full name", icon: Icons.person_outline),
+                  validator: (v) => (v == null || v.trim().isEmpty) ? "Name is required" : null,
                 ),
-              ),
-              const SizedBox(height: 24),
-              Text("Create Account", style: AppTextStyles.heading),
-              const SizedBox(height: 6),
-              Text("Fill in your details to get started", style: AppTextStyles.subheading),
-              const SizedBox(height: 32),
-              _card(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(height: 18),
+
+                Text("Email Address", style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: authFieldDecoration(hint: "Enter your email", icon: Icons.mail_outline),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) return 'Email is required';
+                    if (!v.contains('@') || !v.contains('.')) return 'Enter a valid email';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 18),
+
+                Text("Phone Number", style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: authFieldDecoration(
+                    hint: "Enter your phone number",
+                    prefixWidget: PhoneCodePicker(
+                      onChanged: (code) => setState(() => _dialCode = code),
+                    ),
+                  ),
+                  validator: (v) => (v == null || v.trim().length < 6) ? "Enter a valid phone number" : null,
+                ),
+                const SizedBox(height: 18),
+
+                Text("Password", style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  onChanged: (_) => setState(() {}),
+                  decoration: authFieldDecoration(
+                    hint: "Create a password",
+                    icon: Icons.lock_outline,
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() => _obscurePassword = !_obscurePassword),
+                      child: Icon(
+                        _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                        color: AppColors.muted,
+                      ),
+                    ),
+                  ),
+                  validator: (v) => (v != null && v.length >= 6) ? null : "Password must be at least 6 characters",
+                ),
+                PasswordStrengthMeter(password: _passwordController.text),
+                const SizedBox(height: 18),
+
+                Text("Confirm Password", style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: _obscureConfirm,
+                  decoration: authFieldDecoration(
+                    hint: "Confirm your password",
+                    icon: Icons.lock_outline,
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                      child: Icon(
+                        _obscureConfirm ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                        color: AppColors.muted,
+                      ),
+                    ),
+                  ),
+                  validator: (v) => v == _passwordController.text ? null : "Passwords do not match",
+                ),
+                const SizedBox(height: 20),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Checkbox(
+                        value: _agreeToTerms,
+                        activeColor: AppColors.green,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                        onChanged: (v) => setState(() => _agreeToTerms = v ?? false),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: RichText(
+                          text: TextSpan(
+                            style: AppTextStyles.bodyLight.copyWith(fontSize: 14),
+                            children: const [
+                              TextSpan(text: "I agree to the "),
+                              TextSpan(text: "Terms of Service", style: TextStyle(color: AppColors.green, fontWeight: FontWeight.w500)),
+                              TextSpan(text: " and "),
+                              TextSpan(text: "Privacy Policy", style: TextStyle(color: AppColors.green, fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: authPrimaryButtonStyle,
+                    onPressed: _isLoading ? null : _signUp,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          )
+                        : const Text("Create Account"),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const AuthDivider(label: "or sign up with"),
+                const SizedBox(height: 20),
+                GoogleSignInButton(onTap: () => _showError('Google Sign-In coming soon.')),
+                const SizedBox(height: 28),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Full Name", style: AppTextStyles.label),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(hintText: "e.g. Ahmad Al-Hassan"),
-                        validator: (v) => (v == null || v.trim().isEmpty) ? "Name is required" : null,
-                      ),
-                      const SizedBox(height: 20),
-                      Text("Email Address", style: AppTextStyles.label),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(hintText: "your@email.com"),
-                        validator: (v) {
-                          if (v == null || v.trim().isEmpty) return 'Email is required';
-                          if (!v.contains('@') || !v.contains('.')) return 'Enter a valid email';
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Text("Password", style: AppTextStyles.label),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          hintText: "At least 6 characters",
-                          suffixIcon: _toggleIcon(_obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
-                        ),
-                        validator: (v) => (v != null && v.length >= 6) ? null : "Password must be at least 6 characters",
-                      ),
-                      const SizedBox(height: 20),
-                      Text("Confirm Password", style: AppTextStyles.label),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: _obscureConfirm,
-                        decoration: InputDecoration(
-                          hintText: "Re-enter password",
-                          suffixIcon: _toggleIcon(_obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
-                        ),
-                        validator: (v) => v == _passwordController.text ? null : "Passwords do not match",
-                      ),
-                      const SizedBox(height: 32),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : _signUp,
-                          child: _isLoading
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                                )
-                              : const Text("Sign Up"),
-                        ),
+                      Text("Already have an account?", style: AppTextStyles.bodyLight),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: const Text("Sign In", style: authLinkStyle),
                       ),
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Already have an account?", style: AppTextStyles.bodyLight),
-                  const SizedBox(width: 6),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Text("Login", style: AppTextStyles.link),
-                  ),
-                ],
-              ),
-            ],
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
-  Widget _card({required Widget child}) => Container(
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(24),
-      boxShadow: [BoxShadow(color: AppColors.black.withOpacity(0.07), blurRadius: 20, offset: const Offset(0, 8))],
-    ),
-    padding: const EdgeInsets.all(24),
-    child: child,
-  );
-
-  Widget _toggleIcon(bool obscure, VoidCallback onTap) => GestureDetector(
-    onTap: onTap,
-    child: Icon(obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: Colors.black38),
-  );
 }

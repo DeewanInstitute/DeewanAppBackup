@@ -10,9 +10,18 @@ class AppTextStyles {
     color: AppColors.primary,
   );
 
+  static const TextStyle headingOne = TextStyle(
+    fontSize: 45,
+    fontFamily: 'Prociono',
+    color: AppColors.coral,
+    letterSpacing: 1.5,
+    height: 1,
+  );
+
   static const TextStyle subheading = TextStyle(
     fontSize: 14,
-    fontFamily: 'Prociono',
+    fontFamily: 'Inter',
+    fontWeight: FontWeight.w400,
     color: AppColors.textMuted,
   );
 

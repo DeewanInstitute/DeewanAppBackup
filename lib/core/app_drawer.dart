@@ -25,14 +25,13 @@ class AppDrawer extends StatelessWidget {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
     return Drawer(
-      width: (MediaQuery.sizeOf(context).width.clamp(0, 390) * 0.92)
-          .toDouble(),
+      width: MediaQuery.sizeOf(context).width * 0.75,
       backgroundColor: AppColors.cream,
       elevation: 18,
       shape: const RoundedRectangleBorder(),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(28, 32, 28, 24 + bottomPadding),
+          padding: EdgeInsetsGeometry.all(15.0),
           child: Column(
             children: [
               const _DrawerProfileCard(),
