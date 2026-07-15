@@ -3,7 +3,7 @@ import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
-import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _dialectIndex = 0;
   int _navIndex = 0;
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _goToDictionarySearch() {
+    final query = _searchController.text.trim();
+    AppLoading.navigate(context, WordSearchPage(initialQuery: query.isEmpty ? null : query));
+  }
 
 
   final List<_FlashcardPreview> _flashcards = const [
@@ -53,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (index == 2) {
-      AppLoading.navigate(context, const PodcastHome());
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
     }
   }
 
@@ -90,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: _SearchField(
-                      onTap: () => {}
+                      controller: _searchController,
+                      onSearch: _goToDictionarySearch,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -197,14 +210,17 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _SearchField extends StatelessWidget {
-  const _SearchField({required this.onTap});
+  const _SearchField({required this.controller, required this.onSearch});
 
-  final VoidCallback onTap;
+  final TextEditingController controller;
+  final VoidCallback onSearch;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onTap: onTap,
+      controller: controller,
+      textInputAction: TextInputAction.search,
+      onSubmitted: (_) => onSearch(),
       decoration: InputDecoration(
         hintText: 'Search for a word...',
         hintStyle: const TextStyle(
@@ -213,10 +229,13 @@ class _SearchField extends StatelessWidget {
           fontFamily: "Inter",
           fontWeight: FontWeight.w400,
         ),
-        prefixIcon: const Icon(
-          Icons.search_rounded,
-          color: AppColors.orange,
-          size: 31,
+        suffixIcon: GestureDetector(
+          onTap: onSearch,
+          child: const Icon(
+            Icons.search_rounded,
+            color: AppColors.orange,
+            size: 31,
+          ),
         ),
         filled: true,
         fillColor: Colors.white.withValues(alpha: 0.16),

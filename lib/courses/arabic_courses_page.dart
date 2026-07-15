@@ -3,7 +3,7 @@ import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
-import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,7 @@ class ArabicCoursesPage extends StatelessWidget {
             return;
           }
           if (i == 2) {
-            AppLoading.navigate(context, const PodcastHome());
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
             return;
           }
         },

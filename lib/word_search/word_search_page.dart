@@ -2,24 +2,25 @@ import 'dart:convert';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
-import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
-import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/save_to_flashcards_sheet.dart';
+import 'package:deewan_institute_app/word_search/word_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum _Dialect { fusha, levantine }
 
 class WordSearchPage extends StatefulWidget {
-  const WordSearchPage({super.key});
+  final String? initialQuery;
+  const WordSearchPage({super.key, this.initialQuery});
 
   @override
   State<WordSearchPage> createState() => _WordSearchPageState();
 }
 
 class _WordSearchPageState extends State<WordSearchPage> {
-  final _controller = TextEditingController();
+  late final _controller = TextEditingController(text: widget.initialQuery ?? '');
   List<Map<String, dynamic>> _dictionary = [];
   Map<String, dynamic>? _result;
   bool _notFound = false;
@@ -29,6 +30,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
   @override
   void initState() {
     super.initState();
+    _hasText = (widget.initialQuery ?? '').trim().isNotEmpty;
     _loadDictionary();
   }
 
@@ -37,8 +39,11 @@ class _WordSearchPageState extends State<WordSearchPage> {
       'assets/data/arabic_dictionary.json',
     );
     final list = jsonDecode(raw) as List;
-    if (mounted)
-      setState(() => _dictionary = list.cast<Map<String, dynamic>>());
+    if (!mounted) return;
+    setState(() => _dictionary = list.cast<Map<String, dynamic>>());
+    if (widget.initialQuery != null && widget.initialQuery!.trim().isNotEmpty) {
+      _search(widget.initialQuery!);
+    }
   }
 
   void _search(String query) {
@@ -119,7 +124,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
             return;
           }
           if (i == 2) {
-            AppLoading.navigate(context, const PodcastHome());
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
             return;
           }
         },
@@ -475,6 +480,26 @@ class _ResultCard extends StatelessWidget {
               ),
             ),
           ),
+          if (word['root_family'] != null) ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => WordDetailsPage(word: word)),),
+                icon: const Icon(Icons.account_tree_outlined, size: 18),
+                label: const Text('View Root & Conjugations'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.green,
+                  side: const BorderSide(color: AppColors.green),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                  textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -504,6 +529,7 @@ class _SentenceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                  textDirection: TextDirection.rtl,
                   sentence['arabic'] as String,
                   textAlign: TextAlign.right,
                   style: const TextStyle(

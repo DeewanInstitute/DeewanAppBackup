@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUp> {
   bool _agreeToTerms = false;
   bool _isLoading = false;
 
-  String _dialCode = '+961';
+  String _dialCode = '+962';
 
   @override
   void dispose() {

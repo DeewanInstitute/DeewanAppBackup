@@ -21,6 +21,21 @@ class AuthService {
     await _auth.signOut();
   }
 
+  /// Re-authenticates with [currentPassword] before setting [newPassword],
+  /// since Firebase requires a recent sign-in for sensitive account changes.
+  static Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null || user.email == null) {
+      throw FirebaseAuthException(code: 'no-current-user');
+    }
+    final credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+    await user.reauthenticateWithCredential(credential);
+    await user.updatePassword(newPassword);
+  }
+
   static String errorMessage(String code) {
     switch (code) {
       case 'user-not-found':      return 'No account found with this email.';
@@ -31,6 +46,8 @@ class AuthService {
       case 'invalid-email':       return 'Please enter a valid email address.';
       case 'network-request-failed': return 'No internet connection.';
       case 'too-many-requests':   return 'Too many attempts. Please try again later.';
+      case 'requires-recent-login': return 'Please log out and back in, then try again.';
+      case 'no-current-user':    return 'You need to be logged in to do this.';
       default:                    return 'Something went wrong. Please try again.';
     }
   }

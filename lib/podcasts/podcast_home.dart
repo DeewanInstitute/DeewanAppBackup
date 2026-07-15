@@ -6,6 +6,7 @@ import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/podcasts/podcast_detail.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
 import 'package:deewan_institute_app/podcasts/podcast_player.dart';
+import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -111,15 +112,18 @@ class _PodcastHomeState extends State<PodcastHome> {
         ],
       ),
       bottomNavigationBar: AppBottomNav(
-        currentIndex: 2,
+        currentIndex: -1,
         onTap: (index) {
-          if (index == 2) return;
           if (index == 0) {
             Navigator.popUntil(context, (route) => route.isFirst);
             return;
           }
           if (index == 1) {
             AppLoading.navigate(context, const WordSearchPage());
+            return;
+          }
+          if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
           }
         },
       ),

@@ -3,6 +3,7 @@ import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
 import 'package:deewan_institute_app/courses/arabic_courses_page.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/settings/settings_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,9 @@ class AppDrawer extends StatelessWidget {
                       icon: Icons.settings_outlined,
                       label: 'Settings',
                       selected: selectedIndex == settingsIndex,
-                      onTap: () => Navigator.pop(context),
+                      onTap: selectedIndex == settingsIndex
+                          ? () => Navigator.pop(context)
+                          : () => _open(context, const SettingsPage()),
                     ),
                   ],
                 ),

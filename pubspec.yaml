@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.3.2
   flutter_launcher_icons: ^0.14.4
   country_code_picker: ^3.4.1
+  shared_preferences: ^2.5.5
 
 
 

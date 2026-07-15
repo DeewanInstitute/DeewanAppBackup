@@ -3,6 +3,7 @@ import "package:deewan_institute_app/auth/auth_widgets.dart";
 import "package:deewan_institute_app/core/app_colors.dart";
 import "package:deewan_institute_app/core/app_text_styles.dart";
 import "package:deewan_institute_app/core/auth_service.dart";
+import "package:deewan_institute_app/core/dashed_border.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:url_launcher/url_launcher.dart";
@@ -399,8 +400,8 @@ class _DashedNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DashedBorderPainter(color: color),
+    return DashedBorderContainer(
+      color: color,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -409,35 +410,4 @@ class _DashedNotice extends StatelessWidget {
       ),
     );
   }
-}
-
-class _DashedBorderPainter extends CustomPainter {
-  final Color color;
-  const _DashedBorderPainter({required this.color});
-
-  static const _radius = 14.0;
-  static const _dashWidth = 5.0;
-  static const _dashSpace = 4.0;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 1.2
-      ..style = PaintingStyle.stroke;
-    final path = Path()..addRRect(RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(_radius)));
-    final dashed = Path();
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final length = (distance + _dashWidth).clamp(0, metric.length).toDouble() - distance;
-        dashed.addPath(metric.extractPath(distance, distance + length), Offset.zero);
-        distance += _dashWidth + _dashSpace;
-      }
-    }
-    canvas.drawPath(dashed, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _DashedBorderPainter oldDelegate) => oldDelegate.color != color;
 }
