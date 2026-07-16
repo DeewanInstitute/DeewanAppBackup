@@ -7,6 +7,7 @@ import 'package:deewan_institute_app/settings/settings_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -128,6 +129,7 @@ class _DrawerProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: MediaQuery.sizeOf(context).height * .15,
       padding: const EdgeInsets.fromLTRB(28, 22, 22, 22),
@@ -142,20 +144,20 @@ class _DrawerProfileCard extends StatelessWidget {
           ],
         ),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          _DrawerAvatar(),
-          SizedBox(width: 20),
+          const _DrawerAvatar(),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Amira',
+                  FirebaseAuth.instance.currentUser?.displayName as String,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Prociono',
                     fontSize: 20,
@@ -163,9 +165,9 @@ class _DrawerProfileCard extends StatelessWidget {
                     height: 1,
                   ),
                 ),
-                SizedBox(height: 11),
-                Text(
-                  'Deewan Student',
+                const SizedBox(height: 11),
+                const Text(
+                  'Arabic Student',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
