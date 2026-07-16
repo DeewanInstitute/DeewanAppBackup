@@ -1,5 +1,6 @@
 import 'package:deewan_institute_app/core/app_theme.dart';
 import 'package:deewan_institute_app/home/home_page.dart';
+import 'package:deewan_institute_app/quiz/quiz_session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class DeewanApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: mode,
-        home: const HomePage(),
+        home: const QuizSession(),
       ),
     );
   }

@@ -365,84 +365,90 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
         borderRadius: BorderRadius.circular(24),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 20, offset: const Offset(0, 8))],
       ),
-      child: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned(
-              right: 0,
-              top: 0,
-              child: _SpeakerButton(color: AppColors.orange),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: _SpeakerButton(color: AppColors.orange),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 52),
+                    padding: const EdgeInsets.only(top: 4, right: 52),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          _word['arabic'] as String? ?? '',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                        Column(
+                          children: [
+                            Text(
+                              _word['arabic'] as String? ?? '',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                            ),
+                            const SizedBox(height: 6),
+                            if (_word['transliteration'] != null)
+                              Text(
+                                _word['transliteration'] as String,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                              ),
+                            const SizedBox(height: 6),
+                            Text(
+                              _word['english'] as String? ?? '',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.green, fontFamily: 'Inter'),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 6),
-                        if (_word['transliteration'] != null)
-                          Text(
-                            _word['transliteration'] as String,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                        if (example != null) ...[
+                          const SizedBox(height: 20),
+                          const Divider(color: AppColors.primaryBorder),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'EXAMPLE',
+                                style: TextStyle(fontFamily: 'Inter', fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.green, letterSpacing: 0.5),
+                              ),
+                              _SpeakerButton(color: AppColors.green, size: 32),
+                            ],
                           ),
-                        const SizedBox(height: 6),
-                        Text(
-                          _word['english'] as String? ?? '',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.green, fontFamily: 'Inter'),
-                        ),
+                          const SizedBox(height: 12),
+                          Text(
+                            example['arabic']!,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.ink, height: 1.4),
+                          ),
+                          if (example['transliteration']!.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            Text(
+                              example['transliteration']!,
+                              style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                            ),
+                          ],
+                          if (example['english']!.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            Text(
+                              example['english']!,
+                              style: const TextStyle(fontSize: 14, color: AppColors.ink, fontFamily: 'Inter'),
+                            ),
+                          ],
+                        ],
                       ],
                     ),
                   ),
-                  if (example != null) ...[
-                    const SizedBox(height: 20),
-                    const Divider(color: AppColors.primaryBorder),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'EXAMPLE',
-                          style: TextStyle(fontFamily: 'Inter', fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.green, letterSpacing: 0.5),
-                        ),
-                        _SpeakerButton(color: AppColors.green, size: 32),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      example['arabic']!,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.ink, height: 1.4),
-                    ),
-                    if (example['transliteration']!.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        example['transliteration']!,
-                        style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
-                      ),
-                    ],
-                    if (example['english']!.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        example['english']!,
-                        style: const TextStyle(fontSize: 14, color: AppColors.ink, fontFamily: 'Inter'),
-                      ),
-                    ],
-                  ],
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -584,15 +590,6 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
                       const Text(
                         'You reviewed all incorrect cards',
                         style: TextStyle(fontSize: 14, color: AppColors.muted, fontFamily: 'Inter'),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(color: AppColors.orange, borderRadius: BorderRadius.circular(50)),
-                        child: const Text(
-                          '+20 XP',
-                          style: TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
-                        ),
                       ),
                       const SizedBox(height: 24),
                       Container(
@@ -788,28 +785,6 @@ class _CorrectSheet extends StatelessWidget {
             'Great job! Keep it up.',
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Inter', fontSize: 14, color: AppColors.muted),
-          ),
-          const SizedBox(height: 14),
-          Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.green.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(color: AppColors.green.withOpacity(0.3)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.star_rounded, color: AppColors.green, size: 16),
-                  const SizedBox(width: 4),
-                  const Text(
-                    '+10 XP',
-                    style: TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.green),
-                  ),
-                ],
-              ),
-            ),
           ),
           const SizedBox(height: 24),
           SizedBox(

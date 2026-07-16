@@ -33,6 +33,7 @@ class _CreateCustomCardSheet extends StatefulWidget {
 
 class _CreateCustomCardSheetState extends State<_CreateCustomCardSheet> {
   final _formKey = GlobalKey<FormState>();
+  final _categoryController = TextEditingController();
   final _englishController = TextEditingController();
   final _arabicController = TextEditingController();
   final _transliterationController = TextEditingController();
@@ -44,6 +45,7 @@ class _CreateCustomCardSheetState extends State<_CreateCustomCardSheet> {
 
   @override
   void dispose() {
+    _categoryController.dispose();
     _englishController.dispose();
     _arabicController.dispose();
     _transliterationController.dispose();
@@ -60,6 +62,7 @@ class _CreateCustomCardSheetState extends State<_CreateCustomCardSheet> {
       await FlashcardService.createCustomCard(
         english: _englishController.text.trim(),
         arabic: _arabicController.text.trim(),
+        category: _categoryController.text.trim(),
         transliteration: _transliterationController.text.trim(),
         exampleArabic: _exampleArabicController.text.trim(),
         exampleTransliteration: _exampleTransliterationController.text.trim(),
@@ -111,6 +114,14 @@ class _CreateCustomCardSheetState extends State<_CreateCustomCardSheet> {
                   style: TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.muted),
                 ),
                 const SizedBox(height: 20),
+                Text('Category', style: authLabelStyle),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _categoryController,
+                  decoration: authFieldDecoration(hint: 'e.g. Food, Travel, Family', icon: Icons.folder_outlined),
+                  validator: (v) => (v == null || v.trim().isEmpty) ? 'Category is required' : null,
+                ),
+                const SizedBox(height: 16),
                 Text('English Word', style: authLabelStyle),
                 const SizedBox(height: 8),
                 TextFormField(

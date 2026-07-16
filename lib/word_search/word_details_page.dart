@@ -45,8 +45,12 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
     final differentRoot = active['different_root_than_fusha'] == true;
     final note = active['note'] as String?;
 
-    final masdar = rootFamily['masdar'] as Map<String, dynamic>?;
-    final activeParticiple = rootFamily['active_participle'] as Map<String, dynamic>?;
+    // Masdar and active participle can exist per-dialect (Levantine forms
+    // often differ from Fusha), so these follow the toggle. Passive
+    // participle and nominal forms are Fusha-only — those weren't asked for
+    // in Levantine and stay sourced from the top-level root family.
+    final masdar = active['masdar'] as Map<String, dynamic>?;
+    final activeParticiple = active['active_participle'] as Map<String, dynamic>?;
     final passiveParticiple = rootFamily['passive_participle'] as Map<String, dynamic>?;
     final nominalForms = (rootFamily['nominal_forms'] as List?)?.cast<Map>();
 
@@ -140,10 +144,10 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
                 _ConjugationsCard(conjugations: conjugations, irregularImperative: irregularImperative),
               ],
 
-              if (!_isFusha) ...[
+              if (!_isFusha && passiveParticiple != null) ...[
                 const SizedBox(height: 20),
                 const Text(
-                  'The forms below (masdar, participles) reflect Modern Standard Arabic grammar and are not toggled by dialect.',
+                  'The passive participle below reflects Modern Standard Arabic grammar and is not toggled by dialect.',
                   style: TextStyle(fontFamily: 'Inter', fontSize: 11, color: AppColors.muted, fontStyle: FontStyle.italic),
                 ),
               ],

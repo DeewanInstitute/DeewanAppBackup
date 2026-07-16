@@ -22,14 +22,16 @@ class FlashcardsHome extends StatefulWidget {
 }
 
 class _FlashcardsHomeState extends State<FlashcardsHome> {
+  static const _categoryColors = [AppColors.coral, AppColors.orange, AppColors.green, AppColors.ink];
+
   List<Map<String, dynamic>> _allWords = [];
-  int _customCount = 0;
+  List<CustomCategory> _customCategories = [];
 
   @override
   void initState() {
     super.initState();
     _loadWords();
-    _loadCustomCount();
+    _loadCustomCategories();
   }
 
   Future<void> _loadWords() async {
@@ -38,22 +40,22 @@ class _FlashcardsHomeState extends State<FlashcardsHome> {
     if (mounted) setState(() => _allWords = list.cast<Map<String, dynamic>>());
   }
 
-  Future<void> _loadCustomCount() async {
-    final count = await FlashcardService.deckCount(FlashcardDecks.custom.id);
-    if (mounted) setState(() => _customCount = count);
+  Future<void> _loadCustomCategories() async {
+    final categories = await FlashcardService.getCustomCategories();
+    if (mounted) setState(() => _customCategories = categories);
   }
 
   Future<void> _createCustomCard() async {
     final created = await showCreateCustomCardSheet(context);
-    if (created) _loadCustomCount();
+    if (created) _loadCustomCategories();
   }
 
-  Future<void> _studyCustomDeck() async {
-    final words = await FlashcardService.getDeckWords(FlashcardDecks.custom.id);
+  Future<void> _studyCategory(String category) async {
+    final words = await FlashcardService.getCategoryWords(category);
     if (!mounted || words.isEmpty) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => FlashcardSession(words: words, difficulty: 'Custom', color: AppColors.coral)),
+      MaterialPageRoute(builder: (_) => FlashcardSession(words: words, difficulty: category, color: AppColors.coral)),
     );
   }
 
@@ -140,12 +142,18 @@ class _FlashcardsHomeState extends State<FlashcardsHome> {
                     ),
                   ),
                 ),
+                for (var i = 0; i < _customCategories.length; i++) ...[
+                  const SizedBox(height: 16),
+                  _DeckCard(
+                    title: _customCategories[i].name,
+                    count: _customCategories[i].count,
+                    color: _categoryColors[i % _categoryColors.length],
+                    icon: Icons.folder_rounded,
+                    onStart: () => _studyCategory(_customCategories[i].name),
+                  ),
+                ],
                 const SizedBox(height: 16),
-                _CustomDeckCard(
-                  count: _customCount,
-                  onCreate: _createCustomCard,
-                  onStart: _customCount > 0 ? _studyCustomDeck : null,
-                ),
+                _AddCustomCardCard(onCreate: _createCustomCard),
               ],
             ],
           ),
@@ -230,13 +238,11 @@ class _DeckCard extends StatelessWidget {
   }
 }
 
-// ── Custom Deck Card ──────────────────────────────────────────────────────────
+// ── Add Custom Card ───────────────────────────────────────────────────────────
 
-class _CustomDeckCard extends StatelessWidget {
-  final int count;
+class _AddCustomCardCard extends StatelessWidget {
   final VoidCallback onCreate;
-  final VoidCallback? onStart;
-  const _CustomDeckCard({required this.count, required this.onCreate, this.onStart});
+  const _AddCustomCardCard({required this.onCreate});
 
   @override
   Widget build(BuildContext context) {
@@ -246,75 +252,33 @@ class _CustomDeckCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(color: AppColors.orange.withOpacity(0.05), borderRadius: BorderRadius.circular(24)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Custom Cards',
-                        style: TextStyle(fontFamily: 'Prociono', fontSize: 22, color: AppColors.ink, height: 1),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        count > 0 ? '$count cards' : 'Create your own cards',
-                        style: const TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.muted),
-                      ),
-                    ],
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Custom Cards',
+                    style: TextStyle(fontFamily: 'Prociono', fontSize: 22, color: AppColors.ink, height: 1),
                   ),
-                ),
-                GestureDetector(
-                  onTap: onCreate,
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.orange),
-                    child: const Icon(Icons.add_rounded, color: Colors.white, size: 24),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.coral,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                      textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700),
-                      elevation: 0,
-                    ),
-                    onPressed: onCreate,
-                    child: const Text('Create'),
-                  ),
-                ),
-                if (onStart != null) ...[
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 100,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.orange,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        side: const BorderSide(color: AppColors.orange),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                        textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700),
-                      ),
-                      onPressed: onStart,
-                      child: const Text('Start'),
-                    ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Create a card in a new or existing category',
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.muted),
                   ),
                 ],
-              ],
+              ),
+            ),
+            GestureDetector(
+              onTap: onCreate,
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.orange),
+                child: const Icon(Icons.add_rounded, color: Colors.white, size: 24),
+              ),
             ),
           ],
         ),

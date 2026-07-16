@@ -1,13 +1,12 @@
-import 'dart:convert';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/core/dictionary_repository.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/save_to_flashcards_sheet.dart';
 import 'package:deewan_institute_app/word_search/word_details_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 enum _Dialect { fusha, levantine }
 
@@ -25,6 +24,9 @@ class _WordSearchPageState extends State<WordSearchPage> {
   Map<String, dynamic>? _result;
   bool _notFound = false;
   bool _hasText = false;
+  bool _isLoadingDictionary = true;
+  bool _loadFailed = false;
+  bool _isSearching = false;
   _Dialect _dialect = _Dialect.fusha;
 
   @override
@@ -35,18 +37,31 @@ class _WordSearchPageState extends State<WordSearchPage> {
   }
 
   Future<void> _loadDictionary() async {
-    final raw = await rootBundle.loadString(
-      'assets/data/arabic_dictionary.json',
-    );
-    final list = jsonDecode(raw) as List;
-    if (!mounted) return;
-    setState(() => _dictionary = list.cast<Map<String, dynamic>>());
-    if (widget.initialQuery != null && widget.initialQuery!.trim().isNotEmpty) {
-      _search(widget.initialQuery!);
+    setState(() {
+      _isLoadingDictionary = true;
+      _loadFailed = false;
+    });
+    try {
+      final list = await DictionaryRepository.load();
+      if (!mounted) return;
+      setState(() {
+        _dictionary = list;
+        _isLoadingDictionary = false;
+      });
+      if (widget.initialQuery != null && widget.initialQuery!.trim().isNotEmpty) {
+        _search(widget.initialQuery!);
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoadingDictionary = false;
+        _loadFailed = true;
+      });
     }
   }
 
-  void _search(String query) {
+  Future<void> _search(String query) async {
+    if (_isLoadingDictionary || _loadFailed) return;
     final q = query.trim().toLowerCase();
     if (q.isEmpty) {
       setState(() {
@@ -59,10 +74,43 @@ class _WordSearchPageState extends State<WordSearchPage> {
       (w) => (w['english'] as String).toLowerCase() == q,
       orElse: () => <String, dynamic>{},
     );
+    if (match.isNotEmpty) {
+      setState(() {
+        _result = match;
+        _notFound = false;
+      });
+      return;
+    }
+
+    if (!DictionaryRepository.isSignedIn) {
+      setState(() {
+        _result = null;
+        _notFound = true;
+      });
+      return;
+    }
+
     setState(() {
-      _result = match.isNotEmpty ? match : null;
-      _notFound = match.isEmpty;
+      _result = null;
+      _notFound = false;
+      _isSearching = true;
     });
+    try {
+      final entry = await DictionaryRepository.lookupWithAi(query);
+      if (!mounted) return;
+      setState(() {
+        _result = entry;
+        _notFound = false;
+        _isSearching = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _result = null;
+        _notFound = true;
+        _isSearching = false;
+      });
+    }
   }
 
   @override
@@ -90,7 +138,19 @@ class _WordSearchPageState extends State<WordSearchPage> {
               const SizedBox(height: 16),
               _buildDialectToggle(),
               const SizedBox(height: 20),
-              if (_result != null) ...[
+              if (_isLoadingDictionary)
+                const Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Center(child: CircularProgressIndicator(color: AppColors.green)),
+                )
+              else if (_loadFailed)
+                _LoadErrorWidget(onRetry: _loadDictionary)
+              else if (_isSearching)
+                const Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Center(child: CircularProgressIndicator(color: AppColors.green)),
+                )
+              else if (_result != null) ...[
                 Text(
                   'Results for "${_controller.text.trim()}" in ${_dialect == _Dialect.fusha ? 'Fusha' : 'Levantine'}',
                   style: const TextStyle(
@@ -623,6 +683,51 @@ class _ChipRow extends StatelessWidget {
   }
 }
 
+// ── Load Error ────────────────────────────────────────────────────────────────
+
+class _LoadErrorWidget extends StatelessWidget {
+  final VoidCallback onRetry;
+  const _LoadErrorWidget({required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        children: [
+          const Icon(Icons.cloud_off_rounded, color: AppColors.coral, size: 36),
+          const SizedBox(height: 12),
+          const Text(
+            "Couldn't load the dictionary",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Check your connection and try again.',
+            style: TextStyle(fontSize: 13, color: AppColors.muted, fontFamily: 'Inter', height: 1.4),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
+            onPressed: onRetry,
+            icon: const Icon(Icons.refresh_rounded, size: 18),
+            label: const Text('Retry'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.green,
+              side: const BorderSide(color: AppColors.green),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Not Found ─────────────────────────────────────────────────────────────────
 
 class _NotFoundWidget extends StatelessWidget {
@@ -653,7 +758,7 @@ class _NotFoundWidget extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Try another word. Dictionary currently covers 130+ common Arabic words.',
+            "It's not in the dictionary yet. Try a different word or spelling.",
             style: TextStyle(
               fontSize: 13,
               color: AppColors.muted,

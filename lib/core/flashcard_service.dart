@@ -20,6 +20,14 @@ class FlashcardDecks {
   static FlashcardDeck byId(String id) => all.firstWhere((d) => d.id == id, orElse: () => custom);
 }
 
+/// A user-defined grouping of custom cards (e.g. "Food", "Travel"), with how
+/// many cards currently carry that tag.
+class CustomCategory {
+  final String name;
+  final int count;
+  const CustomCategory(this.name, this.count);
+}
+
 /// Stores user-saved dictionary words into decks, per signed-in user, in
 /// Firestore at users/{uid}/savedWords/{wordId}.
 class FlashcardService {
@@ -61,10 +69,12 @@ class FlashcardService {
   }
 
   /// Creates a brand-new user-authored card (not tied to a dictionary entry)
-  /// in the custom deck. Returns the new total card count for that deck.
+  /// in the custom deck, tagged under [category]. Returns the new total card
+  /// count for that deck.
   static Future<int> createCustomCard({
     required String english,
     required String arabic,
+    required String category,
     String? transliteration,
     String? exampleArabic,
     String? exampleTransliteration,
@@ -75,6 +85,7 @@ class FlashcardService {
     await collection.add({
       'english': english,
       'arabic': arabic,
+      'category': category,
       if (transliteration != null && transliteration.isNotEmpty) 'transliteration': transliteration,
       if (exampleArabic != null && exampleArabic.isNotEmpty) 'exampleArabic': exampleArabic,
       if (exampleTransliteration != null && exampleTransliteration.isNotEmpty) 'exampleTransliteration': exampleTransliteration,
@@ -83,6 +94,30 @@ class FlashcardService {
       'savedAt': FieldValue.serverTimestamp(),
     });
     return deckCount(FlashcardDecks.custom.id);
+  }
+
+  /// Groups the user's custom cards by their [category] tag, newest category
+  /// activity first. Cards saved before categories existed fall back to
+  /// "General" so old data still shows up.
+  static Future<List<CustomCategory>> getCustomCategories() async {
+    final words = await getDeckWords(FlashcardDecks.custom.id);
+    final counts = <String, int>{};
+    for (final w in words) {
+      final category = (w['category'] as String?)?.trim();
+      final key = (category == null || category.isEmpty) ? 'General' : category;
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    return counts.entries.map((e) => CustomCategory(e.key, e.value)).toList();
+  }
+
+  /// Fetches the custom cards tagged under [category] for study.
+  static Future<List<Map<String, dynamic>>> getCategoryWords(String category) async {
+    final words = await getDeckWords(FlashcardDecks.custom.id);
+    return words.where((w) {
+      final c = (w['category'] as String?)?.trim();
+      final key = (c == null || c.isEmpty) ? 'General' : c;
+      return key == category;
+    }).toList();
   }
 
   /// Fetches all saved words for [deckId], newest first, shaped for

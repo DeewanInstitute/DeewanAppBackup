@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/core/flashcard_service.dart';
+import 'package:deewan_institute_app/flashcards/flashcard_session.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
+import 'package:deewan_institute_app/quiz/quiz_session.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +25,15 @@ class _HomePageState extends State<HomePage> {
   int _dialectIndex = 0;
   int _navIndex = 0;
   final _searchController = TextEditingController();
+  List<Map<String, dynamic>> _allWords = [];
+  List<CustomCategory> _customCategories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWords();
+    _loadCustomCategories();
+  }
 
   @override
   void dispose() {
@@ -26,35 +41,83 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Future<void> _loadWords() async {
+    final raw = await rootBundle.loadString('assets/data/arabic_dictionary.json');
+    final list = jsonDecode(raw) as List;
+    if (mounted) setState(() => _allWords = list.cast<Map<String, dynamic>>());
+  }
+
+  Future<void> _loadCustomCategories() async {
+    if (!FlashcardService.isSignedIn) return;
+    final categories = await FlashcardService.getCustomCategories();
+    if (mounted) setState(() => _customCategories = categories);
+  }
+
+  void _studyBuiltInDeck(String label, Color color, int start, int end) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FlashcardSession(words: _allWords.sublist(start, end), difficulty: label, color: color),
+      ),
+    );
+  }
+
+  Future<void> _studyCategory(String category) async {
+    final words = await FlashcardService.getCategoryWords(category);
+    if (!mounted || words.isEmpty) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => FlashcardSession(words: words, difficulty: category, color: AppColors.coral)),
+    );
+  }
+
   void _goToDictionarySearch() {
     final query = _searchController.text.trim();
     AppLoading.navigate(context, WordSearchPage(initialQuery: query.isEmpty ? null : query));
+    setState(() {
+      _searchController.clear();
+    });
   }
 
+  static const _categoryColors = [AppColors.coral, AppColors.orange, AppColors.green, AppColors.ink];
 
-  final List<_FlashcardPreview> _flashcards = const [
-    _FlashcardPreview(
-      word: 'Marhaba',
-      meaning: 'Hello',
-      color: AppColors.green,
-      iconColor: AppColors.orange,
-      icon: Icons.check_rounded,
-    ),
-    _FlashcardPreview(
-      word: 'Shukraan',
-      meaning: 'Thank you',
-      color: AppColors.orange,
-      iconColor: AppColors.green,
-      icon: Icons.bolt_rounded,
-    ),
-    _FlashcardPreview(
-      word: 'As-salamu\nalaykum',
-      meaning: 'Peace be upon you',
-      color: AppColors.coral,
-      iconColor: Colors.white,
-      icon: Icons.error_outline_rounded,
-    ),
-  ];
+  List<Widget> get _deckTiles {
+    final tiles = <Widget>[];
+    if (_allWords.length >= 30) {
+      tiles.add(_DeckTile(
+        title: 'Beginner',
+        count: 8,
+        color: AppColors.green,
+        icon: Icons.auto_awesome_rounded,
+        onTap: () => _studyBuiltInDeck('Beginner', AppColors.green, 0, 8),
+      ));
+      tiles.add(_DeckTile(
+        title: 'Intermediate',
+        count: 11,
+        color: AppColors.orange,
+        icon: Icons.bolt_rounded,
+        onTap: () => _studyBuiltInDeck('Intermediate', AppColors.orange, 8, 19),
+      ));
+      tiles.add(_DeckTile(
+        title: 'Advanced',
+        count: 11,
+        color: AppColors.ink,
+        icon: Icons.local_fire_department_rounded,
+        onTap: () => _studyBuiltInDeck('Advanced', AppColors.ink, 19, 30),
+      ));
+    }
+    for (var i = 0; i < _customCategories.length; i++) {
+      final category = _customCategories[i];
+      tiles.add(_DeckTile(
+        title: category.name,
+        count: category.count,
+        color: _categoryColors[i % _categoryColors.length],
+        icon: Icons.folder_rounded,
+        onTap: () => _studyCategory(category.name),
+      ));
+    }
+    return tiles;
+  }
 
   void _openTab(int index) {
     setState(() => _navIndex = index);
@@ -117,25 +180,28 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: _FlashcardsHeader(
-                      onViewMore: () => AppLoading.navigate(
-                        context,
-                        const FlashcardsHome(),
-                      ),
+                      onViewMore: () async {
+                        await AppLoading.navigate(
+                          context,
+                          const FlashcardsHome(),
+                        );
+                        _loadCustomCategories();
+                      },
                     ),
                   ),
                   const SizedBox(height: 18),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .30,
-                    child: ListView.separated(
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(right: 20),
-                      itemCount: _flashcards.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 14),
-                      itemBuilder: (_, index) {
-                        return _FlashcardTile(card: _flashcards[index]);
-                      },
-                    ),
+                    child: _deckTiles.isEmpty
+                        ? const Center(child: CircularProgressIndicator(color: AppColors.green))
+                        : ListView.separated(
+                            clipBehavior: Clip.none,
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.only(right: 20),
+                            itemCount: _deckTiles.length,
+                            separatorBuilder: (_, __) => const SizedBox(width: 14),
+                            itemBuilder: (_, index) => _deckTiles[index],
+                          ),
                   ),
                   const SizedBox(height: 34),
                   const _SectionTitle('Quiz'),
@@ -384,19 +450,29 @@ class _FlashcardsHeader extends StatelessWidget {
   }
 }
 
-class _FlashcardTile extends StatelessWidget {
-  const _FlashcardTile({required this.card});
+class _DeckTile extends StatelessWidget {
+  const _DeckTile({
+    required this.title,
+    required this.count,
+    required this.color,
+    required this.icon,
+    required this.onTap,
+  });
 
-  final _FlashcardPreview card;
+  final String title;
+  final int count;
+  final Color color;
+  final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: card.color,
+      color: color,
       borderRadius: BorderRadius.circular(22),
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
-        onTap: () => AppLoading.navigate(context, const FlashcardsHome()),
+        onTap: onTap,
         child: Container(
           width: MediaQuery.sizeOf(context).width * 0.50,
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
@@ -404,7 +480,7 @@ class _FlashcardTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(22),
             boxShadow: [
               BoxShadow(
-                color: card.color.withValues(alpha: 0.24),
+                color: color.withValues(alpha: 0.24),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
               ),
@@ -414,7 +490,7 @@ class _FlashcardTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                card.word,
+                title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -427,7 +503,7 @@ class _FlashcardTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                card.meaning,
+                '$count card${count == 1 ? '' : 's'}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -440,16 +516,14 @@ class _FlashcardTile extends StatelessWidget {
               Container(
                 width: 32,
                 height: 32,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: card.iconColor,
+                  color: Colors.white,
                 ),
                 child: Icon(
-                  card.icon,
-                  color: card.iconColor == Colors.white
-                      ? AppColors.coral
-                      : Colors.white,
-                  size: 22,
+                  icon,
+                  color: color,
+                  size: 20,
                 ),
               ),
             ],
@@ -528,7 +602,7 @@ class _QuizCard extends StatelessWidget {
             width: double.infinity,
             height: 58,
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizSession())),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.coral,
                 foregroundColor: Colors.white,
@@ -737,18 +811,3 @@ class _OutlineShapePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class _FlashcardPreview {
-  const _FlashcardPreview({
-    required this.word,
-    required this.meaning,
-    required this.color,
-    required this.iconColor,
-    required this.icon,
-  });
-
-  final String word;
-  final String meaning;
-  final Color color;
-  final Color iconColor;
-  final IconData icon;
-}
