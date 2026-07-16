@@ -57,7 +57,7 @@ class _ReviewIncorrectPageState extends State<ReviewIncorrectPage> {
   Widget build(BuildContext context) {
     final cards = _cards;
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       drawer: const AppDrawer(),
       bottomNavigationBar: AppBottomNav(

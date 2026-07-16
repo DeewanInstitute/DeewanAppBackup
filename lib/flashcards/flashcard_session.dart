@@ -153,7 +153,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
     final progress = (_currentIndex + 1) / total;
 
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: const AppDrawer(),
       bottomNavigationBar: AppBottomNav(
         currentIndex: widget.isReviewMode ? 2 : -1,
@@ -457,7 +457,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
     final total = widget.words.length;
     final pct = total == 0 ? 0 : ((_knownCount / total) * 100).round();
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: const AppDrawer(),
       bottomNavigationBar: AppBottomNav(
         currentIndex: 0,
@@ -558,7 +558,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
     final mastered = _knownCount;
     final stillPracticing = total - mastered;
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: const AppDrawer(),
       bottomNavigationBar: AppBottomNav(
         currentIndex: 0,

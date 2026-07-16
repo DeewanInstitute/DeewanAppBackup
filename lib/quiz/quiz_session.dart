@@ -130,6 +130,7 @@ class _QuizSessionState extends State<QuizSession> {
     if (!mounted) return;
     if (_currentIndex + 1 >= _questions.length) {
       setState(() => _isFinished = true);
+      QuizService.recordSessionResult(correct: _correctCount, total: _questions.length);
       return;
     }
     setState(() {
@@ -419,7 +420,7 @@ class _QuizSessionState extends State<QuizSession> {
       case QuizType.fillBlank:
         return _buildTextAnswer(hint: 'Type Arabic word here...', buttonLabel: 'Check Answer', maxLength: null);
       case QuizType.translateToArabic:
-        return _buildTextAnswer(hint: '...', buttonLabel: 'Check', maxLength: 100, multiline: true);
+        return _buildTextAnswer(hint: '...', buttonLabel: 'Check', maxLength: 100);
       case QuizType.listenSelect:
       case QuizType.wordMeaning:
         return Column(
@@ -459,32 +460,29 @@ class _QuizSessionState extends State<QuizSession> {
     }
   }
 
-  Widget _buildTextAnswer({required String hint, required String buttonLabel, int? maxLength, bool multiline = false}) {
+  Widget _buildTextAnswer({required String hint, required String buttonLabel, int? maxLength}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          height: multiline ? 140 : null,
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: multiline ? 14 : 4),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(multiline ? 20 : 50),
-            border: Border.all(color: AppColors.primaryBorder),
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12, offset: const Offset(0, 4))],
           ),
           child: TextField(
             controller: _textController,
             enabled: !_answered,
             maxLength: maxLength,
-            maxLines: multiline ? null : 1,
-            expands: multiline,
-            textAlignVertical: multiline ? TextAlignVertical.top : TextAlignVertical.center,
+            maxLines: 1,
+            textAlignVertical: TextAlignVertical.center,
             style: const TextStyle(fontFamily: 'Inter', fontSize: 15, color: AppColors.ink),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: const TextStyle(fontFamily: 'Inter', color: AppColors.muted, fontSize: 14),
               border: InputBorder.none,
-              counterText: maxLength == null ? null : null,
-              isCollapsed: multiline,
+              isCollapsed: false,
               contentPadding: EdgeInsets.zero,
             ),
             buildCounter: maxLength == null

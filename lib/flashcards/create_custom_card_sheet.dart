@@ -18,7 +18,7 @@ Future<bool> showCreateCustomCardSheet(BuildContext context) async {
   final created = await showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     builder: (_) => const _CreateCustomCardSheet(),
   );
   return created ?? false;

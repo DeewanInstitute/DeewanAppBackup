@@ -5,6 +5,7 @@ import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/core/flashcard_service.dart';
+import 'package:deewan_institute_app/core/quiz_service.dart';
 import 'package:deewan_institute_app/flashcards/flashcard_session.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
@@ -27,12 +28,14 @@ class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   List<Map<String, dynamic>> _allWords = [];
   List<CustomCategory> _customCategories = [];
+  QuizProgress _quizProgress = QuizProgress.empty;
 
   @override
   void initState() {
     super.initState();
     _loadWords();
     _loadCustomCategories();
+    _loadQuizProgress();
   }
 
   @override
@@ -51,6 +54,17 @@ class _HomePageState extends State<HomePage> {
     if (!FlashcardService.isSignedIn) return;
     final categories = await FlashcardService.getCustomCategories();
     if (mounted) setState(() => _customCategories = categories);
+  }
+
+  Future<void> _loadQuizProgress() async {
+    if (!QuizService.isSignedIn) return;
+    final progress = await QuizService.loadProgress();
+    if (mounted) setState(() => _quizProgress = progress);
+  }
+
+  Future<void> _startQuiz() async {
+    await Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizSession()));
+    _loadQuizProgress();
   }
 
   void _studyBuiltInDeck(String label, Color color, int start, int end) {
@@ -206,9 +220,9 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 34),
                   const _SectionTitle('Quiz'),
                   const SizedBox(height: 18),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: _QuizCard(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: _QuizCard(progress: _quizProgress, onStart: _startQuiz),
                   ),
                 ],
               ),
@@ -535,7 +549,12 @@ class _DeckTile extends StatelessWidget {
 }
 
 class _QuizCard extends StatelessWidget {
-  const _QuizCard();
+  const _QuizCard({required this.progress, required this.onStart});
+
+  final QuizProgress progress;
+  final VoidCallback onStart;
+
+  bool get _hasStarted => progress.sessionsCompleted > 0;
 
   @override
   Widget build(BuildContext context) {
@@ -557,7 +576,7 @@ class _QuizCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
@@ -565,18 +584,20 @@ class _QuizCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Level One',
-                      style: TextStyle(
+                      _hasStarted ? 'Quiz Progress' : 'Ready to practice?',
+                      style: const TextStyle(
                         color: AppColors.ink,
                         fontFamily: 'Prociono',
                         fontSize: 26,
                         height: 1,
                       ),
                     ),
-                    SizedBox(height: 11),
+                    const SizedBox(height: 11),
                     Text(
-                      'Section 1: Alphabets',
-                      style: TextStyle(
+                      _hasStarted
+                          ? '${progress.sessionsCompleted} quiz${progress.sessionsCompleted == 1 ? '' : 'zes'} completed · ${progress.questionsAnswered} questions'
+                          : 'Test what you\'ve learned so far',
+                      style: const TextStyle(
                         color: AppColors.muted,
                         fontSize: 14,
                         fontFamily: "Inter",
@@ -586,7 +607,7 @@ class _QuizCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.menu_book_outlined,
                 color: AppColors.orange,
                 size: 27,
@@ -594,15 +615,15 @@ class _QuizCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 34),
-          const Center(
-            child: _ProgressRing(progress: 0.29),
+          Center(
+            child: _ProgressRing(progress: _hasStarted ? progress.accuracy : 0, label: _hasStarted ? 'Accuracy' : 'Progress'),
           ),
           const SizedBox(height: 34),
           SizedBox(
             width: double.infinity,
             height: 58,
             child: FilledButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizSession())),
+              onPressed: onStart,
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.coral,
                 foregroundColor: Colors.white,
@@ -610,23 +631,23 @@ class _QuizCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
                     child: Text(
-                      'Continue the Lesson',
+                      _hasStarted ? 'Continue Practicing' : 'Start Quiz',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         fontFamily: "Inter",
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                  SizedBox(width: 13),
-                  Icon(Icons.arrow_forward_rounded, size: 24),
+                  const SizedBox(width: 13),
+                  const Icon(Icons.arrow_forward_rounded, size: 24),
                 ],
               ),
             ),
@@ -638,9 +659,10 @@ class _QuizCard extends StatelessWidget {
 }
 
 class _ProgressRing extends StatelessWidget {
-  const _ProgressRing({required this.progress});
+  const _ProgressRing({required this.progress, required this.label});
 
   final double progress;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -654,22 +676,22 @@ class _ProgressRing extends StatelessWidget {
             size: const Size.square(122),
             painter: _ProgressRingPainter(progress: progress),
           ),
-          const Column(
+          Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '29%',
-                style: TextStyle(
+                '${(progress * 100).round()}%',
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
                   height: 1,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                'Progress',
-                style: TextStyle(
+                label,
+                style: const TextStyle(
                   color: AppColors.muted,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,

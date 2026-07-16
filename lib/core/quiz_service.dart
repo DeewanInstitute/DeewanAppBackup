@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum QuizType { fillBlank, listenSelect, wordMeaning, translateToArabic, trueFalse }
 
@@ -98,10 +99,39 @@ class QuizQuestion {
   }
 }
 
+/// A student's cumulative quiz performance across all sessions they've
+/// completed, persisted at users/{uid}/quizProgress/summary.
+class QuizProgress {
+  final int sessionsCompleted;
+  final int questionsAnswered;
+  final int correctAnswers;
+
+  const QuizProgress({
+    required this.sessionsCompleted,
+    required this.questionsAnswered,
+    required this.correctAnswers,
+  });
+
+  static const empty = QuizProgress(sessionsCompleted: 0, questionsAnswered: 0, correctAnswers: 0);
+
+  double get accuracy => questionsAnswered == 0 ? 0 : correctAnswers / questionsAnswered;
+}
+
 /// Reads quiz questions from the Firestore `quizzes` collection (read-only
-/// for clients — see firestore rules) and checks answers client-side.
+/// for clients — see firestore rules), checks answers client-side, and
+/// tracks cumulative progress per signed-in user.
 class QuizService {
   QuizService._();
+
+  static String? get _uid => FirebaseAuth.instance.currentUser?.uid;
+
+  static bool get isSignedIn => _uid != null;
+
+  static DocumentReference<Map<String, dynamic>>? get _progressDoc {
+    final uid = _uid;
+    if (uid == null) return null;
+    return FirebaseFirestore.instance.collection('users').doc(uid).collection('quizProgress').doc('summary');
+  }
 
   static Future<List<QuizQuestion>> loadSession({int limit = 10}) async {
     final snapshot = await FirebaseFirestore.instance.collection('quizzes').get();
@@ -127,5 +157,34 @@ class QuizService {
         .trim()
         .replaceAll(RegExp(r'[ً-ْ]'), '') // strip Arabic diacritics
         .replaceAll(RegExp(r'\s+'), ' ');
+  }
+
+  /// Fetches the signed-in user's cumulative quiz progress. Returns
+  /// [QuizProgress.empty] if signed out or no session has been recorded yet.
+  static Future<QuizProgress> loadProgress() async {
+    final doc = _progressDoc;
+    if (doc == null) return QuizProgress.empty;
+    final snapshot = await doc.get();
+    if (!snapshot.exists) return QuizProgress.empty;
+    final data = snapshot.data()!;
+    return QuizProgress(
+      sessionsCompleted: (data['sessionsCompleted'] as num?)?.toInt() ?? 0,
+      questionsAnswered: (data['questionsAnswered'] as num?)?.toInt() ?? 0,
+      correctAnswers: (data['correctAnswers'] as num?)?.toInt() ?? 0,
+    );
+  }
+
+  /// Adds the results of a just-finished session to the user's running
+  /// totals. No-ops silently if signed out, consistent with the rest of the
+  /// app's "don't interrupt the flow for a background write" pattern.
+  static Future<void> recordSessionResult({required int correct, required int total}) async {
+    final doc = _progressDoc;
+    if (doc == null || total == 0) return;
+    await doc.set({
+      'sessionsCompleted': FieldValue.increment(1),
+      'questionsAnswered': FieldValue.increment(total),
+      'correctAnswers': FieldValue.increment(correct),
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
   }
 }
