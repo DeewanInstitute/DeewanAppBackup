@@ -63,7 +63,7 @@ class EpisodeDetails extends StatelessWidget {
                 episode.title,
                 style: const TextStyle(
                   color: AppColors.ink,
-                  fontFamily: 'Lora',
+                  fontFamily: 'Prociono',
                   fontSize: 43,
                   fontWeight: FontWeight.w500,
                   height: 1.12,

@@ -143,7 +143,7 @@ class _PodcastHeroText extends StatelessWidget {
           'Podcasts',
           style: TextStyle(
             color: AppColors.ink,
-            fontFamily: 'Lora',
+            fontFamily: 'Prociono',
             fontSize: 45,
             fontWeight: FontWeight.w600,
             height: 1,
@@ -154,7 +154,7 @@ class _PodcastHeroText extends StatelessWidget {
           'Listen & Learn Arabic',
           style: TextStyle(
             color: Color(0xFF898783),
-            fontSize: 21,
+            fontSize: 15,
             fontWeight: FontWeight.w500,
             height: 1,
           ),
@@ -210,7 +210,7 @@ class _FilterChips extends StatelessWidget {
                   filters[index],
                   style: TextStyle(
                     color: selected ? Colors.white : AppColors.ink,
-                    fontSize: 17,
+                    fontSize: 15,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -234,8 +234,8 @@ class _SectionTitle extends StatelessWidget {
       title,
       style: const TextStyle(
         color: AppColors.green,
-        fontFamily: 'Lora',
-        fontSize: 27,
+        fontFamily: 'Prociono',
+        fontSize: 22,
         fontWeight: FontWeight.w600,
         height: 1,
       ),
@@ -283,7 +283,7 @@ class _FeaturedEpisodeCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w900,
                           height: 1,
                         ),
@@ -295,8 +295,8 @@ class _FeaturedEpisodeCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Lora',
-                          fontSize: 30,
+                          fontFamily: 'Prociono',
+                          fontSize: 24,
                           fontWeight: FontWeight.w500,
                           height: 1.25,
                         ),
@@ -433,8 +433,8 @@ class _SeasonCard extends StatelessWidget {
                 season.number,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Lora',
-                  fontSize: 44,
+                  fontFamily: 'Prociono',
+                  fontSize: 40,
                   fontWeight: FontWeight.w500,
                   height: 1,
                 ),
@@ -456,7 +456,7 @@ class _SeasonCard extends StatelessWidget {
                   season.episodes,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 10,
                     fontWeight: FontWeight.w900,
                     height: 1,
                   ),
@@ -473,8 +473,8 @@ class _SeasonCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Lora',
-                  fontSize: 25,
+                  fontFamily: 'Prociono',
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   height: 1.16,
                 ),

@@ -15,8 +15,8 @@ class AppColors {
   static const Color link = Color.fromRGBO(143, 110, 67, 1);
 
   static const cream = Color(0xFFFFF8F1);
-  static const green = Color.fromRGBO(93, 203, 169, 1.0);
-  static const coral = Color.fromRGBO(249, 65, 68, 1.0);
+  static const green = Color(0xFF5DCBA9);
+  static const coral = Color(0xFFF94144);
   static const orange = Color(0xFFFF7327);
   static const ink = Color(0xFF1F1E28);
   static const muted = Color(0xFF8F8C88);
