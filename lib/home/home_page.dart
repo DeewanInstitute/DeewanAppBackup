@@ -151,12 +151,12 @@ class _HomePageState extends State<HomePage> {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       drawer: const AppDrawer(),
       body: Stack(
         children: [
-          const Positioned.fill(child: _HomeBackdrop()),
+          // const Positioned.fill(child: _HomeBackdrop()),
           SafeArea(
             bottom: false,
             child: SingleChildScrollView(
