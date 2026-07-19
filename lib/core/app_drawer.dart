@@ -3,6 +3,7 @@ import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
 import 'package:deewan_institute_app/courses/arabic_courses_page.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
+import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:deewan_institute_app/settings/settings_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,10 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({
-    super.key,
-    this.selectedIndex = 0,
-  });
+  const AppDrawer({super.key, this.selectedIndex = 0});
 
   final int selectedIndex;
 
@@ -46,7 +44,10 @@ class AppDrawer extends StatelessWidget {
                       icon: Icons.home_outlined,
                       label: 'Home',
                       selected: selectedIndex == homeIndex,
-                      onTap: () => _goHome(context),
+                      onTap: () {
+                        _stopPodcastPlayback();
+                        _goHome(context);
+                      },
                     ),
                     const SizedBox(height: 12),
                     _DrawerItem(
@@ -55,7 +56,10 @@ class AppDrawer extends StatelessWidget {
                       selected: selectedIndex == coursesIndex,
                       onTap: selectedIndex == coursesIndex
                           ? () => Navigator.pop(context)
-                          : () => _open(context, const ArabicCoursesPage()),
+                          : () {
+                              _stopPodcastPlayback();
+                              _open(context, const ArabicCoursesPage());
+                            },
                     ),
                     const SizedBox(height: 12),
                     _DrawerItem(
@@ -73,23 +77,33 @@ class AppDrawer extends StatelessWidget {
                       selected: selectedIndex == settingsIndex,
                       onTap: selectedIndex == settingsIndex
                           ? () => Navigator.pop(context)
-                          : () => _open(context, const SettingsPage()),
+                          : () {
+                              _stopPodcastPlayback();
+                              _open(context, const SettingsPage());
+                            },
                     ),
                   ],
                 ),
               ),
-              const Divider(
-                height: 34,
-                thickness: 1,
-                color: Color(0xFFE6E2DC),
-              ),
+              const Divider(height: 34, thickness: 1, color: Color(0xFFE6E2DC)),
               const SizedBox(height: 12),
-              _LogoutButton(onTap: () => _logout(context)),
+              _LogoutButton(
+                onTap: () {
+                  _stopPodcastPlayback();
+                  _logout(context);
+                },
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _stopPodcastPlayback() {
+    if (selectedIndex == podcastsIndex) {
+      PodcastPlaybackController.instance.stop();
+    }
   }
 
   static Future<void> _open(BuildContext context, Widget page) async {
@@ -116,11 +130,7 @@ class AppDrawer extends StatelessWidget {
     await AuthService.signOut();
 
     if (!navigator.mounted) return;
-    AppLoading.navigate(
-      navigator.context,
-      const Login(),
-      clearStack: true,
-    );
+    AppLoading.navigate(navigator.context, const Login(), clearStack: true);
   }
 }
 
@@ -129,7 +139,6 @@ class _DrawerProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: MediaQuery.sizeOf(context).height * .15,
       padding: const EdgeInsets.fromLTRB(28, 22, 22, 22),
@@ -138,10 +147,7 @@ class _DrawerProfileCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            AppColors.orange,
-            Color(0xFF6D7F93),
-          ],
+          colors: [AppColors.orange, Color(0xFF6D7F93)],
         ),
       ),
       child: Row(
@@ -230,9 +236,7 @@ class _DrawerItem extends StatelessWidget {
     final foreground = selected ? Colors.white : AppColors.ink;
 
     return Material(
-      color: selected
-          ? AppColors.green
-          : Colors.white.withValues(alpha: 0.34),
+      color: selected ? AppColors.green : Colors.white.withValues(alpha: 0.34),
       borderRadius: BorderRadius.circular(24),
       child: InkWell(
         borderRadius: BorderRadius.circular(24),
@@ -245,10 +249,7 @@ class _DrawerItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             border: selected
                 ? null
-                : Border.all(
-                    color: const Color(0xFFE4E4E4),
-                    width: 1.1,
-                  ),
+                : Border.all(color: const Color(0xFFE4E4E4), width: 1.1),
           ),
           child: Row(
             children: [
@@ -285,7 +286,7 @@ class _LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * .90,
-      height: MediaQuery.sizeOf(context).height *.07,
+      height: MediaQuery.sizeOf(context).height * .07,
       child: FilledButton.icon(
         onPressed: onTap,
         icon: const Icon(Icons.logout_rounded, size: 30),

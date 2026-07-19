@@ -6,335 +6,100 @@ import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/podcasts/episode_details.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
+import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:deewan_institute_app/podcasts/podcast_player.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
 
 class PodcastDetail extends StatelessWidget {
-  const PodcastDetail({super.key, required this.podcast});
+  const PodcastDetail({super.key, required this.season});
 
-  final PodcastData podcast;
-
-  // Swap this list later with API / Firestore data.
-  static const List<_SeasonDetailData> _seasons = [
-    _SeasonDetailData(
-      label: 'Arabic Daily',
-      seasonNumber: 1,
-      seasonTitle: 'Season 1',
-      topicTitle: 'At the Market',
-      aboutTitle: 'About This Season',
-      description:
-          'Learn essential Arabic vocabulary and phrases used in everyday market situations. Perfect for beginners exploring real-world conversations.',
-      episodeCount: '6 Episodes',
-      averageDuration: '~18 min avg',
-      level: 'Beginner',
-      gradient: AppColors.podcastRedGradient,
-      imageAssetPath: null,
-      episodes: [
-        _SeasonEpisodeData(id: 'E1', title: 'Greetings at the Market', duration: '12 min'),
-        _SeasonEpisodeData(id: 'E2', title: 'Buying Fruits', duration: '10 min'),
-        _SeasonEpisodeData(id: 'E3', title: 'Asking for Prices', duration: '15 min'),
-        _SeasonEpisodeData(id: 'E4', title: 'Colors & Quantities', duration: '11 min'),
-        _SeasonEpisodeData(id: 'E5', title: 'Paying & Change', duration: '09 min'),
-        _SeasonEpisodeData(id: 'E6', title: 'Review & Practice', duration: '14 min'),
-      ],
-    ),
-    _SeasonDetailData(
-      label: 'Arabic Daily',
-      seasonNumber: 2,
-      seasonTitle: 'Season 2',
-      topicTitle: 'Daily Life',
-      aboutTitle: 'About This Season',
-      description:
-          'Practice useful Arabic phrases for home, errands, routines, and everyday conversations.',
-      episodeCount: '5 Episodes',
-      averageDuration: '~16 min avg',
-      level: 'Beginner',
-      gradient: AppColors.podcastGreenGradient,
-      imageAssetPath: null,
-      episodes: [
-        _SeasonEpisodeData(id: 'E1', title: 'Morning Routines', duration: '13 min'),
-        _SeasonEpisodeData(id: 'E2', title: 'At Home', duration: '15 min'),
-        _SeasonEpisodeData(id: 'E3', title: 'Running Errands', duration: '17 min'),
-        _SeasonEpisodeData(id: 'E4', title: 'Making Plans', duration: '16 min'),
-        _SeasonEpisodeData(id: 'E5', title: 'Daily Review', duration: '14 min'),
-      ],
-    ),
-    _SeasonDetailData(
-      label: 'Arabic Daily',
-      seasonNumber: 3,
-      seasonTitle: 'Season 3',
-      topicTitle: 'Culture & Traditions',
-      aboutTitle: 'About This Season',
-      description:
-          'Explore cultural phrases, hospitality, celebrations, and traditions through guided listening.',
-      episodeCount: '7 Episodes',
-      averageDuration: '~20 min avg',
-      level: 'Intermediate',
-      gradient: AppColors.podcastBlackGradient,
-      imageAssetPath: null,
-      episodes: [
-        _SeasonEpisodeData(id: 'E1', title: 'Hospitality', duration: '18 min'),
-        _SeasonEpisodeData(id: 'E2', title: 'Family Visits', duration: '20 min'),
-        _SeasonEpisodeData(id: 'E3', title: 'Celebrations', duration: '22 min'),
-        _SeasonEpisodeData(id: 'E4', title: 'Food Traditions', duration: '19 min'),
-        _SeasonEpisodeData(id: 'E5', title: 'Polite Expressions', duration: '17 min'),
-        _SeasonEpisodeData(id: 'E6', title: 'Stories & Proverbs', duration: '21 min'),
-        _SeasonEpisodeData(id: 'E7', title: 'Culture Review', duration: '16 min'),
-      ],
-    ),
-    _SeasonDetailData(
-      label: 'Arabic Daily',
-      seasonNumber: 4,
-      seasonTitle: 'Season 4',
-      topicTitle: 'Travel & Transport',
-      aboutTitle: 'About This Season',
-      description:
-          'Learn travel vocabulary for taxis, buses, directions, tickets, and getting around confidently.',
-      episodeCount: '8 Episodes',
-      averageDuration: '~18 min avg',
-      level: 'Intermediate',
-      gradient: AppColors.podcastYellowGradient,
-      imageAssetPath: null,
-      episodes: [
-        _SeasonEpisodeData(id: 'E1', title: 'Asking Directions', duration: '15 min'),
-        _SeasonEpisodeData(id: 'E2', title: 'Taking a Taxi', duration: '18 min'),
-        _SeasonEpisodeData(id: 'E3', title: 'Bus Station', duration: '16 min'),
-        _SeasonEpisodeData(id: 'E4', title: 'Buying Tickets', duration: '17 min'),
-        _SeasonEpisodeData(id: 'E5', title: 'Hotel Check-in', duration: '20 min'),
-        _SeasonEpisodeData(id: 'E6', title: 'Lost & Found', duration: '14 min'),
-        _SeasonEpisodeData(id: 'E7', title: 'Travel Problems', duration: '19 min'),
-        _SeasonEpisodeData(id: 'E8', title: 'Transport Review', duration: '13 min'),
-      ],
-    ),
-  ];
+  final PodcastSeason season;
 
   @override
   Widget build(BuildContext context) {
-    final season = _seasonForPodcast(podcast);
-
+    final color = PodcastCatalog.seasonColors[season.seasonNumber - 1];
     return Scaffold(
       backgroundColor: AppColors.cream,
       extendBody: true,
       drawer: const AppDrawer(selectedIndex: AppDrawer.podcastsIndex),
-      body: Stack(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 126),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const AppTopNav(),
-                  const SizedBox(height: 48),
-                  _SeasonHeroCard(season: season),
-                  const SizedBox(height: 34),
-                  _AboutSeason(season: season),
-                  const SizedBox(height: 26),
-                  _PlayAllButton(
-                    onTap: () => _openPlayer(context, season, season.episodes.first),
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 126),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AppTopNav(),
+              const SizedBox(height: 42),
+              _SeasonHeader(season: season, color: color.colors.first),
+              const SizedBox(height: 34),
+              _AboutSeason(season: season),
+              const SizedBox(height: 30),
+              FilledButton.icon(
+                onPressed: () => AppLoading.navigate(
+                  context,
+                  PodcastPlayer(season: season, initialEpisodeIndex: 0),
+                ),
+                icon: const Icon(Icons.play_circle_outline_rounded),
+                label: const Text('Play All'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.green,
+                  foregroundColor: AppColors.white,
+                  minimumSize: const Size.fromHeight(58),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  const SizedBox(height: 34),
-                  const _SectionTitle('Episodes'),
-                  const SizedBox(height: 20),
-                  ...season.episodes.map(
-                    (episode) => Padding(
-                      padding: const EdgeInsets.only(bottom: 14),
-                      child: _EpisodeTile(
-                        episode: episode,
-                        onTap: () => _openEpisode(context, season, episode),
-                      ),
+                ),
+              ),
+              const SizedBox(height: 34),
+              Text(
+                'Episodes',
+                style: const TextStyle(
+                  color: AppColors.green,
+                  fontFamily: 'Prociono',
+                  fontSize: 27,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ...List.generate(
+                season.episodes.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _EpisodeTile(
+                    episode: season.episodes[index],
+                    onTap: () => AppLoading.navigate(
+                      context,
+                      EpisodeDetails(season: season, episodeIndex: index),
+                    ),
+                    onPlay: () => AppLoading.navigate(
+                      context,
+                      PodcastPlayer(season: season, initialEpisodeIndex: index),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: -1,
         onTap: (index) {
+          PodcastPlaybackController.instance.stop();
           if (index == 0) {
             Navigator.popUntil(context, (route) => route.isFirst);
-            return;
-          }
-          if (index == 1) {
+          } else if (index == 1) {
             AppLoading.navigate(context, const WordSearchPage());
-            return;
-          }
-          if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()),
+            );
           }
         },
       ),
-    );
-  }
-
-  _SeasonDetailData _seasonForPodcast(PodcastData podcast) {
-    final title = podcast.title.toLowerCase();
-
-    for (final season in _seasons) {
-      if (title.contains('season ${season.seasonNumber}') ||
-          title.contains(season.topicTitle.toLowerCase())) {
-        return season;
-      }
-    }
-
-    for (final season in _seasons) {
-      if (podcast.bgColor == season.gradient.colors.last ||
-          podcast.bgColor == season.gradient.colors.first) {
-        return season;
-      }
-    }
-
-    return _seasons.first;
-  }
-
-  void _openEpisode(
-    BuildContext context,
-    _SeasonDetailData season,
-    _SeasonEpisodeData episode,
-  ) {
-    AppLoading.navigate(
-      context,
-      EpisodeDetails(
-        podcast: PodcastData(
-          title: season.label,
-          description: season.description,
-          bgColor: season.gradient.colors.last,
-          artColor: AppColors.orange,
-        ),
-        episode: EpisodeData(
-          title: episode.title,
-          podcast: season.label,
-          duration: episode.duration,
-          artColor: AppColors.orange,
-        ),
-        seasonGradient: season.gradient,
-        level: season.level,
-      ),
-    );
-  }
-
-  void _openPlayer(
-    BuildContext context,
-    _SeasonDetailData season,
-    _SeasonEpisodeData episode,
-  ) {
-    AppLoading.navigate(
-      context,
-      PodcastPlayer(
-        podcast: PodcastData(
-          title: season.label,
-          description: season.description,
-          bgColor: season.gradient.colors.last,
-          artColor: AppColors.orange,
-        ),
-        episode: EpisodeData(
-          title: episode.title,
-          podcast: season.label,
-          duration: episode.duration,
-          artColor: AppColors.orange,
-        ),
-      ),
-    );
-  }
-}
-
-class _SeasonHeroCard extends StatelessWidget {
-  const _SeasonHeroCard({required this.season});
-
-  final _SeasonDetailData season;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 250,
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(26, 28, 26, 28),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(32),
-        gradient: season.gradient,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  season.label.toUpperCase(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  season.seasonTitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Prociono',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    height: 1,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  season.topicTitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    height: 5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 20),
-          _SeasonImagePlaceholder(imageAssetPath: season.imageAssetPath),
-        ],
-      ),
-    );
-  }
-}
-
-class _SeasonImagePlaceholder extends StatelessWidget {
-  const _SeasonImagePlaceholder({required this.imageAssetPath});
-
-  final String? imageAssetPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 140,
-      height: 125,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.18),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: imageAssetPath == null
-          ? const SizedBox.shrink()
-          : Image.asset(
-              imageAssetPath!,
-              fit: BoxFit.cover,
-            ),
-      // TODO: Add the real season image later.
-      // Example:
-      // child: Image.asset('assets/images/podcasts/season_market.png', fit: BoxFit.cover),
     );
   }
 }
@@ -342,38 +107,39 @@ class _SeasonImagePlaceholder extends StatelessWidget {
 class _AboutSeason extends StatelessWidget {
   const _AboutSeason({required this.season});
 
-  final _SeasonDetailData season;
+  final PodcastSeason season;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          season.aboutTitle.toUpperCase(),
-          style: const TextStyle(
+        const Text(
+          'ABOUT THIS SEASON',
+          style: TextStyle(
             color: AppColors.green,
-            fontSize: 17,
-            fontWeight: FontWeight.w900,
-            height: 1,
-          ),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          season.description,
-          style: const TextStyle(
-            color: AppColors.muted,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            height: 1.55,
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: 18),
+        if (season.about.isNotEmpty)
+          Text(
+            season.about,
+            style: const TextStyle(
+              color: AppColors.muted,
+              fontSize: 17,
+              height: 1.5,
+            ),
+          )
+        else
+          const SizedBox(height: 30),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           children: [
-            _InfoPill(season.episodeCount),
+            _InfoPill('${season.episodes.length} Episodes'),
             _InfoPill(season.averageDuration),
             _InfoPill(season.level),
           ],
@@ -391,9 +157,9 @@ class _InfoPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF3EDE3),
+        color: AppColors.podcastInfoPill,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
@@ -401,62 +167,80 @@ class _InfoPill extends StatelessWidget {
         style: const TextStyle(
           color: AppColors.ink,
           fontSize: 14,
-          fontWeight: FontWeight.w800,
-          height: 1,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
   }
 }
 
-class _PlayAllButton extends StatelessWidget {
-  const _PlayAllButton({required this.onTap});
+class _SeasonHeader extends StatelessWidget {
+  const _SeasonHeader({required this.season, required this.color});
 
-  final VoidCallback onTap;
+  final PodcastSeason season;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: double.infinity,
-      height: 65,
-      child: FilledButton.icon(
-        onPressed: onTap,
-        icon: const Icon(Icons.play_circle_outline_rounded, size: 28),
-        label: const Text(
-          'Play All',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.green,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(34),
-          ),
-          elevation: 0,
-        ),
+      padding: const EdgeInsets.all(26),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(30),
       ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(
-        color: AppColors.green,
-        fontFamily: 'Prociono',
-        fontSize: 27,
-        fontWeight: FontWeight.w600,
-        height: 1,
+      child: Row(
+        children: [
+          Container(
+            width: 112,
+            height: 112,
+            decoration: BoxDecoration(
+              color: AppColors.cream,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppColors.cream),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: season.imageAssetPath == null
+                ? const SizedBox.shrink()
+                : Image.asset(
+                    season.imageAssetPath!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const SizedBox.shrink(),
+                  ),
+          ),
+          const SizedBox(width: 22),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  season.title,
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontFamily: 'Prociono',
+                    fontSize: 32,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Hosted by ${season.hostedBy}',
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    height: 1.35,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  season.episodeCount,
+                  style: const TextStyle(color: AppColors.cream, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -466,93 +250,77 @@ class _EpisodeTile extends StatelessWidget {
   const _EpisodeTile({
     required this.episode,
     required this.onTap,
+    required this.onPlay,
   });
 
-  final _SeasonEpisodeData episode;
+  final EpisodeData episode;
   final VoidCallback onTap;
+  final VoidCallback onPlay;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: AppColors.white,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(18),
-        child: Container(
-          height: 76,
-          padding: const EdgeInsets.fromLTRB(14, 10, 12, 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 12, 14),
           child: Row(
             children: [
               Container(
                 width: 42,
                 height: 42,
-                decoration: const BoxDecoration(
-                  color: AppColors.green,
+                decoration: BoxDecoration(
+                  color: episode.artColor,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  episode.id,
+                  '${episode.id}',
                   style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       episode.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.ink,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w900,
-                        height: 1,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        height: 1.25,
                       ),
                     ),
-                    const SizedBox(height: 9),
+                    const SizedBox(height: 5),
                     Text(
-                      episode.duration,
+                      episode.durationMinutes == null
+                          ? '-- min'
+                          : '${episode.durationMinutes} min',
                       style: const TextStyle(
                         color: AppColors.muted,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        height: 1,
+                        fontSize: 13,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Container(
-                width: 48,
-                height: 48,
-                decoration: const BoxDecoration(
+              const SizedBox(width: 10),
+              IconButton(
+                onPressed: onPlay,
+                icon: const Icon(
+                  Icons.play_circle_fill_rounded,
                   color: AppColors.orange,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.play_arrow_rounded,
-                  color: Colors.white,
-                  size: 28,
+                  size: 44,
                 ),
               ),
             ],
@@ -561,46 +329,4 @@ class _EpisodeTile extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SeasonDetailData {
-  const _SeasonDetailData({
-    required this.label,
-    required this.seasonNumber,
-    required this.seasonTitle,
-    required this.topicTitle,
-    required this.aboutTitle,
-    required this.description,
-    required this.episodeCount,
-    required this.averageDuration,
-    required this.level,
-    required this.gradient,
-    required this.imageAssetPath,
-    required this.episodes,
-  });
-
-  final String label;
-  final int seasonNumber;
-  final String seasonTitle;
-  final String topicTitle;
-  final String aboutTitle;
-  final String description;
-  final String episodeCount;
-  final String averageDuration;
-  final String level;
-  final LinearGradient gradient;
-  final String? imageAssetPath;
-  final List<_SeasonEpisodeData> episodes;
-}
-
-class _SeasonEpisodeData {
-  const _SeasonEpisodeData({
-    required this.id,
-    required this.title,
-    required this.duration,
-  });
-
-  final String id;
-  final String title;
-  final String duration;
 }

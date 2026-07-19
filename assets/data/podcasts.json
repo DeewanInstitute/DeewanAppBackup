@@ -1,0 +1,385 @@
+﻿{
+    "seasons":  [
+                    {
+                        "seasonNumber":  1,
+                        "hostedBy":  "Mohammad K. Ayaseh",
+                        "about": "Among the first of its kind, Deewan podcast provides educational yet engaging content where in each episode, one of our teachers hosts a student learning Arabic and they discuss cultural topics including various aspects of life like veganism, racism, parenting, and several other topics we believe are of interest to our students. The podcast provides content that caters to Arabic learners of all levels; beginner, intermediate, and advanced, covering any student’s essential linguistic needs in an engaging and practical way.",
+                        "averageMinutes": 24,
+                        "level": "Beginner",
+                        "imageAssetPath": "assets/images/podcast/podcast1.png",
+                        "episodes":  [
+                                         {
+                                             "id":  1,
+                                             "title":  "Episode 1: Introduction to Season 1",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode1.mp3?alt=media\u0026token=a0a18a5c-1a7b-4e94-a08e-655c640dff40",
+                                             "durationMinutes": 6,
+                                             "description": "This podcast is for Levantine colloquial Arabic students of all levels who want to improve their listening and speaking skills and expand their vocabulary and Arabic knowledge."
+                                         },
+                                         {
+                                             "id":  2,
+                                             "title":  "Episode 2: My Life in Jordan",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode2.mp3?alt=media\u0026token=0f86243d-7115-479e-b104-32630f571bfd",
+                                             "durationMinutes": 21,
+                                             "description": "In this episode, Areen, one of our teachers at Deewan, interviews Amber, one of our students from Belgium. Areen asks Amber about her life in Jordan and her thoughts about her experience here. But first, Areen will give you the keywords for this episode."
+                                         },
+                                         {
+                                             "id":  3,
+                                             "title":  "Episode 3: My Story in Arabic",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode3.mp3?alt=media\u0026token=2d694de1-0c9d-4f7c-8d27-d6f7fb23cbcc",
+                                             "durationMinutes": 25,
+                                             "description": "In this episode, Amanda - one of our students from Ireland - shares her Arabic learning journey with us as she tells Enas - one of Deewan’s teachers - the reason why she decided to learn Arabic and come back to Jordan for the second time."
+                                         },
+                                         {
+                                             "id":  4,
+                                             "title":  "Episode 4: My Studies and Arabic",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode4.mp3?alt=media\u0026token=ac6503ac-2fcc-4530-9e9b-8ea6e105ff25",
+                                             "durationMinutes": 37,
+                                             "description": ""
+                                         },
+                                         {
+                                             "id":  5,
+                                             "title":  "Episode 5: Racism",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode5.mp3?alt=media\u0026token=d1528d42-a5e0-4942-b7b8-dc7bb7e7051a",
+                                             "durationMinutes": 56,
+                                             "description": "In this episode, Scott أبو السوس and Mohammad talk about racism and equality in general, but especially in the U.S., Scott's home country.They touch on this topic during their chat, what the situation is today, how things have changed, and what is needed for further positive changes in the future."
+                                         },
+                                         {
+                                             "id":  6,
+                                             "title":  "Episode 6: My Routine",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode6.mp3?alt=media\u0026token=10f90e68-3485-4965-987f-275637391202",
+                                             "durationMinutes": 20,
+                                             "description": "In this episode, Enas is chatting to Diana. A Jordanian who was born and raised in the US. Also one of Deewan many Jordanian by origin students who want to learn Arabic to connect with their roots. Diana and Enas will talk about how becoming a mom changed Diana’s life and daily routine."
+                                         },
+                                         {
+                                             "id":  7,
+                                             "title":  "Episode 7: Having A Dog in Jordan",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode7.mp3?alt=media\u0026token=36679927-3bee-4259-bebb-47201744d35c",
+                                             "durationMinutes": 17,
+                                             "description": "In this episode, Duaa, one of the co-founders of Deewan is chatting to her student Clair from the US. Clair loves dogs, and she has one in Amman, so in this podcast she shares with us her experience of being a dog owner in Jordan."
+                                         },
+                                         {
+                                             "id":  8,
+                                             "title":  "Episode 8: Cooking Is Not My Thing!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode8.mp3?alt=media\u0026token=5d537c47-d25e-4c53-9a39-cebf5b2600ba",
+                                             "durationMinutes": 9,
+                                             "description": "This episode shows a conversation between Heba (one of Deewan Arabic teachers) and Sophia (a student from Spain) in which they discuss Sophia’s life in Amman and her favorite activities to do before the pandemic hit."
+                                         },
+                                         {
+                                             "id":  9,
+                                             "title":  "Episode 9: The Jordanian Heritage",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode9.mp3?alt=media\u0026token=2a74b98a-e074-4c06-baef-078f6a6439aa",
+                                             "durationMinutes": 32,
+                                             "description": "This episode show a conversation between Enas, and Charlotte from Belgium, in which they discuss Charlotte’s PhD research about Jordanian heritage, and about how she used the situation surrounding the pandemic to her advantage whilst undertaking her PhD here in Jordan."
+                                         },
+                                         {
+                                             "id":  10,
+                                             "title":  "Episode 10: A Latina and Arabic",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode10.mp3?alt=media\u0026token=83143b91-ef4f-4037-bcf1-65ec51529f23",
+                                             "durationMinutes": 13,
+                                             "description": "This episode shows a discussion between Hiba, one of Deewan's Arabic teachers and Marcela, a Mexican student who lives in Colombia. "
+                                         },
+                                         {
+                                             "id":  11,
+                                             "title":  "Episode 11: Refugees Situation in Europe",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%201%2FEpisode11.mp3?alt=media\u0026token=99e1a64d-5069-4536-8d81-227fd30ed480",
+                                             "durationMinutes": 37,
+                                             "description": "In this episode, we hear Amée’s interesting opinion on refugees in Europe. During a conversation with Hiba, she shares her experience as a brit living and working in Greece in the humanitarian field."
+                                         }
+                                     ]
+                    },
+                    {
+                        "seasonNumber":  2,
+                        "hostedBy":  "Sara Al-Zyoud",
+                        "about": "Among the first of its kind, the Deewan podcast provides educational yet engaging content. In each episode, one of our teachers hosts a student learning Arabic, and they discuss cultural topics,s including various aspects of life like veganism, racism, parenting, and several other issues we believe are of interest to our students. The podcast provides content that caters to Arabic learners of all levels, beginner, intermediate, and advanced, covering any student’s essential linguistic needs engagingly and practically.",
+                        "averageMinutes": 22,
+                        "level": "Beginner",
+                        "imageAssetPath":  "assets/images/podcast/podcast2.png",
+                        "episodes":  [
+                                         {
+                                             "id":  1,
+                                             "title":  "Episode 1: Introduction to Season 2",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode1.mp3?alt=media\u0026token=a1b2acf7-b649-4a57-a04a-1f4bbe7f5a7e",
+                                             "durationMinutes": 5,
+                                             "description": "After season one was more successful than we could have ever imagined, we decided to continue with a new season and introduce new and more exciting topics with more interactive exercises. "
+                                         },
+                                         {
+                                             "id":  2,
+                                             "title":  "Episode 2: How To Be Vegetarian in Jordan",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode2.mp3?alt=media\u0026token=a6377929-9bd0-49c1-a938-7841a6bdda9f",
+                                             "durationMinutes": 20,
+                                             "description": "The first episode of the new season introduces us to Clara through her conversation with Areen. They tell us all about vegetarianism, and more specifically, vegetarianism in Jordan; a country famous for its levantine cuisine with many popular vegetarian options. "
+                                         },
+                                         {
+                                             "id":  3,
+                                             "title":  "Episode 3: To Palestine with Love",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode3.mp3?alt=media\u0026token=bbf0b901-1520-4a5b-b479-8666eccec575",
+                                             "durationMinutes": 33,
+                                             "description": "This episode brings you a conversation between Johanna and Hiba about the illegal occupation of Palestine. "
+                                         },
+                                         {
+                                             "id":  4,
+                                             "title":  "Episode 4: Cross-Continental Conversations",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode4.mp3?alt=media\u0026token=cf2e5e50-0af8-49e6-bc7b-440f8f1d687e",
+                                             "durationMinutes": 54,
+                                             "description": "This episode, led by Enas, brings us one of the most enlightening conversations we have heard on this podcast."
+                                         },
+                                         {
+                                             "id":  5,
+                                             "title":  "Episode 5: Fitness Not So First!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode5.mp3?alt=media\u0026token=f2700442-b821-4596-baac-bbbff31c5460",
+                                             "durationMinutes": 14,
+                                             "description": "In this episode, Hannah from Germany has a conversation with Hiba about her love of sports, especially yoga, running and riding her bike!"
+                                         },
+                                         {
+                                             "id":  6,
+                                             "title":  "Episode 6: Ready For Take-Off",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode6.mp3?alt=media\u0026token=0cfee44d-5ee0-483d-822d-1c972fb73a84",
+                                             "durationMinutes": 11,
+                                             "description": "This episode is perfect for beginner listeners as students get to hear Enas and Adriana’s conversation about Adriana’s favorite thing in the world to do."
+                                         },
+                                         {
+                                             "id":  7,
+                                             "title":  "Episode 7: Culture VS. Culture",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode7.mp3?alt=media\u0026token=9bdd9b7f-bb2b-4578-9897-2a90fcf61e24",
+                                             "durationMinutes": 27,
+                                             "description": "In this episode, we listen in on the conversation between Hiba and Svenja, a German living in Berlin, about the little details relating to social life and rules and regulations that we never notice when comparing Jordanian and European culture."
+                                         },
+                                         {
+                                             "id":  8,
+                                             "title":  "Episode 8: Tango",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode8.mp3?alt=media\u0026token=873b7154-17c8-4368-8cfe-a81bcefa05ae",
+                                             "durationMinutes": 18,
+                                             "description": "How did a German woman fall in love with an Argentinian/Uruguayan dance? Listen to Nicole talk to Areen, one of our Arabic teachers, about how she got into tango and started practicing it. "
+                                         },
+                                         {
+                                             "id":  9,
+                                             "title":  "Episode 9: Arabic, Religion, and the Middle East",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode9.mp3?alt=media\u0026token=9b619f02-35f9-4ea0-a7ce-de70eec5d4d7",
+                                             "durationMinutes": 28,
+                                             "description": "In this episode, Mohammad, a founder of Deewan, talks to Dayini who hails from Malaysia. They discuss why Dayini is learning Ammiyeh (colloquial) Arabic as well as FusHa (Standard) instead of just FusHa Arabic which is typical of Islamic Southeast Asian countries like Malaysia and Indonesia."
+                                         },
+                                         {
+                                             "id":  10,
+                                             "title":  "Episode 10: Retired but Not Tired!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode10.mp3?alt=media\u0026token=1a9e06dc-ce73-4d15-b1b3-4b2a1ac0d12d",
+                                             "durationMinutes": 13,
+                                             "description": "In this episode, we hear an enlightening conversation between Roger and Areen. Roger is a 70 year old retired man from Scotland who has been living in Jordan for two years."
+                                         },
+                                         {
+                                             "id":  11,
+                                             "title":  "Episode 11: One Race: Human",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%202%2FEpisode11.mp3?alt=media\u0026token=740aead8-7472-4a36-8605-91e66ef8fa08",
+                                             "durationMinutes": 30,
+                                             "description": "This episode includes a crucial conversation between Allison, a black American, and Duaa."
+                                         }
+                                     ]
+                    },
+                    {
+                        "seasonNumber":  3,
+                        "hostedBy":  "Angela Dudley",
+                        "about": "The Deewan Podcast: Bridging Education and Entertainment Explore a groundbreaking approach to Arabic language learning with the Deewan podcast. Our unique podcast series pairs a knowledgeable teacher with a dedicated Arabic learner in every episode. Together, they delve into captivating cultural topics that span a wide range of subjects, including veganism, racism, parenting, and other issues we believe will captivate our students.",
+                        "averageMinutes": 12,
+                        "level": "Beginner",
+                        "imageAssetPath":  "assets/images/podcast/podcast3.png",
+                        "episodes":  [
+                                         {
+                                             "id":  1,
+                                             "title":  "Episode 1: Introduction to Season 3",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode1.mp3?alt=media\u0026token=43fd4bfb-0906-4ab0-bcbe-5ec9661e5688",
+                                             "durationMinutes": 5,
+                                             "description": "Hello and welcome to season 3 of the Deewan Arabic Podcast! We are excited to continue the success of both season 1 and 2 as thousands of you from around the world have listened in."
+                                         },
+                                         {
+                                             "id":  2,
+                                             "title":  "Episode 2: The Real Rugby Spirit!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode2.mp3?alt=media\u0026token=a0ee7ba1-92be-49ad-b263-c38a161c008c",
+                                             "durationMinutes": 28,
+                                             "description": "In this episode Hiba is in conversation with Patrick.  He is a student from the UK studying ​Arabic here. Listen in for the next 20 minutes to hear lots of laughter and a discussion about Patrick's experience so far of living in Amman."
+                                         },
+                                         {
+                                             "id":  3,
+                                             "title":  "Episode 3: Minutes With a Doctor!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode3.mp3?alt=media\u0026token=5f0a0b78-3d55-465b-9c01-ba9f6dff4a04",
+                                             "durationMinutes": 12,
+                                             "description": "In this episode, Hiba is in conversation with Tabia. She is a gynaecologist from Germany and a student here in Amman. Listen in for the next twenty minutes to hear about her work as a doctor, her time in Jordan and, of course, an interesting discussion on covid 19."
+                                         },
+                                         {
+                                             "id":  4,
+                                             "title":  "Episode 4: Difference is Beautiful!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode4.mp3?alt=media\u0026token=8dc645b0-86c5-4552-9c6c-2414118d1c36",
+                                             "durationMinutes": 12,
+                                             "description": "In this episode Hiba is in conversation with Shaheera. She is a student from Pakistan who grew up in Italy and she is currently working as an intern here at Deewan."
+                                         },
+                                         {
+                                             "id":  5,
+                                             "title":  "Episode 5: Ramadan Mubarak! Eat Less, Think More!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode5.mp3?alt=media\u0026token=754518a0-5da2-46e9-956c-520fa8f5d70b",
+                                             "durationMinutes": 17,
+                                             "description": "Have you ever wonderd about ramadan why do people fast, what are the traditions? well, today we're answering your questions as Hiba is in conversation with Areen, Areen is a teacher here at Deewan and she is talking to Hiba about Ramadan and her personal thoughts and experiences of this holy month. "
+                                         },
+                                         {
+                                             "id":  6,
+                                             "title":  "Episode 6: Bint Battuta!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode6.mp3?alt=media\u0026token=57414a32-9d16-430d-bc6a-70748314b657",
+                                             "durationMinutes": 16,
+                                             "description": "In this episode it is not a student sitting behind the microphone but the co-founder and teacher at Deewan. Duaa co-founded Deewan and is in conversation with Hiba about her love of travel."
+                                         },
+                                         {
+                                             "id":  7,
+                                             "title":  "Episode 7: Bunch of Love - كَمشِة حُب",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode7.mp3?alt=media\u0026token=83b8b005-90ae-481f-a934-ebbf665b58c9",
+                                             "durationMinutes": 13,
+                                             "description": "Today chocolates are being bought, flowers sent and love is in the air. Yes today is Valentines Day. But not only is it a special day here, we also carry on this podcast series with getting to know a very special staff member. Suzan talks and laughs with Hiba as they discuss all things love."
+                                         },
+                                         {
+                                             "id":  8,
+                                             "title":  "Episode 8: Tatreez-Palestinian Embroidery",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode8.mp3?alt=media\u0026token=0b91988c-d80f-45dc-bcae-2453b4a75a8e",
+                                             "durationMinutes": 12,
+                                             "description": "What do you think when you hear the word Palestine? It probably isn’t embroidery but that is what our podcast guest is passionate about.  Sara is a student from Italy, is fascinated by Palestine and very keen embroiderer. Listen in to hear about this craft, Palestine and her experience of living in Jordan."
+                                         },
+                                         {
+                                             "id":  9,
+                                             "title":  "Episode 9: Feels Like Home!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode9.mp3?alt=media\u0026token=47413f47-f8dc-4290-b119-5165aa69316c",
+                                             "durationMinutes": 7,
+                                             "description": "In this episode, Zahida is in conversation with Hiba. Listen to their short conversation about Zahida's trips to various Middle Eastern countries. She was fascinated by her trip to Oman but maybe slightly less so with her trip to Qatar."
+                                         },
+                                         {
+                                             "id":  10,
+                                             "title":  "Episode 10: Pierro, The Teacher and Student!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode10.mp3?alt=media\u0026token=7e973917-98ee-49b8-878d-715e9e67f480",
+                                             "durationMinutes": 12,
+                                             "description": "In this episode, Hiba is talking to Pierro. He is actually not a student here in Amman, but instead, he emailed us to be involved in this podcast as he has learnt Arabic by himself through talking to people and going to language exchanges."
+                                         },
+                                         {
+                                             "id":  11,
+                                             "title":  "Episode 11: Get to Know A Jordanian!",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%203%2FEpisode11.mp3?alt=media\u0026token=4cf19cc7-25a7-45e9-81b9-86d9007701ba",
+                                             "durationMinutes": 12,
+                                             "description": "This final episode is with Adnan who is in talking with Hiba. Adnan is a Jordanian student studying here and he talks about life in Amman and his sport of archery. He is a member of the first archery club in Jordan so this is a great choice for those interested in sport. Also do listen to Patrick's episode as his discusses another sport."
+                                         }
+                                     ]
+                    },
+                    {
+                        "seasonNumber":  4,
+                        "hostedBy":  "Duha Hamad",
+                        "about": "Season 4 takes your Arabic learning beyond the classroom and into real-life conversations. Through engaging topics such as shopping at local markets, friendship and social relationships, and the connection between language, culture, and history, you'll expand your vocabulary while gaining a deeper understanding of the Arab world. Designed for High Beginner to Intermediate learners, this season introduces practical expressions, useful grammar, verb conjugations, and cultural insights to help you communicate more naturally and confidently in everyday situations.",
+                        "averageMinutes": 7,
+                        "level": "Beginner",
+                        "imageAssetPath":  "assets/images/podcast/podcast4.png",
+                        "episodes":  [
+                                         {
+                                             "id":  1,
+                                             "title":  "Episode 1: In the Vegetable Shop",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%204%2FEpisode1.mp3?alt=media\u0026token=dbb1afcd-4673-4189-85e3-f93274c34635",
+                                             "durationMinutes": 5,
+                                             "description": "This episode focuses on visiting a vegetable shop in Arabic-speaking countries. You'll learn essential phrases to ask about prices, quantities, and specific vegetables, as well as how to engage in polite conversation with the shopkeeper. "
+                                         },
+                                         {
+                                             "id":  2,
+                                             "title":  "Episode 2: Language and Society",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%204%2FEpisode2.mp3?alt=media\u0026token=736e58b4-db84-4768-9fe9-5b429d4f321b",
+                                             "durationMinutes": 5,
+                                             "description": "This episode focuses on the relationship between language and society, explaining how language learning cannot be separated from society, culture, and history. "
+                                         },
+                                         {
+                                             "id":  3,
+                                             "title":  "Episode 3: My Best Friends",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%204%2FEpisode3.mp3?alt=media\u0026token=91c8e446-8c9a-459d-ab82-ed351f9dfb06",
+                                             "durationMinutes": 5,
+                                             "description": "In this episode, we dive into the topic of friendship and social groups among Arabs, exploring the different personalities of friends. This episode is tailored for High Beginner to Intermediate learners, featuring a variety of verb conjugations and adjectives to help describe characters."
+                                         },
+                                         {
+                                             "id":  4,
+                                             "title":  "Episode 4: Integration in Arab Societies",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%204%2FEpisode4.mp3?alt=media\u0026token=b2fd684d-700f-490a-bba0-5e58d7b9b357",
+                                             "durationMinutes": 16,
+                                             "description": "tt"
+                                         }
+                                     ]
+                    },
+                    {
+                        "seasonNumber":  5,
+                        "hostedBy":  "Raghad Dabbour",
+                        "about": "Discover a fresh way to learn Arabic with the Deewan Podcast, Season 5, created especially for A1–A2 learners. Each episode features natural conversations between a teacher and a learner, covering everyday topics such as family, school, friends, and food. The language is simple and clear, making it easy to follow while gradually building your confidence.",
+                        "averageMinutes": 2,
+                        "level": "Beginner",
+                        "imageAssetPath":  "assets/images/podcast/podcast5.png",
+                        "episodes":  [
+                                         {
+                                             "id":  1,
+                                             "title":  "Episode 1: Self-Introduction",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode1.mp3?alt=media\u0026token=36b74c97-abb7-4d53-a66d-6277fe607501",
+                                             "durationMinutes": 2,
+                                             "description": "This episode focuses on self-introduction. You'll learn how to introduce yourself in Arabic, including how to say your name, where you're from, and a little about your hobbies and interests. It's perfect for beginner-high learners who want to build confidence in introducing themselves in Arabic. "
+                                         },
+                                         {
+                                             "id":  2,
+                                             "title":  "Episode 2: Friends and Family",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode2.mp3?alt=media\u0026token=56c0d7dc-ec3d-4692-b8dc-74924d04f67f",
+                                             "durationMinutes": 1,
+                                             "description": "This episode is all about friends and family! You'll learn how to introduce your family members and friends in Arabic, as well as describe the activities you enjoy doing together. It's perfect for beginner-high learners who want to build confidence in introducing themselves in Arabic. "
+                                         },
+                                         {
+                                             "id":  3,
+                                             "title":  "Episode 3: Daily Routine and Hobbies",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode3.mp3?alt=media\u0026token=6dbe00e4-be19-4c74-b5df-f095f88feb12",
+                                             "durationMinutes": 1,
+                                             "description": "In this episode, you'll learn how to describe your daily routine and hobbies in Arabic using common verbs paired with appropriate prepositions. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  4,
+                                             "title":  "Episode 4: My Vacation",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode4.mp3?alt=media\u0026token=e859fad3-a75f-469f-aa99-e1a1883447d4",
+                                             "durationMinutes": 1,
+                                             "description": "In this episode, I'll take you along on my final trip to Spain, where we'll learn some travel-related phrases and verbs, with a focus on the past tense. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  5,
+                                             "title":  "Episode 5: Talking About Work",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode5.mp3?alt=media\u0026token=ea324176-9768-436c-a468-5b8c608c2141",
+                                             "durationMinutes": 2,
+                                             "description": "In this episode, we’ll talk about work, focusing on how to use verbs and numbers in different contexts. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  6,
+                                             "title":  "Episode 6: House Tours",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode6.mp3?alt=media\u0026token=ed63f4b4-7c3d-4261-92ef-f2193c9b4180",
+                                             "durationMinutes": 2,
+                                             "description": "In this episode, I'll take you on a tour of my house, focusing on colors and furniture. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  7,
+                                             "title":  "Episode 7: My Favorite Restaurant",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode7.mp3?alt=media\u0026token=0589533b-1b33-472d-8eca-d204e3a47b02",
+                                             "durationMinutes": 2,
+                                             "description": "Food is the quickest way to anyone's heart, and that’s exactly what this episode is all about! I'll take you to my favorite restaurant in Amman while focusing on food-related vocabulary. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  8,
+                                             "title":  "Episode 8: My Cat SimSim",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode8.mp3?alt=media\u0026token=122f35bb-30a6-4687-b073-7fd6f7f20d60",
+                                             "durationMinutes": 3,
+                                             "description": "In this episode, I'll introduce you to my cat Simsim—what she looks like, her habits, what she enjoys doing, and so on. It's perfect for beginner-high learners who want to build confidence in using Arabic."
+                                         },
+                                         {
+                                             "id":  9,
+                                             "title":  "Episode 9: Jabal Al Weibdeh",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode9.mp3?alt=media\u0026token=89204b2e-300b-44ea-a93b-d9b19a3c6c7c",
+                                             "durationMinutes": 2,
+                                             "description": "In this episode, we’ll take a look at one of the most popular areas in Amman — Jabal Al-Weibdeh, home to Deewan! We’ll explore the activities, features, and everything that makes this neighborhood unique."
+                                         },
+                                         {
+                                             "id":  10,
+                                             "title":  "Episode 10: Friendship",
+                                             "audioUrl":  "https://firebasestorage.googleapis.com/v0/b/linguarabi.firebasestorage.app/o/Season%205%2FEpisode10.mp3?alt=media\u0026token=f078d440-c93d-492b-a82d-671443855bfc",
+                                             "durationMinutes": 2,
+                                             "description": "In this final episode, I'll introduce you to my best friend Sara — how we met, how we spend time together, and more."
+                                         }
+                                     ]
+                    }
+                ]
+}
+
+

@@ -3,10 +3,11 @@ import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/podcasts/podcast_detail.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
+import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:deewan_institute_app/podcasts/podcast_player.dart';
-import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,55 +19,11 @@ class PodcastHome extends StatefulWidget {
 }
 
 class _PodcastHomeState extends State<PodcastHome> {
-  int _selectedFilter = 0;
-
-  static const _filters = ['All', 'Beginner', 'Intermediate', 'Advanced'];
-
-  final PodcastData _featuredPodcast = const PodcastData(
-    title: 'Episode 12: At the Market',
-    description:
-        'Arabic Daily helps you build listening confidence through simple, practical conversations.',
-    bgColor: AppColors.coral,
-    artColor: AppColors.podcastCoverOrange,
-  );
-
-  final EpisodeData _featuredEpisode = const EpisodeData(
-    title: 'Episode 12: At the Market',
-    podcast: 'Arabic Daily',
-    duration: '18:24',
-    artColor: AppColors.podcastCoverOrange,
-  );
-
-  final List<_SeasonData> _seasons = const [
-    _SeasonData(
-      number: '1',
-      title: 'At the Market',
-      episodes: '6 eps',
-      color: AppColors.podcastRedGradient,
-      accentColor: AppColors.podcastBadgeLight,
-    ),
-    _SeasonData(
-      number: '2',
-      title: 'Daily Life',
-      episodes: '5 eps',
-      color: AppColors.podcastGreenGradient,
-      accentColor: Color(0xFF43AA8B),
-    ),
-    _SeasonData(
-      number: '3',
-      title: 'Culture &\nTraditions',
-      episodes: '7 eps',
-      color: AppColors.podcastBlackGradient,
-      accentColor: AppColors.podcastDarkBadge,
-    ),
-    _SeasonData(
-      number: '4',
-      title: 'Travel &\nTransport',
-      episodes: '8 eps',
-      color: AppColors.podcastYellowGradient,
-      accentColor: AppColors.podcastYellowBadge,
-    ),
-  ];
+  @override
+  void dispose() {
+    PodcastPlaybackController.instance.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,56 +31,81 @@ class _PodcastHomeState extends State<PodcastHome> {
       backgroundColor: AppColors.cream,
       extendBody: true,
       drawer: const AppDrawer(selectedIndex: AppDrawer.podcastsIndex),
-      body: Stack(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 126),
+      body: SafeArea(
+        bottom: false,
+        child: FutureBuilder<List<PodcastSeason>>(
+          future: PodcastCatalog.load(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return _CatalogError(onRetry: () => PodcastCatalog.load());
+            }
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final seasons = snapshot.data!;
+            final featuredSeason = seasons.last;
+            final featuredEpisode = featuredSeason.episodes.last;
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 210),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const AppTopNav(),
                   const SizedBox(height: 58),
-                  const _PodcastHeroText(),
-                  const SizedBox(height: 30),
-                  _FilterChips(
-                    filters: _filters,
-                    selectedIndex: _selectedFilter,
-                    onSelected: (index) {
-                      setState(() => _selectedFilter = index);
-                    },
+                  const Text(
+                    'Podcasts',
+                    style: TextStyle(
+                      color: AppColors.ink,
+                      fontFamily: 'Prociono',
+                      fontSize: 45,
+                      height: 1,
+                    ),
                   ),
-                  const SizedBox(height: 34),
-                  const _SectionTitle('Featured'),
-                  const SizedBox(height: 22),
-                  _FeaturedEpisodeCard(
-                    podcast: _featuredPodcast,
-                    episode: _featuredEpisode,
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Listen & Learn Arabic',
+                    style: TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  const SizedBox(height: 34),
+                  const SizedBox(height: 38),
+                  const _SectionTitle('Latest Episode'),
+                  const SizedBox(height: 20),
+                  _FeaturedEpisode(
+                    season: featuredSeason,
+                    episode: featuredEpisode,
+                  ),
+                  const SizedBox(height: 38),
                   const _SectionTitle('Seasons'),
-                  const SizedBox(height: 22),
-                  _SeasonsGrid(seasons: _seasons),
+                  const SizedBox(height: 20),
+                  ...seasons.map(
+                    (season) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: _SeasonCard(season: season),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
-      bottomNavigationBar: AppBottomNav(
-        currentIndex: -1,
-        onTap: (index) {
+      bottomNavigationBar: _PodcastBottomArea(
+        onNavigate: (index) {
+          PodcastPlaybackController.instance.stop();
           if (index == 0) {
             Navigator.popUntil(context, (route) => route.isFirst);
-            return;
-          }
-          if (index == 1) {
+          } else if (index == 1) {
             AppLoading.navigate(context, const WordSearchPage());
-            return;
-          }
-          if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()),
+            );
           }
         },
       ),
@@ -131,268 +113,234 @@ class _PodcastHomeState extends State<PodcastHome> {
   }
 }
 
-class _PodcastHeroText extends StatelessWidget {
-  const _PodcastHeroText();
+class _PodcastBottomArea extends StatelessWidget {
+  const _PodcastBottomArea({required this.onNavigate});
+
+  final ValueChanged<int> onNavigate;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Podcasts',
-          style: TextStyle(
-            color: AppColors.ink,
-            fontFamily: 'Prociono',
-            fontSize: 45,
-            fontWeight: FontWeight.w600,
-            height: 1,
-          ),
-        ),
-        SizedBox(height: 16),
-        Text(
-          'Listen & Learn Arabic',
-          style: TextStyle(
-            color: Color(0xFF898783),
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            height: 1,
-          ),
-        ),
-      ],
+    final playback = PodcastPlaybackController.instance;
+    return AnimatedBuilder(
+      animation: playback,
+      builder: (context, _) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (playback.hasTrack) _MiniPodcastPlayer(playback: playback),
+          AppBottomNav(currentIndex: -1, onTap: onNavigate),
+        ],
+      ),
     );
   }
 }
 
-class _FilterChips extends StatelessWidget {
-  const _FilterChips({
-    required this.filters,
-    required this.selectedIndex,
-    required this.onSelected,
-  });
+class _MiniPodcastPlayer extends StatelessWidget {
+  const _MiniPodcastPlayer({required this.playback});
 
-  final List<String> filters;
-  final int selectedIndex;
-  final ValueChanged<int> onSelected;
+  final PodcastPlaybackController playback;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
-      child: ListView.separated(
-        clipBehavior: Clip.none,
-        scrollDirection: Axis.horizontal,
-        itemCount: filters.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final selected = selectedIndex == index;
-
-          return Material(
-            color: selected ? AppColors.green : Colors.transparent,
-            borderRadius: BorderRadius.circular(28),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(28),
-              onTap: () => onSelected(index),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  border: selected
-                      ? null
-                      : Border.all(
-                          color: AppColors.podcastChipBorder,
-                          width: 1.3,
-                        ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  filters[index],
-                  style: TextStyle(
-                    color: selected ? Colors.white : AppColors.ink,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+    final season = playback.season!;
+    final episode = playback.episode!;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+      child: Material(
+        color: AppColors.podcastPlayerBackground,
+        borderRadius: BorderRadius.circular(20),
+        elevation: 8,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => PodcastPlayer(
+                season: season,
+                initialEpisodeIndex: playback.episodeIndex,
               ),
             ),
-          );
-        },
+          ),
+          child: SizedBox(
+            height: 72,
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(20),
+                      ),
+                      child: SizedBox(
+                        width: 72,
+                        height: 72,
+                        child: season.imageAssetPath == null
+                            ? const ColoredBox(color: AppColors.cream)
+                            : Image.asset(
+                                season.imageAssetPath!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const ColoredBox(color: AppColors.cream),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            episode.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            season.title,
+                            style: const TextStyle(
+                              color: AppColors.cream,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: playback.toggle,
+                      icon: playback.isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: AppColors.green,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Icon(
+                              playback.isPlaying
+                                  ? Icons.pause_circle_filled_rounded
+                                  : Icons.play_circle_fill_rounded,
+                              color: AppColors.green,
+                              size: 38,
+                            ),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+                ),
+                Positioned(
+                  left: 72,
+                  right: 0,
+                  bottom: 0,
+                  child: LinearProgressIndicator(
+                    value: playback.progress,
+                    minHeight: 3,
+                    backgroundColor: AppColors.podcastWhite12,
+                    valueColor: const AlwaysStoppedAnimation(AppColors.green),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title);
+  const _SectionTitle(this.text);
 
-  final String title;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      title,
+      text,
       style: const TextStyle(
         color: AppColors.green,
         fontFamily: 'Prociono',
-        fontSize: 22,
+        fontSize: 27,
         fontWeight: FontWeight.w600,
-        height: 1,
       ),
     );
   }
 }
 
-class _FeaturedEpisodeCard extends StatelessWidget {
-  const _FeaturedEpisodeCard({required this.podcast, required this.episode});
+class _FeaturedEpisode extends StatelessWidget {
+  const _FeaturedEpisode({required this.season, required this.episode});
 
-  final PodcastData podcast;
+  final PodcastSeason season;
   final EpisodeData episode;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>
-          AppLoading.navigate(context, PodcastDetail(podcast: podcast)),
-      child: Container(
-        height: 288,
-        width: double.infinity,
-        padding: const EdgeInsets.all(26),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(32),
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColors.orange, AppColors.coral],
+    return Material(
+      color: episode.artColor,
+      borderRadius: BorderRadius.circular(28),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(28),
+        onTap: () => AppLoading.navigate(
+          context,
+          PodcastPlayer(
+            season: season,
+            initialEpisodeIndex: season.episodes.length - 1,
           ),
         ),
-        child: Stack(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _PodcastCoverArt(),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        episode.podcast.toUpperCase(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          height: 1,
-                        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Row(
+            children: [
+              _BlankArtwork(size: 86, imageAssetPath: season.imageAssetPath),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      season.title.toUpperCase(),
+                      style: const TextStyle(
+                        color: AppColors.cream,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
                       ),
-                      const SizedBox(height: 18),
-                      Text(
-                        episode.title,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Prociono',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          height: 1.25,
-                        ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      episode.title,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontFamily: 'Prociono',
+                        fontSize: 21,
+                        height: 1.2,
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            Positioned(
-              right: 0,
-              bottom: 8,
-              child: FilledButton.icon(
-                onPressed: () => AppLoading.navigate(
-                  context,
-                  PodcastPlayer(podcast: podcast, episode: episode),
-                ),
-                icon: const Icon(Icons.play_circle_outline_rounded, size: 22),
-                label: const Text(
-                  'Play Now',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-                ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.coral,
-                  minimumSize: const Size(146, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Hosted by ${season.hostedBy}',
+                      style: const TextStyle(
+                        color: AppColors.cream,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PodcastCoverArt extends StatelessWidget {
-  const _PodcastCoverArt();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 85,
-      height: 85,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        gradient: const RadialGradient(
-          center: Alignment.topLeft,
-          radius: 1.15,
-          colors: [
-            Color(0xFFFFC14A),
-            AppColors.podcastCoverOrange,
-            AppColors.coral,
-          ],
-        ),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          const Image(
-            image: AssetImage('assets/images/logos/logo.png'),
-            width: 85,
-            height: 85,
-            fit: BoxFit.contain,
+              const Icon(
+                Icons.play_circle_fill_rounded,
+                color: AppColors.white,
+                size: 44,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    );
-  }
-}
-
-class _SeasonsGrid extends StatelessWidget {
-  const _SeasonsGrid({required this.seasons});
-
-  final List<_SeasonData> seasons;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 18,
-        mainAxisSpacing: 18,
-        childAspectRatio: 0.96,
-      ),
-      itemCount: seasons.length,
-      itemBuilder: (context, index) {
-        return _SeasonCard(season: seasons[index]);
-      },
     );
   }
 }
@@ -400,105 +348,119 @@ class _SeasonsGrid extends StatelessWidget {
 class _SeasonCard extends StatelessWidget {
   const _SeasonCard({required this.season});
 
-  final _SeasonData season;
+  final PodcastSeason season;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => AppLoading.navigate(
-        context,
-        PodcastDetail(
-          podcast: PodcastData(
-            title:
-                'Season ${season.number}: ${season.title.replaceAll('\n', ' ')}',
-            description:
-                'Practice Arabic listening through ${season.title.toLowerCase().replaceAll('\n', ' ')} episodes.',
-            bgColor: season.color.colors.last,
-            artColor: season.accentColor,
+    final color = PodcastCatalog.seasonColors[season.seasonNumber - 1];
+    return Material(
+      color: color.colors.first,
+      borderRadius: BorderRadius.circular(24),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: () =>
+            AppLoading.navigate(context, PodcastDetail(season: season)),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              _BlankArtwork(size: 92, imageAssetPath: season.imageAssetPath),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      season.title,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontFamily: 'Prociono',
+                        fontSize: 22,
+                      ),
+                    ),
+                    const SizedBox(height: 7),
+                    Text(
+                      'Hosted by ${season.hostedBy}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.cream,
+                        fontSize: 10,
+                      ),
+                    ),
+                    const SizedBox(height: 7),
+                    Text(
+                      season.episodeCount,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.white,
+                size: 30,
+              ),
+            ],
           ),
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          gradient: season.color,
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Text(
-                season.number,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Prociono',
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500,
-                  height: 1,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: season.accentColor,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Text(
-                  season.episodes,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Text(
-                season.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Prociono',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  height: 1.16,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
   }
 }
 
-class _SeasonData {
-  const _SeasonData({
-    required this.number,
-    required this.title,
-    required this.episodes,
-    required this.color,
-    required this.accentColor,
-  });
+class _BlankArtwork extends StatelessWidget {
+  const _BlankArtwork({required this.size, this.imageAssetPath});
 
-  final String number;
-  final String title;
-  final String episodes;
-  final LinearGradient color;
-  final Color accentColor;
+  final double size;
+  final String? imageAssetPath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.cream),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: imageAssetPath == null
+          ? const SizedBox.shrink()
+          : Image.asset(
+              imageAssetPath!,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const SizedBox.shrink(),
+            ),
+    );
+  }
+}
+
+class _CatalogError extends StatelessWidget {
+  const _CatalogError({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Unable to load podcasts.'),
+            const SizedBox(height: 12),
+            FilledButton(onPressed: onRetry, child: const Text('Try again')),
+          ],
+        ),
+      ),
+    );
+  }
 }

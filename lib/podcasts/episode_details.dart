@@ -1,10 +1,10 @@
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
-import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
+import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:deewan_institute_app/podcasts/podcast_player.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
@@ -12,33 +12,20 @@ import 'package:flutter/material.dart';
 class EpisodeDetails extends StatelessWidget {
   const EpisodeDetails({
     super.key,
-    required this.podcast,
-    required this.episode,
-    this.seasonGradient = AppColors.podcastGreenGradient,
-    this.level = 'Intermediate',
-    this.description,
-    this.imageAssetPath,
-    this.transcript,
+    required this.season,
+    required this.episodeIndex,
   });
 
-  final PodcastData podcast;
-  final EpisodeData episode;
-  final LinearGradient seasonGradient;
-  final String level;
-  final String? description;
-  final String? imageAssetPath;
-  final String? transcript;
+  final PodcastSeason season;
+  final int episodeIndex;
 
-  String get _description =>
-      description ??
-      'In this episode, we dive into the sensory experience of a traditional Levantine souq. Learn the vocabulary for spices, bargaining, and polite interactions with vendors.';
+  EpisodeData get episode => season.episodes[episodeIndex];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cream,
       extendBody: true,
-      drawer: const AppDrawer(selectedIndex: AppDrawer.podcastsIndex),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -48,49 +35,51 @@ class EpisodeDetails extends StatelessWidget {
             children: [
               const AppTopNav(),
               const SizedBox(height: 42),
-              _EpisodeImagePlaceholder(
-                imageAssetPath: imageAssetPath,
-                gradient: seasonGradient,
-              ),
-              const SizedBox(height: 36),
-              _EpisodeMetaRow(
-                podcastName: podcast.title,
-                level: level,
-                duration: episode.duration,
-              ),
-              const SizedBox(height: 26),
+              _SeasonArtwork(season: season),
+              const SizedBox(height: 34),
+              _EpisodeMeta(season: season, episode: episode),
+              const SizedBox(height: 24),
               Text(
                 episode.title,
                 style: const TextStyle(
                   color: AppColors.ink,
                   fontFamily: 'Prociono',
-                  fontSize: 43,
-                  fontWeight: FontWeight.w500,
-                  height: 1.12,
+                  fontSize: 36,
+                  height: 1.16,
                 ),
               ),
-              const SizedBox(height: 24),
-              Text(
-                _description,
-                style: const TextStyle(
-                  color: AppColors.muted,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                  height: 1.55,
-                ),
-              ),
-              const SizedBox(height: 36),
-              _TranscriptLink(
-                transcript: transcript,
-                onTap: () {},
-              ),
-              const SizedBox(height: 72),
-              _PlayEpisodeButton(
-                onTap: () => AppLoading.navigate(
+              const SizedBox(height: 22),
+              if (episode.description.isNotEmpty)
+                Text(
+                  episode.description,
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 18,
+                    height: 1.55,
+                  ),
+                )
+              else
+                const SizedBox(height: 60),
+              const SizedBox(height: 54),
+              FilledButton.icon(
+                onPressed: () => AppLoading.navigate(
                   context,
                   PodcastPlayer(
-                    podcast: podcast,
-                    episode: episode,
+                    season: season,
+                    initialEpisodeIndex: episodeIndex,
+                  ),
+                ),
+                icon: const Icon(Icons.play_circle_outline_rounded, size: 28),
+                label: const Text(
+                  'Play Episode',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
+                ),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.green,
+                  foregroundColor: AppColors.white,
+                  minimumSize: const Size.fromHeight(62),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
                   ),
                 ),
               ),
@@ -101,16 +90,16 @@ class EpisodeDetails extends StatelessWidget {
       bottomNavigationBar: AppBottomNav(
         currentIndex: -1,
         onTap: (index) {
+          PodcastPlaybackController.instance.stop();
           if (index == 0) {
             Navigator.popUntil(context, (route) => route.isFirst);
-            return;
-          }
-          if (index == 1) {
+          } else if (index == 1) {
             AppLoading.navigate(context, const WordSearchPage());
-            return;
-          }
-          if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()),
+            );
           }
         },
       ),
@@ -118,88 +107,68 @@ class EpisodeDetails extends StatelessWidget {
   }
 }
 
-class _EpisodeImagePlaceholder extends StatelessWidget {
-  const _EpisodeImagePlaceholder({
-    required this.imageAssetPath,
-    required this.gradient,
-  });
+class _SeasonArtwork extends StatelessWidget {
+  const _SeasonArtwork({required this.season});
 
-  final String? imageAssetPath;
-  final LinearGradient gradient;
+  final PodcastSeason season;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return AspectRatio(
+      aspectRatio: 1,
       child: Container(
-        width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 640),
-        height: 374,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(34),
-          gradient: gradient,
-          boxShadow: [
-            BoxShadow(
-              color: gradient.colors.last.withValues(alpha: 0.13),
-              blurRadius: 28,
-              offset: const Offset(0, 18),
+          color: AppColors.podcastSeasonImageBackground(
+            season.episodes.first.artColor,
+          ),
+          borderRadius: BorderRadius.circular(32),
+          border: Border.all(
+            color: AppColors.podcastSeasonImageBorder(
+              season.episodes.first.artColor,
             ),
-          ],
+          ),
         ),
         clipBehavior: Clip.antiAlias,
-        child: imageAssetPath == null
+        child: season.imageAssetPath == null || season.imageAssetPath!.isEmpty
             ? const SizedBox.shrink()
             : Image.asset(
-                imageAssetPath!,
+                season.imageAssetPath!,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const SizedBox.shrink(),
               ),
-        // TODO: Add the real episode image later.
-        // Example:
-        // child: Image.asset('assets/images/podcasts/episode_market.png', fit: BoxFit.cover),
       ),
     );
   }
 }
 
-class _EpisodeMetaRow extends StatelessWidget {
-  const _EpisodeMetaRow({
-    required this.podcastName,
-    required this.level,
-    required this.duration,
-  });
+class _EpisodeMeta extends StatelessWidget {
+  const _EpisodeMeta({required this.season, required this.episode});
 
-  final String podcastName;
-  final String level;
-  final String duration;
+  final PodcastSeason season;
+  final EpisodeData episode;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
-            podcastName.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            season.title.toUpperCase(),
             style: const TextStyle(
               color: AppColors.orange,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              height: 1,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        _MetaPill(label: season.level, color: AppColors.green),
+        const SizedBox(width: 8),
         _MetaPill(
-          label: level,
-          backgroundColor: const Color(0xFFE7F1DF),
-          foregroundColor: AppColors.green,
-        ),
-        const SizedBox(width: 10),
-        _MetaPill(
-          label: duration,
-          backgroundColor: const Color(0xFFEDE6DA),
-          foregroundColor: AppColors.ink,
+          label: episode.durationMinutes == null
+              ? '-- min'
+              : '${episode.durationMinutes} min',
+          color: AppColors.ink,
         ),
       ],
     );
@@ -207,106 +176,25 @@ class _EpisodeMetaRow extends StatelessWidget {
 }
 
 class _MetaPill extends StatelessWidget {
-  const _MetaPill({
-    required this.label,
-    required this.backgroundColor,
-    required this.foregroundColor,
-  });
+  const _MetaPill({required this.label, required this.color});
 
   final String label;
-  final Color backgroundColor;
-  final Color foregroundColor;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(10),
+        color: AppColors.podcastMetaPill,
+        borderRadius: BorderRadius.circular(9),
       ),
       child: Text(
         label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          color: foregroundColor,
-          fontSize: 16,
-          fontWeight: FontWeight.w900,
-          height: 1,
-        ),
-      ),
-    );
-  }
-}
-
-class _TranscriptLink extends StatelessWidget {
-  const _TranscriptLink({
-    required this.transcript,
-    required this.onTap,
-  });
-
-  final String? transcript;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.description_outlined,
-              color: AppColors.green,
-              size: 30,
-            ),
-            SizedBox(width: 14),
-            Text(
-              'View Full Transcript',
-              style: TextStyle(
-                color: AppColors.green,
-                fontSize: 21,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PlayEpisodeButton extends StatelessWidget {
-  const _PlayEpisodeButton({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 65,
-      child: FilledButton.icon(
-        onPressed: onTap,
-        icon: const Icon(Icons.play_circle_outline_rounded, size: 30),
-        label: const Text(
-          'Play Episode',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.green,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(34),
-          ),
-          elevation: 0,
+          color: color,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

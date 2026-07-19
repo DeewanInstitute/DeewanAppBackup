@@ -13,22 +13,30 @@ class AppColors {
   static const Color textHint = Colors.black26;
   static const Color error = Colors.red;
   static const Color link = Color.fromRGBO(143, 110, 67, 1);
+  static const Color purple = Color(0xFF8B5CF6);
 
   static const cream = Color(0xFFFFF8F1);
-  static const green = Color(0xFF5DCBA9);
+  static const green = Color(0xFF43AA8B);
   static const coral = Color(0xFFF94144);
-  static const orange = Color(0xFFFF7327);
+  static const orange = Color(0xFFF3722C);
   static const ink = Color(0xFF1F1E28);
   static const muted = Color(0xFF8F8C88);
 
-  static const podcastChipBorder = Color(0xFF8F8C88);
-  static const podcastCoverOrange = Color(0xFFF47A2A);
-  static const podcastSeasonGreen = Color.fromRGBO(93, 203, 169, 1.0);
-  static const podcastSeasonBlack = Color(0xFF0B1020);
-  static const podcastSeasonYellow = Color(0xFFFFB814);
-  static const podcastBadgeLight = Color(0xFFFF777A);
-  static const podcastDarkBadge = Color(0xFF444B59);
-  static const podcastYellowBadge = Color(0xFFFFCE56);
+  static const podcastPlayerBackground = Color(0xFF1D1B20);
+  static const podcastInfoPill = Color(0xFFF0E9DD);
+  static const podcastMetaPill = Color(0xFFECE7DD);
+  static const podcastWhite12 = Color(0x20FFFFFF);
+
+  static const podcastAccentOverlay = Color(0x2643AA8B);
+  static const podcastAccentGlow = Color(0x6643AA8B);
+  static const podcastAccentStrongGlow = Color(0xB343AA8B);
+  static const podcastPlaybackError = Color(0xFFFF5252);
+
+  static Color podcastSeasonImageBackground(Color seasonColor) =>
+      seasonColor.withValues(alpha: 0.16);
+
+  static Color podcastSeasonImageBorder(Color seasonColor) =>
+      seasonColor.withValues(alpha: 0.22);
   static const podcastRedGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -42,17 +50,16 @@ class AppColors {
   static const podcastBlackGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFFFF8F1),
-      Color(0xFF0B1020),
-    ],
+    colors: [Color(0xFF0B1020), Color.fromARGB(255, 79, 82, 94)],
   );
   static const podcastYellowGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFF59E0B),
-      Color(0xFFFBBF24),
-    ],
+    colors: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
+  );
+  static const podcastPurpleGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
   );
 }

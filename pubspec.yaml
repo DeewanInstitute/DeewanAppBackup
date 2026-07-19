@@ -46,6 +46,7 @@ dependencies:
   country_code_picker: ^3.4.1
   shared_preferences: ^2.5.5
   cloud_functions: ^6.3.4
+  just_audio: ^0.10.6
 
 
 
@@ -77,10 +78,12 @@ flutter:
     - assets/images/logos/nobgLogo.webp
     - assets/images/icons/google.png
     - assets/images/background/background.png
+    - assets/images/podcast/
     - assets/animation_lottie/forgotpassword.json
     - assets/animation_lottie/loading.json
     - assets/animation_lottie/login.json
     - assets/data/arabic_dictionary.json
+    - assets/data/podcasts.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

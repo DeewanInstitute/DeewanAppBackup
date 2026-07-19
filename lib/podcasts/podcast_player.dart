@@ -1,386 +1,195 @@
+import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/podcasts/podcast_models.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:flutter/material.dart';
 
 class PodcastPlayer extends StatefulWidget {
-  final PodcastData podcast;
-  final EpisodeData episode;
-  const PodcastPlayer({super.key, required this.podcast, required this.episode});
+  final PodcastSeason season;
+  final int initialEpisodeIndex;
+
+  const PodcastPlayer({
+    super.key,
+    required this.season,
+    required this.initialEpisodeIndex,
+  });
 
   @override
   State<PodcastPlayer> createState() => _PodcastPlayerState();
 }
 
-class _PodcastPlayerState extends State<PodcastPlayer>
-    with TickerProviderStateMixin {
-  bool _isPlaying = true;
-  bool _isFavorited = false;
-  double _progress = 0.35;
-  double _volume = 0.7;
-  String _speed = '1x';
-  late AnimationController _rotationController;
-  late AnimationController _pulseController;
-  late Animation<double> _pulseAnimation;
+class _PodcastPlayerState extends State<PodcastPlayer> {
+  final PodcastPlaybackController _playback =
+      PodcastPlaybackController.instance;
+
+  EpisodeData get _episode => _playback.episode!;
+
+  String get _episodeTitle =>
+      _episode.title.replaceFirst(RegExp(r'^Episode\s+\d+\s*:\s*'), '');
 
   @override
   void initState() {
     super.initState();
-    _rotationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 12),
-    )..repeat();
-
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
-
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.06).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
-
-    if (!_isPlaying) _rotationController.stop();
-  }
-
-  @override
-  void dispose() {
-    _rotationController.dispose();
-    _pulseController.dispose();
-    super.dispose();
-  }
-
-  void _togglePlay() {
-    setState(() => _isPlaying = !_isPlaying);
-    if (_isPlaying) {
-      _rotationController.repeat();
-      _pulseController.repeat(reverse: true);
-    } else {
-      _rotationController.stop();
-      _pulseController.stop();
+    if (!_playback.isCurrent(widget.season, widget.initialEpisodeIndex)) {
+      _playback.playEpisode(widget.season, widget.initialEpisodeIndex);
     }
   }
 
-  String _formatTime(double progress, int totalSeconds) {
-    final seconds = (progress * totalSeconds).round();
-    final m = seconds ~/ 60;
-    final s = seconds % 60;
-    return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+  String _formatTime(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
   @override
   Widget build(BuildContext context) {
-    const totalSeconds = 33 * 60 + 37;
-    final artColor = widget.podcast.artColor;
-    final bgColor = widget.podcast.bgColor;
+    return AnimatedBuilder(
+      animation: _playback,
+      builder: (context, _) => Scaffold(
+        backgroundColor: AppColors.podcastPlayerBackground,
+        body: SafeArea(
+          child: Column(
+            children: [
+              _PlayerHeader(onClose: () => Navigator.pop(context)),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final compact = constraints.maxHeight < 760;
+                    final coverSize = compact ? 240.0 : 280.0;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Top bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.12),
-                        shape: BoxShape.circle,
+                    return SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      padding: EdgeInsets.fromLTRB(
+                        24,
+                        compact ? 40 : 111,
+                        24,
+                        32,
                       ),
-                      child: const Icon(CupertinoIcons.arrow_left, color: Colors.white, size: 18),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        'Now Playing',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                          fontSize: 12,
-                          fontFamily: 'PlusJakartaSans',
-                        ),
-                      ),
-                      Text(
-                        widget.podcast.title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'PlusJakartaSans',
-                        ),
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.12),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.more_horiz, color: Colors.white, size: 20),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Spacer(),
-
-            // Animated cover art
-            AnimatedBuilder(
-              animation: _pulseAnimation,
-              builder: (_, child) => Transform.scale(
-                scale: _isPlaying ? _pulseAnimation.value : 1.0,
-                child: child,
-              ),
-              child: RotationTransition(
-                turns: _rotationController,
-                child: Container(
-                  width: 240,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: bgColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: artColor.withOpacity(0.4),
-                        blurRadius: 50,
-                        spreadRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: CustomPaint(
-                    painter: _PlayerArtPainter(color: artColor),
-                  ),
-                ),
-              ),
-            ),
-
-            const Spacer(),
-
-            // Episode info + favorite
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.episode.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'PlusJakartaSans',
-                            height: 1.2,
+                      child: Column(
+                        children: [
+                          _CoverArt(
+                            size: coverSize,
+                            imageAssetPath: _playback.season!.imageAssetPath,
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          widget.podcast.title,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.55),
-                            fontSize: 14,
-                            fontFamily: 'PlusJakartaSans',
+                          const SizedBox(height: 32),
+                          Text(
+                            _episodeTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontFamily: 'Prociono',
+                              fontSize: 28,
+                              fontWeight: FontWeight.w400,
+                              height: 37 / 28,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => setState(() => _isFavorited = !_isFavorited),
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: Icon(
-                        _isFavorited ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                        key: ValueKey(_isFavorited),
-                        color: _isFavorited ? artColor : Colors.white.withOpacity(0.6),
-                        size: 28,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 28),
-
-            // Progress bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  SliderTheme(
-                    data: SliderThemeData(
-                      trackHeight: 3,
-                      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                      overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
-                      activeTrackColor: artColor,
-                      inactiveTrackColor: Colors.white.withOpacity(0.2),
-                      thumbColor: Colors.white,
-                      overlayColor: artColor.withOpacity(0.2),
-                    ),
-                    child: Slider(
-                      value: _progress,
-                      onChanged: (v) => setState(() => _progress = v),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _formatTime(_progress, totalSeconds),
-                          style: TextStyle(color: Colors.white.withOpacity(0.55), fontSize: 12, fontFamily: 'PlusJakartaSans'),
-                        ),
-                        Text(
-                          '33:37',
-                          style: TextStyle(color: Colors.white.withOpacity(0.55), fontSize: 12, fontFamily: 'PlusJakartaSans'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Playback controls
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Skip back
-                  GestureDetector(
-                    onTap: () => setState(() => _progress = (_progress - 0.05).clamp(0.0, 1.0)),
-                    child: Column(
-                      children: [
-                        Icon(Icons.replay_10_rounded, color: Colors.white.withOpacity(0.8), size: 32),
-                      ],
-                    ),
-                  ),
-                  // Previous
-                  GestureDetector(
-                    onTap: () {},
-                    child: Icon(Icons.skip_previous_rounded, color: Colors.white.withOpacity(0.8), size: 36),
-                  ),
-                  // Play / Pause
-                  GestureDetector(
-                    onTap: _togglePlay,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 68,
-                      height: 68,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.25),
-                            blurRadius: 20,
-                            spreadRadius: 4,
+                          const SizedBox(height: 8),
+                          Text(
+                            '${_playback.season!.title} · ${_playback.season!.hostedBy}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: AppColors.green,
+                              fontFamily: 'Inter',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              height: 19 / 16,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          if (_playback.error != null) ...[
+                            Text(
+                              _playback.error!,
+                              style: const TextStyle(
+                                color: AppColors.podcastPlaybackError,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+                          _Scrubber(
+                            progress: _playback.progress,
+                            elapsed: _formatTime(_playback.position.inSeconds),
+                            duration: _playback.duration == Duration.zero
+                                ? '--:--'
+                                : _formatTime(_playback.duration.inSeconds),
+                            onChanged: _playback.duration == Duration.zero
+                                ? null
+                                : _playback.seekProgress,
+                          ),
+                          const SizedBox(height: 32),
+                          _PlaybackRow(
+                            speed: _playback.speedLabel,
+                            isPlaying: _playback.isPlaying,
+                            isLoading: _playback.isLoading,
+                            onSpeedTap: _playback.cycleSpeed,
+                            onReplay: () => _playback.seekBy(-10),
+                            onPrevious: _playback.previous,
+                            onPlayPause: _playback.toggle,
+                            onNext: _playback.next,
+                            onForward: () => _playback.seekBy(10),
+                            onShare: () {},
                           ),
                         ],
                       ),
-                      child: Icon(
-                        _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                        color: bgColor,
-                        size: 36,
-                      ),
-                    ),
-                  ),
-                  // Next
-                  GestureDetector(
-                    onTap: () {},
-                    child: Icon(Icons.skip_next_rounded, color: Colors.white.withOpacity(0.8), size: 36),
-                  ),
-                  // Skip forward
-                  GestureDetector(
-                    onTap: () => setState(() => _progress = (_progress + 0.05).clamp(0.0, 1.0)),
-                    child: Icon(Icons.forward_10_rounded, color: Colors.white.withOpacity(0.8), size: 32),
-                  ),
-                ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayerHeader extends StatelessWidget {
+  const _PlayerHeader({required this.onClose});
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 62,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 18, 24, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: onClose,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints.tightFor(width: 24, height: 24),
+              icon: const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: AppColors.white,
+                size: 32,
               ),
             ),
-
-            const SizedBox(height: 28),
-
-            // Bottom row: speed, volume, share
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Speed
-                  GestureDetector(
-                    onTap: () {
-                      final speeds = ['0.5x', '0.75x', '1x', '1.25x', '1.5x', '2x'];
-                      final idx = speeds.indexOf(_speed);
-                      setState(() => _speed = speeds[(idx + 1) % speeds.length]);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        _speed,
-                        style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600, fontFamily: 'PlusJakartaSans'),
-                      ),
-                    ),
-                  ),
-                  // Volume
-                  Row(
-                    children: [
-                      Icon(Icons.volume_down_rounded, color: Colors.white.withOpacity(0.5), size: 18),
-                      SizedBox(
-                        width: 100,
-                        child: SliderTheme(
-                          data: SliderThemeData(
-                            trackHeight: 2,
-                            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
-                            overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
-                            activeTrackColor: Colors.white.withOpacity(0.8),
-                            inactiveTrackColor: Colors.white.withOpacity(0.2),
-                            thumbColor: Colors.white,
-                            overlayColor: Colors.white.withOpacity(0.15),
-                          ),
-                          child: Slider(
-                            value: _volume,
-                            onChanged: (v) => setState(() => _volume = v),
-                          ),
-                        ),
-                      ),
-                      Icon(Icons.volume_up_rounded, color: Colors.white.withOpacity(0.5), size: 18),
-                    ],
-                  ),
-                  // Share
-                  GestureDetector(
-                    onTap: () {},
-                    child: Icon(Icons.share_outlined, color: Colors.white.withOpacity(0.7), size: 24),
-                  ),
-                ],
+            const Text(
+              'Now Playing',
+              style: TextStyle(
+                color: AppColors.white,
+                fontFamily: 'Prociono',
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                height: 26 / 20,
               ),
             ),
-
-            const SizedBox(height: 32),
+            IconButton(
+              onPressed: () {},
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints.tightFor(width: 24, height: 24),
+              icon: const Icon(
+                Icons.more_horiz_rounded,
+                color: AppColors.white,
+                size: 28,
+              ),
+            ),
           ],
         ),
       ),
@@ -388,22 +197,259 @@ class _PodcastPlayerState extends State<PodcastPlayer>
   }
 }
 
-class _PlayerArtPainter extends CustomPainter {
-  final Color color;
-  _PlayerArtPainter({required this.color});
+class _CoverArt extends StatelessWidget {
+  const _CoverArt({required this.size, required this.imageAssetPath});
+
+  final double size;
+  final String? imageAssetPath;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color..style = PaintingStyle.fill;
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width * 0.28;
-    canvas.drawCircle(Offset(cx + r, cy - r), r, paint);
-    canvas.drawCircle(Offset(cx - r, cy - r), r, paint);
-    canvas.drawCircle(Offset(cx + r, cy + r), r, paint);
-    canvas.drawCircle(Offset(cx - r, cy + r), r, paint);
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: AppColors.cream),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.podcastAccentGlow,
+            blurRadius: 30,
+            spreadRadius: -12,
+            offset: Offset(0, 20),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: imageAssetPath == null || imageAssetPath!.isEmpty
+          ? const SizedBox.shrink()
+          : Image.asset(
+              imageAssetPath!,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const SizedBox.shrink(),
+            ),
+    );
   }
+}
+
+class _Scrubber extends StatelessWidget {
+  const _Scrubber({
+    required this.progress,
+    required this.elapsed,
+    required this.duration,
+    required this.onChanged,
+  });
+
+  final double progress;
+  final String elapsed;
+  final String duration;
+  final ValueChanged<double>? onChanged;
 
   @override
-  bool shouldRepaint(_PlayerArtPainter old) => old.color != color;
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            trackHeight: 6,
+            activeTrackColor: AppColors.green,
+            inactiveTrackColor: AppColors.cream,
+            thumbColor: AppColors.white,
+            overlayColor: AppColors.podcastAccentOverlay,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+            trackShape: const RoundedRectSliderTrackShape(),
+          ),
+          child: Slider(value: progress, min: 0, max: 1, onChanged: onChanged),
+        ),
+        const SizedBox(height: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [_TimeLabel(elapsed), _TimeLabel(duration)],
+        ),
+      ],
+    );
+  }
+}
+
+class _TimeLabel extends StatelessWidget {
+  const _TimeLabel(this.value);
+
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      value,
+      style: TextStyle(
+        color: AppColors.cream,
+        fontFamily: 'Inter',
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 15 / 12,
+      ),
+    );
+  }
+}
+
+class _PlaybackRow extends StatelessWidget {
+  const _PlaybackRow({
+    required this.speed,
+    required this.isPlaying,
+    required this.isLoading,
+    required this.onSpeedTap,
+    required this.onReplay,
+    required this.onPrevious,
+    required this.onPlayPause,
+    required this.onNext,
+    required this.onForward,
+    required this.onShare,
+  });
+
+  final String speed;
+  final bool isPlaying;
+  final bool isLoading;
+  final VoidCallback onSpeedTap;
+  final VoidCallback onReplay;
+  final VoidCallback onPrevious;
+  final VoidCallback onPlayPause;
+  final VoidCallback onNext;
+  final VoidCallback onForward;
+  final VoidCallback onShare;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 72,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _ControlTapTarget(
+            onTap: onSpeedTap,
+            child: Text(
+              speed,
+              style: TextStyle(
+                color: AppColors.cream,
+                fontFamily: 'Inter',
+                fontSize: 14,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          _ControlTapTarget(
+            onTap: onReplay,
+            child: const Icon(
+              Icons.replay_10_rounded,
+              color: AppColors.white,
+              size: 28,
+            ),
+          ),
+          _ControlTapTarget(
+            onTap: onPrevious,
+            child: const Icon(
+              Icons.skip_previous_rounded,
+              color: AppColors.white,
+              size: 34,
+            ),
+          ),
+          _PlayPauseButton(
+            isPlaying: isPlaying,
+            isLoading: isLoading,
+            onTap: onPlayPause,
+          ),
+          _ControlTapTarget(
+            onTap: onNext,
+            child: const Icon(
+              Icons.skip_next_rounded,
+              color: AppColors.white,
+              size: 34,
+            ),
+          ),
+          _ControlTapTarget(
+            onTap: onForward,
+            child: const Icon(
+              Icons.forward_10_rounded,
+              color: AppColors.white,
+              size: 28,
+            ),
+          ),
+          _ControlTapTarget(
+            onTap: onShare,
+            child: const Icon(
+              Icons.ios_share_rounded,
+              color: AppColors.white,
+              size: 24,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ControlTapTarget extends StatelessWidget {
+  const _ControlTapTarget({required this.onTap, required this.child});
+
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkResponse(
+      onTap: onTap,
+      radius: 24,
+      child: SizedBox(width: 32, height: 48, child: Center(child: child)),
+    );
+  }
+}
+
+class _PlayPauseButton extends StatelessWidget {
+  const _PlayPauseButton({
+    required this.isPlaying,
+    required this.isLoading,
+    required this.onTap,
+  });
+
+  final bool isPlaying;
+  final bool isLoading;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 72,
+        height: 72,
+        decoration: const BoxDecoration(
+          color: AppColors.green,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.podcastAccentStrongGlow,
+              blurRadius: 24,
+              spreadRadius: 4,
+            ),
+          ],
+        ),
+        child: isLoading
+            ? const Padding(
+                padding: EdgeInsets.all(24),
+                child: CircularProgressIndicator(
+                  color: AppColors.white,
+                  strokeWidth: 2.5,
+                ),
+              )
+            : Icon(
+                isPlaying
+                    ? Icons.pause_circle_outline_rounded
+                    : Icons.play_circle_outline_rounded,
+                color: AppColors.white,
+                size: 34,
+              ),
+      ),
+    );
+  }
 }
