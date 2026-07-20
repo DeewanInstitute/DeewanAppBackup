@@ -178,7 +178,7 @@ class _MiniPodcastPlayer extends StatelessWidget {
                             : Image.asset(
                                 season.imageAssetPath!,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
+                                errorBuilder: (_, __, ___) =>
                                     const ColoredBox(color: AppColors.cream),
                               ),
                       ),

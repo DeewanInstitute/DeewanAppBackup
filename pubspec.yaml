@@ -84,6 +84,7 @@ flutter:
     - assets/animation_lottie/login.json
     - assets/data/arabic_dictionary.json
     - assets/data/podcasts.json
+    - assets/data/courses.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

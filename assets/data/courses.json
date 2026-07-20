@@ -1,0 +1,76 @@
+{
+  "courses": [
+    {
+      "id": "colloquial-levantine-arabic",
+      "title": "COLLOQUIAL LEVANTINE ARABIC",
+      "icon": "ampersand",
+      "theme": "alphabet",
+      "isNew": false,
+      "heroLetter": "ا",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the Colloquial Levantine Arabic course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is the everyday spoken Arabic used across Jordan, Palestine, Lebanon, and Syria. Learning this dialect helps learners communicate naturally in daily life and better understand the culture of the Levant.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/colloquial-arabic"
+    },
+    {
+      "id": "fusha-msa",
+      "title": "FUSHA (MSA, MEDIA AND CLASSICAL ARABIC)",
+      "icon": "conversation",
+      "theme": "conversation",
+      "isNew": false,
+      "heroLetter": "ح",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the Fusha (MSA, Media and Classical Arabic) course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is the formal, standardized form of Arabic used in education, media, literature, and professional communication throughout the Arab world. It provides a strong foundation for reading, writing, and formal communication.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/modern-standard-arabic"
+    },
+    {
+      "id": "mixed-arabic",
+      "title": "MIXED ARABIC (COLLOQUIAL & FUSHA)",
+      "icon": "book",
+      "theme": "dark",
+      "isNew": false,
+      "heroLetter": "ن",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the Mixed Arabic (Colloquial & Fusha) course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is a comprehensive course that combines the everyday spoken Arabic of the Levant with the formal, standardized form of Arabic. This course is ideal for learners who want to communicate effectively in both informal and formal settings.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/mixed-arabic"
+    },
+    {
+      "id": "arabitalk",
+      "title": "ArabiTalk",
+      "icon": "pen",
+      "theme": "calligraphy",
+      "isNew": false,
+      "heroLetter": "خ",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the ArabiTalk course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is an interactive course designed to improve your Arabic speaking and listening skills through engaging conversations and real-life scenarios.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/arabi-talk"
+    },
+    {
+      "id": "arabic-program-for-kids",
+      "title": "Arabic Program for Kids",
+      "icon": "business",
+      "theme": "business",
+      "isNew": true,
+      "heroLetter": "ع",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the Arabic Program for Kids course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is a fun and engaging program designed to introduce children to the Arabic language in a playful and interactive way.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/arabic-for-kids"
+    },
+    {
+      "id": "middle-eastern-studies",
+      "title": "MIDDLE EASTERN STUDIES",
+      "icon": "quran",
+      "theme": "quran",
+      "isNew": false,
+      "heroLetter": "ق",
+      "formats": ["ONE TO ONE COURSE", "GROUP COURSE"],
+      "registrationDetails": "Register for the Middle Eastern Studies course. Click Register For The Course to learn more about the course on our website.",
+      "courseDetails": "is a comprehensive course that explores the rich history, culture, and politics of the Middle East.",
+      "websiteUrl": "https://deewaninstitute.com/arabic-courses/middle-eastern-studies"
+    }
+  ]
+}

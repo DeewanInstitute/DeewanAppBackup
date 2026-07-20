@@ -31,6 +31,52 @@ class AppColors {
   static const podcastAccentGlow = Color(0x6643AA8B);
   static const podcastAccentStrongGlow = Color(0xB343AA8B);
   static const podcastPlaybackError = Color(0xFFFF5252);
+  static const courseBackground = Color(0xFFFEF6E5);
+  static const courseDark = Color(0xFF1D1B20);
+  static const courseHeroEnd = Color(0xFFF8961E);
+  static const courseBusinessEnd = Color(0xFFEF4444);
+  static const coursePurpleEnd = Color(0xFF6D28D9);
+  static const coursePatternOverlay = Color(0x14FFFFFF);
+  static const courseHeroIconBackground = Color(0x33FFFFFF);
+  static const courseBackButtonBackground = Color(0x33FFFFFF);
+  static const courseTagText = Color(0xFFF3722C);
+  static const courseBodyText = Color(0xFF8F8C88);
+
+  static const courseAlphabetGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [orange, coral],
+  );
+  static const courseConversationGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [green, Color(0xFF2D6A4F)],
+  );
+  static const courseDarkGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [courseDark, courseDark],
+  );
+  static const courseCalligraphyGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
+  );
+  static const courseBusinessGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [coral, courseBusinessEnd],
+  );
+  static const courseQuranGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [purple, coursePurpleEnd],
+  );
+  static const courseHeroGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [orange, courseHeroEnd],
+  );
 
   static Color podcastSeasonImageBackground(Color seasonColor) =>
       seasonColor.withValues(alpha: 0.16);
