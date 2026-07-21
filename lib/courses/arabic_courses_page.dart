@@ -15,7 +15,7 @@ class ArabicCoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.courseBackground,
+      backgroundColor: AppColors.cream,
       extendBody: true,
       drawer: const AppDrawer(selectedIndex: AppDrawer.coursesIndex),
       body: Stack(
@@ -49,7 +49,7 @@ class ArabicCoursesPage extends StatelessWidget {
                             Text(
                               'Courses',
                               style: TextStyle(
-                                color: AppColors.courseDark,
+                                color: AppColors.ink,
                                 fontFamily: 'Prociono',
                                 fontSize: 40,
                                 height: 1.1,
@@ -125,7 +125,7 @@ class _CoursePattern extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppColors.courseBackground,
+      color: AppColors.cream,
       child: Opacity(
         opacity: 0.08,
         child: Image.asset(
@@ -147,7 +147,7 @@ class _CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.courseBackground,
+      color: AppColors.cream,
       borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.antiAlias,
       child: Ink(

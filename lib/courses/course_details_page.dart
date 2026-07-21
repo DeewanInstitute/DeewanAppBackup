@@ -32,7 +32,7 @@ class CourseDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.courseBackground,
+      backgroundColor: AppColors.cream,
       extendBody: true,
       body: Stack(
         children: [
@@ -53,7 +53,7 @@ class CourseDetailsPage extends StatelessWidget {
                         Text(
                           course.registrationDetails,
                           style: const TextStyle(
-                            color: AppColors.courseBodyText,
+                            color: AppColors.muted,
                             fontFamily: 'Inter',
                             fontSize: 16,
                             height: 1.55,
@@ -65,7 +65,7 @@ class CourseDetailsPage extends StatelessWidget {
                         Text(
                           course.courseDetails,
                           style: const TextStyle(
-                            color: AppColors.courseBodyText,
+                            color: AppColors.muted,
                             fontFamily: 'Inter',
                             fontSize: 16,
                             height: 1.55,
@@ -131,9 +131,7 @@ class _CourseHero extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 315),
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 34),
       decoration: BoxDecoration(
-        gradient: course.theme == 'alphabet'
-            ? AppColors.courseHeroGradient
-            : course.gradient,
+        gradient: course.gradient,
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(34)),
       ),
       child: Column(
@@ -141,7 +139,7 @@ class _CourseHero extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Material(
-              color: AppColors.courseBackButtonBackground,
+              color: AppColors.cream.withValues(alpha: 0.20),
               borderRadius: BorderRadius.circular(13),
               child: InkWell(
                 onTap: () => Navigator.pop(context),
@@ -164,19 +162,10 @@ class _CourseHero extends StatelessWidget {
             height: 80,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.courseHeroIconBackground,
+              color: AppColors.cream.withValues(alpha: 0.20),
               borderRadius: BorderRadius.circular(24),
             ),
-            child: course.heroLetter.isEmpty
-                ? Icon(course.iconData, color: AppColors.white, size: 40)
-                : Text(
-                    course.heroLetter,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                      fontFamily: 'Prociono',
-                      fontSize: 38,
-                    ),
-                  ),
+            child: Icon(course.iconData, color: AppColors.white, size: 40),
           ),
           const SizedBox(height: 24),
           Text(
@@ -220,7 +209,7 @@ class _CourseFormatBadge extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          color: AppColors.courseTagText,
+          color: AppColors.orange,
           fontFamily: 'Inter',
           fontSize: 11,
           fontWeight: FontWeight.w800,
@@ -255,7 +244,7 @@ class _DetailsPattern extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppColors.courseBackground,
+      color: AppColors.cream,
       child: Opacity(
         opacity: 0.08,
         child: Image.asset(

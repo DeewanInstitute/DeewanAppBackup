@@ -11,7 +11,6 @@ class CourseData {
     required this.icon,
     required this.theme,
     required this.isNew,
-    required this.heroLetter,
     required this.formats,
     required this.registrationDetails,
     required this.courseDetails,
@@ -23,28 +22,31 @@ class CourseData {
   final String icon;
   final String theme;
   final bool isNew;
-  final String heroLetter;
   final List<String> formats;
   final String registrationDetails;
   final String courseDetails;
   final String websiteUrl;
 
   LinearGradient get gradient => switch (theme) {
-    'conversation' => AppColors.courseConversationGradient,
-    'dark' => AppColors.courseDarkGradient,
-    'calligraphy' => AppColors.courseCalligraphyGradient,
-    'business' => AppColors.courseBusinessGradient,
-    'quran' => AppColors.courseQuranGradient,
-    _ => AppColors.courseAlphabetGradient,
+    'green' => AppColors.podcastGreenGradient,
+    'dark' => AppColors.podcastBlackGradient,
+    'yellow' => AppColors.podcastYellowGradient,
+    'purple' => AppColors.podcastPurpleGradient,
+    _ => AppColors.podcastRedGradient,
   };
 
   IconData get iconData => switch (icon) {
-    'conversation' => Icons.chat_bubble_outline_rounded,
-    'book' => Icons.menu_book_outlined,
-    'pen' => Icons.edit_outlined,
-    'business' => Icons.business_center_outlined,
-    'quran' => Icons.nightlight_round,
-    _ => Icons.alternate_email_rounded,
+    'language' => Icons.language_rounded,
+    'swap' => Icons.swap_horiz_rounded,
+    'talk' => Icons.record_voice_over_rounded,
+    'kids' => Icons.child_care_rounded,
+    'world' => Icons.public_rounded,
+    'diplomacy' => Icons.handshake_outlined,
+    'journalism' => Icons.newspaper_rounded,
+    'intensive' => Icons.school_outlined,
+    'group' => Icons.groups_rounded,
+    'cafe' => Icons.local_cafe_outlined,
+    _ => Icons.chat_bubble_outline_rounded,
   };
 
   factory CourseData.fromJson(Map<String, dynamic> json) {
@@ -54,7 +56,6 @@ class CourseData {
       icon: json['icon'] as String? ?? 'book',
       theme: json['theme'] as String? ?? 'alphabet',
       isNew: json['isNew'] as bool? ?? false,
-      heroLetter: json['heroLetter'] as String? ?? '',
       formats: (json['formats'] as List<dynamic>? ?? const []).cast<String>(),
       registrationDetails: json['registrationDetails'] as String? ?? '',
       courseDetails: json['courseDetails'] as String? ?? '',
