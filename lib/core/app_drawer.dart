@@ -2,6 +2,7 @@ import 'package:deewan_institute_app/auth/login.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
 import 'package:deewan_institute_app/courses/arabic_courses_page.dart';
+import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/podcasts/podcast_home.dart';
 import 'package:deewan_institute_app/podcasts/podcast_playback_controller.dart';
 import 'package:deewan_institute_app/settings/settings_page.dart';
@@ -17,8 +18,9 @@ class AppDrawer extends StatelessWidget {
 
   static const homeIndex = 0;
   static const coursesIndex = 1;
-  static const podcastsIndex = 2;
-  static const settingsIndex = 3;
+  static const flashcardsIndex = 2;
+  static const podcastsIndex = 3;
+  static const settingsIndex = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,18 @@ class AppDrawer extends StatelessWidget {
                               _stopPodcastPlayback();
                               _open(context, const ArabicCoursesPage());
                             },
+                    ),
+                    const SizedBox(height: 12),
+                    _DrawerItem(
+                      icon: CupertinoIcons.bookmark_fill,
+                      label: 'Flashcards',
+                      selected: selectedIndex == flashcardsIndex,
+                      onTap: selectedIndex == flashcardsIndex
+                          ? () => Navigator.pop(context)
+                          : () {
+                        _stopPodcastPlayback();
+                        _open(context, const FlashcardsHome());
+                      },
                     ),
                     const SizedBox(height: 12),
                     _DrawerItem(
@@ -160,7 +174,7 @@ class _DrawerProfileCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  FirebaseAuth.instance.currentUser?.displayName as String,
+                  FirebaseAuth.instance.currentUser?.displayName ?? 'Guest',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
