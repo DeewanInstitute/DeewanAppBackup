@@ -79,9 +79,7 @@ flutter:
     - assets/images/icons/google.png
     - assets/images/background/background.png
     - assets/images/podcast/
-    - assets/animation_lottie/forgotpassword.json
-    - assets/animation_lottie/loading.json
-    - assets/animation_lottie/login.json
+    - assets/animation_lottie/
     - assets/data/arabic_dictionary.json
     - assets/data/podcasts.json
     - assets/data/courses.json
