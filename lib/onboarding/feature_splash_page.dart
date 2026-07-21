@@ -81,12 +81,6 @@ class _FeatureSplashPageState extends State<FeatureSplashPage> {
               padding: const EdgeInsets.fromLTRB(24, 12, 16, 0),
               child: Row(
                 children: [
-                  // Image.asset(
-                  //   'assets/images/logos/nobgLogo.webp',
-                  //   width: 144,
-                  //   height: 58,
-                  //   fit: BoxFit.contain,
-                  // ),
                   const Spacer(),
                   TextButton(
                     onPressed: _openSignup,
