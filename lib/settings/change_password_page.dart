@@ -69,6 +69,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -85,11 +86,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 8),
                 Text(
                   "Enter your current password and choose a new one",
-                  style: AppTextStyles.subheading,
+                  style: AppTextStyles.subheading.copyWith(color: colorScheme.onSurfaceVariant),
                 ),
                 const SizedBox(height: 28),
 
-                Text("Current Password", style: authLabelStyle),
+                Text("Current Password", style: authLabelStyle.copyWith(color: colorScheme.onSurface)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _currentPasswordController,
@@ -109,7 +110,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 const SizedBox(height: 18),
 
-                Text("New Password", style: authLabelStyle),
+                Text("New Password", style: authLabelStyle.copyWith(color: colorScheme.onSurface)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _newPasswordController,
@@ -131,7 +132,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 PasswordStrengthMeter(password: _newPasswordController.text),
                 const SizedBox(height: 18),
 
-                Text("Confirm New Password", style: authLabelStyle),
+                Text("Confirm New Password", style: authLabelStyle.copyWith(color: colorScheme.onSurface)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _confirmPasswordController,

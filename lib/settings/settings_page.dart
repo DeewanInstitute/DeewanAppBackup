@@ -9,6 +9,7 @@ import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/settings/change_password_page.dart';
+import 'package:deewan_institute_app/settings/contact_us.dart';
 import 'package:deewan_institute_app/settings/privacy.dart';
 import 'package:deewan_institute_app/settings/terms_of_service.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
@@ -65,12 +66,6 @@ class _SettingsPageState extends State<SettingsPage> {
       if (mounted) setState(() {});
     }
     controller.dispose();
-  }
-
-  void _comingSoon(String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature coming soon.', style: const TextStyle(fontFamily: 'Inter'))),
-    );
   }
 
   Future<void> _logOut() async {
@@ -212,7 +207,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: EdgeInsets.zero,
                 child: Column(
                   children: [
-                    _SettingsRow(icon: Icons.chat_bubble_outline_rounded, label: 'Contact Us', onTap: () => _comingSoon('Contact Us')),
+                    _SettingsRow(
+                      icon: Icons.chat_bubble_outline_rounded,
+                      label: 'Contact Us',
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactUs())),
+                    ),
                     Divider(height: 1, color: colorScheme.outline),
                     _SettingsRow(
                       icon: Icons.shield_outlined,

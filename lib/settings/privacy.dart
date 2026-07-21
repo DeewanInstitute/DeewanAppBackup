@@ -3,6 +3,7 @@ import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_text_styles.dart';
+import 'package:deewan_institute_app/core/policy_acceptance_service.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/settings/policy_widgets.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
@@ -10,8 +11,33 @@ import 'package:flutter/material.dart';
 
 import '../core/app_top_nav.dart';
 
-class Privacy extends StatelessWidget {
+class Privacy extends StatefulWidget {
   const Privacy({super.key});
+
+  @override
+  State<Privacy> createState() => _PrivacyState();
+}
+
+class _PrivacyState extends State<Privacy> {
+  bool _accepted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAcceptance();
+  }
+
+  Future<void> _loadAcceptance() async {
+    final accepted = await PolicyAcceptance.isPrivacyAccepted();
+    if (mounted) setState(() => _accepted = accepted);
+  }
+
+  Future<void> _toggleAcceptance() async {
+    final newValue = !_accepted;
+    await PolicyAcceptance.setPrivacyAccepted(newValue);
+    if (!mounted) return;
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +110,14 @@ class Privacy extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.green,
+                    backgroundColor: _accepted ? AppColors.coral : AppColors.green,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                     textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700),
                   ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Accept & Close'),
+                  onPressed: _toggleAcceptance,
+                  child: Text(_accepted ? "I Don't Accept" : 'Accept & Close'),
                 ),
               ),
             ],

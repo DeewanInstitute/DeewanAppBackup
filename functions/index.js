@@ -2,10 +2,13 @@ const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const {defineSecret} = require("firebase-functions/params");
 const admin = require("firebase-admin");
 const OpenAI = require("openai");
+const nodemailer = require("nodemailer");
 
 admin.initializeApp();
 
 const openaiApiKey = defineSecret("OPENAI_API_KEY");
+const gmailUser = defineSecret("GMAIL_USER");
+const gmailAppPassword = defineSecret("GMAIL_APP_PASSWORD");
 
 const SENTENCE_SCHEMA = {
   type: "object",
@@ -258,4 +261,44 @@ exports.lookupWord = onCall({secrets: [openaiApiKey], cors: true}, async (reques
   await docRef.set(entry);
 
   return entry;
+});
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+exports.sendContactMessage = onCall({secrets: [gmailUser, gmailAppPassword], cors: true}, async (request) => {
+  const name = (request.data && request.data.name ? String(request.data.name) : "").trim();
+  const email = (request.data && request.data.email ? String(request.data.email) : "").trim();
+  const message = (request.data && request.data.message ? String(request.data.message) : "").trim();
+
+  if (!name || name.length > 100) {
+    throw new HttpsError("invalid-argument", "Please provide your name.");
+  }
+  if (!email || !EMAIL_PATTERN.test(email) || email.length > 200) {
+    throw new HttpsError("invalid-argument", "Please provide a valid email address.");
+  }
+  if (!message || message.length > 2000) {
+    throw new HttpsError("invalid-argument", "Please provide a message (up to 2000 characters).");
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: gmailUser.value(),
+      pass: gmailAppPassword.value(),
+    },
+  });
+
+  try {
+    await transporter.sendMail({
+      from: `"LinguArabi Contact Form" <${gmailUser.value()}>`,
+      to: gmailUser.value(),
+      replyTo: email,
+      subject: `LinguArabi Support Request from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+    });
+  } catch (e) {
+    throw new HttpsError("internal", `Failed to send email: ${e.message}`);
+  }
+
+  return {success: true};
 });
