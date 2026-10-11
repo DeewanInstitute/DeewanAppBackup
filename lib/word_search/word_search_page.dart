@@ -2,7 +2,9 @@ import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/core/audio_service.dart';
 import 'package:deewan_institute_app/core/dictionary_repository.dart';
+import 'package:deewan_institute_app/core/speaker_button.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/save_to_flashcards_sheet.dart';
 import 'package:deewan_institute_app/word_search/word_details_page.dart';
@@ -349,6 +351,8 @@ class _ResultCard extends StatelessWidget {
 
   bool get _isFusha => dialect == _Dialect.fusha;
 
+  AudioDialect get _audioDialect => _isFusha ? AudioDialect.fusha : AudioDialect.levantine;
+
   @override
   Widget build(BuildContext context) {
     final arabic =
@@ -450,25 +454,11 @@ class _ResultCard extends StatelessWidget {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Audio pronunciation coming soon.'),
-                  ),
-                ),
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.orange,
-                  ),
-                  child: const Icon(
-                    Icons.volume_up_rounded,
-                    color: Colors.white,
-                    size: 22,
-                  ),
-                ),
+              SpeakerButton(
+                text: arabic,
+                dialect: _audioDialect,
+                size: 48,
+                iconSize: 22,
               ),
             ],
           ),
@@ -484,7 +474,7 @@ class _ResultCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            ...sentences.map((s) => _SentenceCard(sentence: s)),
+            ...sentences.map((s) => _SentenceCard(sentence: s, dialect: _audioDialect)),
           ],
           if (synonyms.isNotEmpty) ...[
             const SizedBox(height: 12),
@@ -522,6 +512,7 @@ class _ResultCard extends StatelessWidget {
                 context,
                 word: word,
                 wordId: wordId,
+                levantine: !_isFusha,
               ),
               icon: const Icon(Icons.add_rounded, size: 20),
               label: const Text('Save to Flashcards'),
@@ -570,7 +561,8 @@ class _ResultCard extends StatelessWidget {
 
 class _SentenceCard extends StatelessWidget {
   final Map sentence;
-  const _SentenceCard({required this.sentence});
+  final AudioDialect dialect;
+  const _SentenceCard({required this.sentence, required this.dialect});
 
   @override
   Widget build(BuildContext context) {
@@ -623,22 +615,13 @@ class _SentenceCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Audio pronunciation coming soon.')),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: AppColors.orange.withOpacity(0.12),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.volume_up_rounded,
-                color: AppColors.orange,
-                size: 16,
-              ),
-            ),
+          SpeakerButton(
+            text: sentence['arabic'] as String? ?? '',
+            dialect: dialect,
+            size: 28,
+            iconSize: 16,
+            backgroundColor: AppColors.orange.withOpacity(0.12),
+            iconColor: AppColors.orange,
           ),
         ],
       ),
@@ -661,20 +644,34 @@ class _ChipRow extends StatelessWidget {
       children: chips
           .map(
             (c) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.fromLTRB(12, 4, 6, 4),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: color.withOpacity(0.4)),
               ),
-              child: Text(
-                c,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: color,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    c,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: color,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  // Synonyms/antonyms are a single Fusha list, not split by dialect.
+                  SpeakerButton(
+                    text: c,
+                    size: 22,
+                    iconSize: 13,
+                    backgroundColor: color.withOpacity(0.12),
+                    iconColor: color,
+                  ),
+                ],
               ),
             ),
           )

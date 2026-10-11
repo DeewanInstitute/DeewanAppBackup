@@ -11,6 +11,8 @@ import cloud_functions
 import dotlottie_flutter
 import firebase_auth
 import firebase_core
+import flutter_local_notifications
+import flutter_timezone
 import google_sign_in_ios
 import just_audio
 import shared_preferences_foundation
@@ -23,7 +25,9 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   DotLottieFlutterPlugin.register(with: registry.registrar(forPlugin: "DotLottieFlutterPlugin"))
   FLTFirebaseAuthPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseAuthPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
-  FLTGoogleSignInPlugin.register(with: registry.registrar(forPlugin: "FLTGoogleSignInPlugin"))
+  FlutterLocalNotificationsPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalNotificationsPlugin"))
+  FlutterTimezonePlugin.register(with: registry.registrar(forPlugin: "FlutterTimezonePlugin"))
+  GoogleSignInPlugin.register(with: registry.registrar(forPlugin: "GoogleSignInPlugin"))
   JustAudioPlugin.register(with: registry.registrar(forPlugin: "JustAudioPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))

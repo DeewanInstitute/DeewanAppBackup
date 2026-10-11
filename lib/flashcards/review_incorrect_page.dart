@@ -5,7 +5,9 @@ import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_text_styles.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/core/flashcard_service.dart';
+import 'package:deewan_institute_app/core/quiz_service.dart';
 import 'package:deewan_institute_app/flashcards/flashcard_session.dart';
+import 'package:deewan_institute_app/quiz/quiz_session.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class ReviewIncorrectPage extends StatefulWidget {
 
 class _ReviewIncorrectPageState extends State<ReviewIncorrectPage> {
   List<Map<String, dynamic>>? _cards;
+  QuizResume? _resume;
 
   @override
   void initState() {
@@ -27,7 +30,40 @@ class _ReviewIncorrectPageState extends State<ReviewIncorrectPage> {
 
   Future<void> _load() async {
     final cards = await FlashcardService.getIncorrectCards();
-    if (mounted) setState(() => _cards = cards);
+    QuizResume? resume;
+    try {
+      resume = await QuizService.loadResume();
+    } catch (e) {
+      debugPrint('Loading quiz resume failed: $e');
+      // History still works without the "pick up where you left off" card.
+    }
+    if (mounted) {
+      setState(() {
+        _cards = cards;
+        _resume = resume;
+      });
+    }
+  }
+
+  Future<void> _resumeQuiz() async {
+    final resume = _resume;
+    if (resume == null) return;
+    try {
+      final levels = await QuizService.loadLevels();
+      final level = levels.firstWhere((l) => l.id == resume.levelId);
+      if (!mounted) return;
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => QuizSession(level: level, quizNumber: resume.quizNumber, resume: resume)),
+      );
+      _load();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Couldn't open the quiz. Please try again.")),
+        );
+      }
+    }
   }
 
   Future<void> _remove(String wordKey) async {
@@ -83,7 +119,18 @@ class _ReviewIncorrectPageState extends State<ReviewIncorrectPage> {
             children: [
               const AppTopNav(),
               const SizedBox(height: 24),
-              const Text('Review Incorrect', style: AppTextStyles.headingOne),
+              const Text('History', style: AppTextStyles.headingOne),
+              const SizedBox(height: 24),
+              if (_resume != null) ...[
+                const Text(
+                  'Pick up where you left off',
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.green),
+                ),
+                const SizedBox(height: 12),
+                _ResumeQuizCard(resume: _resume!, onResume: _resumeQuiz),
+                const SizedBox(height: 28),
+              ],
+
               const SizedBox(height: 6),
               Text(
                 cards == null ? 'Loading…' : '${cards.length} cards to review',
@@ -126,6 +173,68 @@ class _ReviewIncorrectPageState extends State<ReviewIncorrectPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ResumeQuizCard extends StatelessWidget {
+  final QuizResume resume;
+  final VoidCallback onResume;
+  const _ResumeQuizCard({required this.resume, required this.onResume});
+
+  Color get _color => switch (resume.levelId) {
+        'intermediate' => AppColors.orange,
+        'advanced' => AppColors.ink,
+        _ => AppColors.green,
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: _color,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: _color.withOpacity(0.3), blurRadius: 16, offset: const Offset(0, 8))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${resume.levelLabel} · Quiz ${resume.quizNumber}',
+            style: const TextStyle(fontFamily: 'Prociono', fontSize: 24, color: Colors.white, height: 1),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Question ${resume.currentIndex + 1} of ${resume.total}',
+            style: const TextStyle(fontFamily: 'Inter', fontSize: 13, color: Colors.white70),
+          ),
+          const SizedBox(height: 14),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: LinearProgressIndicator(
+              value: resume.currentIndex / resume.total,
+              minHeight: 8,
+              backgroundColor: Colors.white.withOpacity(0.25),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: onResume,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: _color,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+              textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700),
+            ),
+            child: const Text('Resume'),
+          ),
+        ],
       ),
     );
   }

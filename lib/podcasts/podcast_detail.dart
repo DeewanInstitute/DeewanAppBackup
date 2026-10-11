@@ -20,7 +20,7 @@ class PodcastDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = PodcastCatalog.seasonColors[season.seasonNumber - 1];
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       drawer: const AppDrawer(selectedIndex: AppDrawer.podcastsIndex),
       body: SafeArea(

@@ -5,7 +5,9 @@ import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/core/audio_service.dart';
 import 'package:deewan_institute_app/core/flashcard_service.dart';
+import 'package:deewan_institute_app/core/speaker_button.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
@@ -100,6 +102,9 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
     );
     if (mounted) _advance();
   }
+
+  /// Cards saved from the Levantine view are read aloud in Levantine.
+  AudioDialect get _audioDialect => _word['dialect'] == 'levantine' ? AudioDialect.levantine : AudioDialect.fusha;
 
   Future<void> _again() async {
     if (!widget.isReviewMode) {
@@ -337,7 +342,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.orange, fontFamily: 'Inter'),
                 ),
               const SizedBox(height: 16),
-              _SpeakerButton(color: AppColors.orange, size: 36),
+              SpeakerButton(text: _word['arabic'] as String? ?? '', size: 36, dialect: _audioDialect),
             ] else ...[
               Text(
                 _word['english'] as String? ?? '',
@@ -376,7 +381,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
                   Positioned(
                     right: 0,
                     top: 0,
-                    child: _SpeakerButton(color: AppColors.orange),
+                    child: SpeakerButton(text: _word['arabic'] as String? ?? '', dialect: _audioDialect),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4, right: 52),
@@ -417,7 +422,7 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
                                 'EXAMPLE',
                                 style: TextStyle(fontFamily: 'Inter', fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.green, letterSpacing: 0.5),
                               ),
-                              _SpeakerButton(color: AppColors.green, size: 32),
+                              SpeakerButton(text: example['arabic']!, backgroundColor: AppColors.green, size: 32, dialect: _audioDialect),
                             ],
                           ),
                           const SizedBox(height: 12),
@@ -704,29 +709,6 @@ class _ReviewStatRow extends StatelessWidget {
           const Spacer(),
           Text(value, style: TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700, color: color)),
         ],
-      ),
-    );
-  }
-}
-
-// ── Speaker Button ────────────────────────────────────────────────────────────
-
-class _SpeakerButton extends StatelessWidget {
-  final Color color;
-  final double size;
-  const _SpeakerButton({required this.color, this.size = 40});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Audio pronunciation coming soon.')),
-      ),
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: Icon(Icons.volume_up_rounded, color: Colors.white, size: size * 0.5),
       ),
     );
   }

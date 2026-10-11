@@ -1,71 +1,58 @@
 /**
- * One-off script to seed the Firestore `quizzes` collection with sample
- * questions covering all 5 quiz types. Safe to re-run — each question has a
- * fixed doc ID, so re-running overwrites rather than duplicating.
+ * Seeds the Firestore `quizzes` collection with 150 questions: 3 levels
+ * (beginner / intermediate / advanced) x 10 quizzes x 5 questions. The content
+ * lives in quiz_bank.js; every quiz has one question of each of the five types.
+ * Doc IDs are fixed (e.g. beginner_03_2 = beginner, quiz 3, question 2), so
+ * re-running overwrites rather than duplicating, and anything else is removed.
  *
  * Usage:
  *   GOOGLE_APPLICATION_CREDENTIALS=/path/to/serviceAccountKey.json node seed_quizzes.js
- *
- * The service account key is downloaded from:
- *   Firebase Console → Project Settings (gear icon) → Service Accounts tab
- *   → "Generate new private key"
- * Keep that file out of git — it's a full admin credential for the project.
+ * (or, from the app: Settings -> "Load quiz questions", which calls the
+ * seedQuizzes Cloud Function.) Keep service account keys out of git.
  */
 const admin = require("firebase-admin");
+const {bank} = require("./quiz_bank.js");
 
-admin.initializeApp();
-const db = admin.firestore();
-
-const questions = {
-  fill_blank_1: {
-    type: "fill_blank",
-    difficulty: "beginner",
-    promptArabic: "أنا ___ الكتاب",
-    promptEnglish: "I ___ the book",
-    answer: "أقرأ",
-  },
-  listen_select_1: {
-    type: "listen_select",
-    difficulty: "beginner",
-    arabic: "كتاب",
-    options: ["(Kitaab) كتاب", "(Qalam) قلم", "(Baab) باب", "(Tawila) طاولة"],
-    correctIndex: 0,
-  },
-  word_meaning_1: {
-    type: "word_meaning",
-    difficulty: "beginner",
-    arabic: "كتاب",
-    transliteration: "Kitaab",
-    options: ["Book", "Pen", "Table", "Door"],
-    correctIndex: 0,
-  },
-  translate_to_arabic_1: {
-    type: "translate_to_arabic",
-    difficulty: "intermediate",
-    promptEnglish: "The book is on the table",
-    answer: "الكتاب على الطاولة",
-  },
-  true_false_1: {
-    type: "true_false",
-    difficulty: "beginner",
-    arabic: "بيت",
-    english: "House",
-    isCorrect: true,
-  },
-};
-
-async function seed() {
-  const batch = db.batch();
-  for (const [id, data] of Object.entries(questions)) {
-    batch.set(db.collection("quizzes").doc(id), data);
-  }
-  await batch.commit();
-  console.log(`Seeded ${Object.keys(questions).length} quiz questions.`);
+const questions = {};
+for (const [difficulty, quizzes] of Object.entries(bank)) {
+  quizzes.forEach((items, qi) => {
+    items.forEach((item, i) => {
+      const quiz = qi + 1;
+      const id = `${difficulty}_${String(quiz).padStart(2, "0")}_${i + 1}`;
+      questions[id] = {...item, difficulty, quiz, order: i + 1};
+    });
+  });
 }
 
-seed()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error("Seeding failed:", err);
-    process.exit(1);
-  });
+module.exports = {questions};
+
+async function seed() {
+  admin.initializeApp();
+  const db = admin.firestore();
+  const collection = db.collection("quizzes");
+
+  // Remove anything that isn't one of these questions, so every level is exactly 10.
+  const existing = await collection.get();
+  const batch = db.batch();
+  let removed = 0;
+  for (const doc of existing.docs) {
+    if (!(doc.id in questions)) {
+      batch.delete(doc.ref);
+      removed++;
+    }
+  }
+  for (const [id, data] of Object.entries(questions)) {
+    batch.set(collection.doc(id), data);
+  }
+  await batch.commit();
+  console.log(`Seeded ${Object.keys(questions).length} quiz questions, removed ${removed} extra.`);
+}
+
+if (require.main === module) {
+  seed()
+    .then(() => process.exit(0))
+    .catch((err) => {
+      console.error("Seeding failed:", err);
+      process.exit(1);
+    });
+}

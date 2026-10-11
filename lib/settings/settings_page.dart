@@ -6,14 +6,19 @@ import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_text_styles.dart';
 import 'package:deewan_institute_app/core/app_theme.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
+import 'package:deewan_institute_app/core/dictionary_repository.dart';
 import 'package:deewan_institute_app/core/auth_service.dart';
+import 'package:deewan_institute_app/core/notification_service.dart';
+import 'package:deewan_institute_app/core/quiz_service.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/settings/change_password_page.dart';
 import 'package:deewan_institute_app/settings/contact_us.dart';
 import 'package:deewan_institute_app/settings/privacy.dart';
 import 'package:deewan_institute_app/settings/terms_of_service.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,8 +30,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  static const _notificationsKey = 'notifications_enabled';
-
   bool _notificationsEnabled = true;
 
   @override
@@ -37,13 +40,32 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _loadNotificationPref() async {
     final prefs = await SharedPreferences.getInstance();
-    if (mounted) setState(() => _notificationsEnabled = prefs.getBool(_notificationsKey) ?? true);
+    if (mounted) setState(() => _notificationsEnabled = prefs.getBool(NotificationService.prefsKey) ?? true);
   }
 
   Future<void> _setNotifications(bool value) async {
+    if (value) {
+      final granted = await NotificationService.requestPermission();
+      if (!granted) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Notifications are turned off for LinguArabi in your device settings.',
+                style: TextStyle(fontFamily: 'Inter'),
+              ),
+            ),
+          );
+        }
+        return;
+      }
+      await NotificationService.scheduleDailyReminder();
+    } else {
+      await NotificationService.cancelDailyReminder();
+    }
     setState(() => _notificationsEnabled = value);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_notificationsKey, value);
+    await prefs.setBool(NotificationService.prefsKey, value);
   }
 
   Future<void> _setDarkMode(bool value) async {
@@ -66,6 +88,74 @@ class _SettingsPageState extends State<SettingsPage> {
       if (mounted) setState(() {});
     }
     controller.dispose();
+  }
+
+  /// Debug-only: runs the AI reviewer over every stored verb, then shows what
+  /// it changed so the corrections can be spot-checked.
+  Future<void> _reviewVerbs() async {
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.showSnackBar(
+      const SnackBar(content: Text('Re-checking verb forms… this can take a few minutes.'), duration: Duration(minutes: 15)),
+    );
+    var reviewed = 0;
+    var failed = 0;
+    final changed = <String>[];
+    try {
+      while (true) {
+        final r = await DictionaryRepository.reviewVerbs();
+        reviewed += r['reviewed'] as int;
+        failed += r['failed'] as int;
+        for (final item in (r['results'] as List)) {
+          final m = Map<String, dynamic>.from(item as Map);
+          final changes = (m['changes'] as List).cast<String>();
+          if (changes.isNotEmpty) changed.add('${m['english']}: ${changes.join('; ')}');
+        }
+        if ((r['remaining'] as int) == 0 || (r['reviewed'] as int) == 0) break;
+      }
+    } on FirebaseFunctionsException catch (e) {
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(SnackBar(content: Text('${e.code}: ${e.message ?? 'Verb review failed.'}')));
+      return;
+    } catch (e) {
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(SnackBar(content: Text('Verb review failed: $e')));
+      return;
+    }
+    messenger.hideCurrentSnackBar();
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Verb review done'),
+        content: SingleChildScrollView(
+          child: Text(
+            'Reviewed $reviewed verb(s)${failed > 0 ? ', $failed failed (run again)' : ''}.\n\n'
+            '${changed.isEmpty ? 'No corrections were needed.' : 'Corrections:\n\n${changed.join('\n\n')}'}',
+          ),
+        ),
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+      ),
+    );
+  }
+
+  /// Debug-only: loads the bundled quiz questions into Firestore.
+  Future<void> _seedQuizzes() async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final result = await QuizService.seedFromServer();
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Loaded ${result.count} quiz questions'
+            '${result.removed > 0 ? ' and removed ${result.removed} extra' : ''}.',
+          ),
+        ),
+      );
+    } on FirebaseFunctionsException catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('${e.code}: ${e.message ?? 'Could not load the quiz questions.'}')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Could not load the quiz questions: $e')));
+    }
   }
 
   Future<void> _logOut() async {
@@ -198,6 +288,26 @@ class _SettingsPageState extends State<SettingsPage> {
                       value: _notificationsEnabled,
                       onChanged: _setNotifications,
                     ),
+                    if (kDebugMode) ...[
+                      Divider(height: 1, color: colorScheme.outline),
+                      _SettingsRow(
+                        icon: Icons.bolt_outlined,
+                        label: 'Send Test Notification (debug)',
+                        onTap: NotificationService.showTestNotification,
+                      ),
+                      Divider(height: 1, color: colorScheme.outline),
+                      _SettingsRow(
+                        icon: Icons.fact_check_outlined,
+                        label: 'Re-check verb forms (admin, debug)',
+                        onTap: _reviewVerbs,
+                      ),
+                      Divider(height: 1, color: colorScheme.outline),
+                      _SettingsRow(
+                        icon: Icons.quiz_outlined,
+                        label: 'Load quiz questions (admin, debug)',
+                        onTap: _seedQuizzes,
+                      ),
+                    ],
                   ],
                 ),
               ),

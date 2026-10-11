@@ -8,6 +8,7 @@ Future<void> showSaveToFlashcardsSheet(
   BuildContext context, {
   required Map<String, dynamic> word,
   required String wordId,
+  bool levantine = false,
 }) async {
   if (!FlashcardService.isSignedIn) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -21,14 +22,15 @@ Future<void> showSaveToFlashcardsSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => _DeckPickerSheet(word: word, wordId: wordId),
+    builder: (_) => _DeckPickerSheet(word: word, wordId: wordId, levantine: levantine),
   );
 }
 
 class _DeckPickerSheet extends StatefulWidget {
   final Map<String, dynamic> word;
   final String wordId;
-  const _DeckPickerSheet({required this.word, required this.wordId});
+  final bool levantine;
+  const _DeckPickerSheet({required this.word, required this.wordId, required this.levantine});
 
   @override
   State<_DeckPickerSheet> createState() => _DeckPickerSheetState();
@@ -38,23 +40,74 @@ class _DeckPickerSheetState extends State<_DeckPickerSheet> {
   String _selectedDeck = FlashcardDecks.beginner.id;
   bool _isSaving = false;
 
+  final _nameController = TextEditingController();
+  List<CustomCategory> _existingDecks = [];
+  String? _nameError;
+
+  /// The form that gets saved: Levantine when the word was viewed in Levantine.
+  String get _savedArabic => FlashcardService.dialectForm(widget.word, levantine: widget.levantine).arabic;
+
+  bool get _isCustom => _selectedDeck == FlashcardDecks.custom.id;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExistingDecks();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadExistingDecks() async {
+    try {
+      final decks = await FlashcardService.getCustomCategories();
+      if (mounted) setState(() => _existingDecks = decks);
+    } catch (_) {
+      // Typing a deck name still works without the quick picks.
+    }
+  }
+
+  /// Reuses an existing deck's exact spelling when the typed name matches it
+  /// ignoring case, so "food" and "Food" don't become two different decks.
+  String _resolvedDeckName() {
+    final typed = _nameController.text.trim();
+    for (final deck in _existingDecks) {
+      if (deck.name.toLowerCase() == typed.toLowerCase()) return deck.name;
+    }
+    return typed;
+  }
+
   Future<void> _save() async {
+    String? deckName;
+    if (_isCustom) {
+      deckName = _resolvedDeckName();
+      if (deckName.isEmpty) {
+        setState(() => _nameError = 'Give your flashcard deck a name');
+        return;
+      }
+    }
+
     setState(() => _isSaving = true);
     try {
       final count = await FlashcardService.saveWord(
         wordId: widget.wordId,
         word: widget.word,
         deckId: _selectedDeck,
+        category: deckName,
+        levantine: widget.levantine,
       );
       if (!mounted) return;
-      final deckLabel = FlashcardDecks.byId(_selectedDeck).label;
+      final deckLabel = deckName ?? FlashcardDecks.byId(_selectedDeck).label;
       Navigator.pop(context);
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (_) => _SavedConfirmationSheet(
-          arabic: widget.word['arabic'] as String? ?? '',
+          arabic: _savedArabic,
           deckLabel: deckLabel,
           cardCount: count,
         ),
@@ -71,7 +124,7 @@ class _DeckPickerSheetState extends State<_DeckPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final arabic = widget.word['arabic'] as String? ?? '';
+    final arabic = _savedArabic;
     return _SheetShell(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -103,9 +156,68 @@ class _DeckPickerSheetState extends State<_DeckPickerSheet> {
             (deck) => _DeckOption(
               label: deck.label,
               selected: _selectedDeck == deck.id,
-              onTap: () => setState(() => _selectedDeck = deck.id),
+              onTap: () => setState(() {
+                _selectedDeck = deck.id;
+                _nameError = null;
+              }),
             ),
           ),
+          if (_isCustom) ...[
+            const SizedBox(height: 16),
+            const Text(
+              'Name your flashcard deck',
+              style: TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.ink),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _nameController,
+              textCapitalization: TextCapitalization.words,
+              style: const TextStyle(fontFamily: 'Inter', fontSize: 15, color: AppColors.ink),
+              onChanged: (_) => setState(() => _nameError = null),
+              decoration: InputDecoration(
+                hintText: 'e.g. Food, Travel, Family',
+                hintStyle: const TextStyle(fontFamily: 'Inter', color: AppColors.muted, fontSize: 14),
+                errorText: _nameError,
+                filled: true,
+                fillColor: AppColors.cream,
+                prefixIcon: const Icon(Icons.folder_outlined, color: AppColors.muted),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(color: AppColors.primaryBorder)),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(color: AppColors.primaryBorder)),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(color: AppColors.green, width: 1.5)),
+                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(color: AppColors.coral)),
+                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: const BorderSide(color: AppColors.coral, width: 1.5)),
+              ),
+            ),
+            if (_existingDecks.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              const Text(
+                'Or add it to one of your decks:',
+                style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: AppColors.muted),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final deck in _existingDecks)
+                    _DeckNameChip(
+                      label: deck.name,
+                      selected: _nameController.text.trim().toLowerCase() == deck.name.toLowerCase(),
+                      onTap: () => setState(() {
+                        _nameController.text = deck.name;
+                        _nameError = null;
+                      }),
+                    ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 10),
+            const Text(
+              'The Arabic, pronunciation and example sentence are filled in from the dictionary.',
+              style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: AppColors.muted, height: 1.4),
+            ),
+          ],
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
@@ -267,6 +379,37 @@ class _DeckOption extends StatelessWidget {
   }
 }
 
+class _DeckNameChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _DeckNameChip({required this.label, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.green : Colors.white,
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: selected ? AppColors.green : AppColors.primaryBorder),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: selected ? Colors.white : AppColors.ink,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SheetShell extends StatelessWidget {
   final Widget child;
   const _SheetShell({required this.child});
@@ -274,9 +417,11 @@ class _SheetShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+      // Lift the sheet above the keyboard and let it scroll when the deck-name
+      // field makes it taller than the space left.
+      padding: EdgeInsets.fromLTRB(24, 12, 24, 24 + MediaQuery.viewInsetsOf(context).bottom),
       decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
-      child: SafeArea(top: false, child: child),
+      child: SafeArea(top: false, child: SingleChildScrollView(child: child)),
     );
   }
 }

@@ -64,7 +64,7 @@ class _ContactUsState extends State<ContactUs> {
       _messageController.clear();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Message sent! We'll get back to you soon.", style: TextStyle(fontFamily: 'Inter')),
+          content: Text("Message sent! We'll get back to you soon.", style: TextStyle(fontFamily: 'Inter', color: Colors.white)),
           backgroundColor: AppColors.green,
           behavior: SnackBarBehavior.floating,
         ),
@@ -127,7 +127,7 @@ class _ContactUsState extends State<ContactUs> {
                 const SizedBox(height: 8),
                 const Text(
                   "Questions, feedback, or stuck on something? We'd love to hear from you.",
-                  style: TextStyle(fontFamily: 'Inter', fontSize: 14, color: AppColors.muted, height: 1.4),
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 14, color: AppColors.white, height: 1.4),
                 ),
                 const SizedBox(height: 20),
                 PolicyCard(

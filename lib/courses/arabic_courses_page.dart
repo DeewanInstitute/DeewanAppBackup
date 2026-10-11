@@ -15,7 +15,7 @@ class ArabicCoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       drawer: const AppDrawer(selectedIndex: AppDrawer.coursesIndex),
       body: Stack(

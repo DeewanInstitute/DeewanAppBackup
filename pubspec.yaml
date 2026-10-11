@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # Use with the CupertinoIcons class for iOS style icon.
   cupertino_icons: ^1.0.8
   flutter_material_design_icons: ^1.1.7447
   lottie: ^3.3.3
@@ -47,6 +47,9 @@ dependencies:
   shared_preferences: ^2.5.5
   cloud_functions: ^6.3.4
   just_audio: ^0.10.6
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.9.4
+  flutter_timezone: ^5.1.0
 
 
 
@@ -68,7 +71,7 @@ dev_dependencies:
 flutter:
 
   # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
+  # included with your application, so that you can use the icon in
   # the material Icons class.
   uses-material-design: true
 
@@ -76,6 +79,8 @@ flutter:
   assets:
     - assets/images/logos/logo.png
     - assets/images/logos/nobgLogo.webp
+    - assets/icon/logo.png
+    - assets/icon/logoWhite.png
     - assets/images/icons/google.png
     - assets/images/background/background.png
     - assets/images/podcast/
@@ -155,7 +160,7 @@ flutter:
 
 
 flutter_launcher_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/logos/appLogo.png"
-  # optional: adaptive icon for Android
+  image_path: "assets/icon/logoWhite.png"
+

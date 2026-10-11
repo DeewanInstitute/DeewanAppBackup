@@ -4,12 +4,19 @@ import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_loading.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/core/quiz_service.dart';
+import 'package:deewan_institute_app/core/speaker_button.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:flutter/material.dart';
 
 class QuizSession extends StatefulWidget {
-  const QuizSession({super.key});
+  final QuizLevel level;
+  final int quizNumber;
+
+  /// When set, continues an unfinished quiz from where it was left off instead
+  /// of starting it again from question 1.
+  final QuizResume? resume;
+  const QuizSession({super.key, required this.level, required this.quizNumber, this.resume});
 
   @override
   State<QuizSession> createState() => _QuizSessionState();
@@ -30,6 +37,13 @@ class _QuizSessionState extends State<QuizSession> {
   bool? _selectedTrueFalse;
   final _textController = TextEditingController();
 
+  QuizLevel? _levelAfter;
+  QuizLevel? _nextLevel;
+  bool _passed = false;
+
+  // The saved position only applies to the first load; "practice again" starts fresh.
+  bool _useResume = true;
+
   @override
   void initState() {
     super.initState();
@@ -48,10 +62,30 @@ class _QuizSessionState extends State<QuizSession> {
       _loadFailed = false;
     });
     try {
-      final questions = await QuizService.loadSession();
+      var questions = <QuizQuestion>[];
+      var startIndex = 0;
+      var startCorrect = 0;
+
+      final resume = _useResume ? widget.resume : null;
+      if (resume != null) {
+        final saved = await QuizService.loadQuestionsByIds(resume.questionIds);
+        // If questions were removed since, the saved position no longer lines up.
+        if (saved.length == resume.questionIds.length && resume.currentIndex < saved.length) {
+          questions = saved;
+          startIndex = resume.currentIndex;
+          startCorrect = resume.correctCount;
+        }
+      }
+      if (questions.isEmpty) {
+        questions = await QuizService.loadQuiz(widget.level.id, widget.quizNumber);
+      }
+      _useResume = false;
+
       if (!mounted) return;
       setState(() {
         _questions = questions;
+        _currentIndex = startIndex;
+        _correctCount = startCorrect;
         _isLoading = false;
       });
     } catch (_) {
@@ -99,7 +133,22 @@ class _QuizSessionState extends State<QuizSession> {
     _showFeedback(isCorrect);
   }
 
+  /// Remembers the position (pointing at the next unanswered question) so the
+  /// quiz shows up in History if the student leaves now. The last question is
+  /// skipped: finishing clears the saved state instead.
+  void _saveResume() {
+    if (_currentIndex + 1 >= _questions.length) return;
+    QuizService.saveResume(
+      levelId: widget.level.id,
+      quizNumber: widget.quizNumber,
+      questionIds: [for (final q in _questions) q.id],
+      currentIndex: _currentIndex + 1,
+      correctCount: _correctCount,
+    ).catchError((Object e) => debugPrint('Saving quiz resume failed: $e'));
+  }
+
   Future<void> _showFeedback(bool isCorrect) async {
+    _saveResume();
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -129,8 +178,7 @@ class _QuizSessionState extends State<QuizSession> {
   void _nextQuestion() {
     if (!mounted) return;
     if (_currentIndex + 1 >= _questions.length) {
-      setState(() => _isFinished = true);
-      QuizService.recordSessionResult(correct: _correctCount, total: _questions.length);
+      _finishSession();
       return;
     }
     setState(() {
@@ -142,6 +190,36 @@ class _QuizSessionState extends State<QuizSession> {
     });
   }
 
+  Future<void> _finishSession() async {
+    final passed = QuizService.passesQuiz(correct: _correctCount, total: _questions.length);
+    setState(() {
+      _isFinished = true;
+      _passed = passed;
+    });
+    QuizService.recordSessionResult(correct: _correctCount, total: _questions.length);
+    QuizService.clearResume().catchError((_) {});
+
+    try {
+      if (passed) await QuizService.markQuizFinished(widget.level.id, widget.quizNumber);
+      final levels = await QuizService.loadLevels();
+      if (!mounted) return;
+      final index = QuizService.levelIds.indexOf(widget.level.id);
+      setState(() {
+        _levelAfter = levels[index];
+        _nextLevel = index + 1 < levels.length ? levels[index + 1] : null;
+      });
+    } catch (_) {
+      // The finish screen still works without the level summary.
+    }
+  }
+
+  void _openQuiz(QuizLevel level, int quizNumber) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => QuizSession(level: level, quizNumber: quizNumber)),
+    );
+  }
+
   void _restart() {
     setState(() {
       _currentIndex = 0;
@@ -150,6 +228,9 @@ class _QuizSessionState extends State<QuizSession> {
       _selectedOption = null;
       _selectedTrueFalse = null;
       _isFinished = false;
+      _passed = false;
+      _levelAfter = null;
+      _nextLevel = null;
       _textController.clear();
     });
     _loadQuestions();
@@ -161,12 +242,6 @@ class _QuizSessionState extends State<QuizSession> {
 
   void _openReviewIncorrect() {
     Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewIncorrectPage()));
-  }
-
-  void _playAudio() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Audio pronunciation coming soon.')),
-    );
   }
 
   _OptionState _stateFor(int index) {
@@ -236,7 +311,8 @@ class _QuizSessionState extends State<QuizSession> {
                 ),
                 Text(
                   '$pct%',
-                  style: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.green),
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.green, ),
                 ),
               ],
             ),
@@ -256,7 +332,7 @@ class _QuizSessionState extends State<QuizSession> {
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(color: AppColors.green.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
                 child: Text(
-                  q.difficulty!.toUpperCase(),
+                  '${q.difficulty!.toUpperCase()} · QUIZ ${widget.quizNumber}',
                   style: const TextStyle(fontFamily: 'Inter', fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.green, letterSpacing: 0.5),
                 ),
               ),
@@ -302,7 +378,8 @@ class _QuizSessionState extends State<QuizSession> {
         const SizedBox(height: 20),
         Text(
           q.promptArabic ?? '',
-          textAlign: TextAlign.center,
+          textDirection: TextDirection.rtl,
+          textAlign: TextAlign.end,
           style: const TextStyle(fontFamily: 'Inter', fontSize: 28, fontWeight: FontWeight.w700, color: AppColors.ink),
         ),
         const SizedBox(height: 12),
@@ -319,15 +396,7 @@ class _QuizSessionState extends State<QuizSession> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          onTap: _playAudio,
-          child: Container(
-            width: 72,
-            height: 72,
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.orange),
-            child: const Icon(Icons.volume_up_rounded, color: Colors.white, size: 32),
-          ),
-        ),
+        SpeakerButton(text: q.arabic ?? '', size: 72, iconSize: 32),
         const SizedBox(height: 16),
         const Text(
           'Listen and select the correct word',
@@ -350,7 +419,7 @@ class _QuizSessionState extends State<QuizSession> {
         const SizedBox(height: 20),
         Text(
           q.arabic ?? '',
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.end,
           style: const TextStyle(fontFamily: 'Inter', fontSize: 34, fontWeight: FontWeight.w700, color: AppColors.ink),
         ),
         if (q.transliteration != null) ...[
@@ -377,7 +446,7 @@ class _QuizSessionState extends State<QuizSession> {
         const SizedBox(height: 20),
         Text(
           q.promptEnglish ?? '',
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.right,
           style: const TextStyle(fontFamily: 'Inter', fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.ink),
         ),
       ],
@@ -476,10 +545,12 @@ class _QuizSessionState extends State<QuizSession> {
             enabled: !_answered,
             maxLength: maxLength,
             maxLines: 1,
+            textAlign: TextAlign.end,
             textAlignVertical: TextAlignVertical.center,
             style: const TextStyle(fontFamily: 'Inter', fontSize: 15, color: AppColors.ink),
             decoration: InputDecoration(
               hintText: hint,
+              hintTextDirection: TextDirection.rtl,
               hintStyle: const TextStyle(fontFamily: 'Inter', color: AppColors.muted, fontSize: 14),
               border: InputBorder.none,
               isCollapsed: false,
@@ -517,6 +588,31 @@ class _QuizSessionState extends State<QuizSession> {
     final total = _questions.length;
     final pct = total == 0 ? 0 : ((_correctCount / total) * 100).round();
     final incorrectCount = total - _correctCount;
+    final needed = (total * QuizService.passMark).ceil();
+
+    final level = _levelAfter;
+    final next = _nextLevel;
+    final levelComplete = _passed && (level?.isComplete ?? false);
+    final nextLevelUnlocked = levelComplete && next != null && next.unlocked;
+    final nextQuizInLevel = (_passed && level != null && !level.isComplete) ? level.nextQuiz : null;
+
+    // What the primary button does next.
+    final String primaryLabel;
+    final VoidCallback primaryAction;
+    if (!_passed) {
+      primaryLabel = 'Retry Quiz ${widget.quizNumber}';
+      primaryAction = _restart;
+    } else if (nextQuizInLevel != null) {
+      primaryLabel = 'Start Quiz $nextQuizInLevel';
+      primaryAction = () => _openQuiz(level!, nextQuizInLevel);
+    } else if (nextLevelUnlocked) {
+      primaryLabel = 'Start ${next.label}';
+      primaryAction = () => _openQuiz(next, 1);
+    } else {
+      primaryLabel = 'Play Again';
+      primaryAction = _restart;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -525,71 +621,146 @@ class _QuizSessionState extends State<QuizSession> {
           const AppTopNav(),
           Expanded(
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Quiz Complete!',
-                    style: TextStyle(fontFamily: 'Prociono', fontSize: 30, color: AppColors.ink),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "You've answered all $total questions!",
-                    style: const TextStyle(fontSize: 14, color: AppColors.muted, fontFamily: 'Inter'),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 28),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 16, offset: const Offset(0, 6))],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      levelComplete
+                          ? '${widget.level.label} Complete!'
+                          : _passed
+                              ? 'Quiz ${widget.quizNumber} Complete!'
+                              : 'Almost there!',
+                      style: const TextStyle(fontFamily: 'Prociono', fontSize: 30, color: AppColors.ink),
+                      textAlign: TextAlign.center,
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(child: _QuizStatColumn(icon: Icons.check_rounded, color: AppColors.green, value: '$_correctCount', label: 'Correct')),
-                        const SizedBox(height: 40, child: VerticalDivider(color: AppColors.primaryBorder)),
-                        Expanded(child: _QuizStatColumn(icon: Icons.close_rounded, color: AppColors.coral, value: '$incorrectCount', label: 'Incorrect')),
-                        const SizedBox(height: 40, child: VerticalDivider(color: AppColors.primaryBorder)),
-                        Expanded(child: _QuizStatColumn(icon: Icons.show_chart_rounded, color: AppColors.orange, value: '$pct%', label: 'Score')),
-                      ],
+                    const SizedBox(height: 8),
+                    Text(
+                      _passed
+                          ? 'You scored $_correctCount of $total.'
+                          : 'You scored $_correctCount of $total. Get at least $needed right to finish this quiz.',
+                      style: const TextStyle(fontSize: 14, color: AppColors.muted, fontFamily: 'Inter'),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _restart,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.green,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                        elevation: 0,
-                        textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700),
+                    const SizedBox(height: 28),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 16, offset: const Offset(0, 6))],
                       ),
-                      child: const Text('Try Another Quiz'),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: _goHome,
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: AppColors.green),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                      ),
-                      child: const Text(
-                        'Back to Home',
-                        style: TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.green),
+                      child: Row(
+                        children: [
+                          Expanded(child: _QuizStatColumn(icon: Icons.check_rounded, color: AppColors.green, value: '$_correctCount', label: 'Correct')),
+                          const SizedBox(height: 40, child: VerticalDivider(color: AppColors.primaryBorder)),
+                          Expanded(child: _QuizStatColumn(icon: Icons.close_rounded, color: AppColors.coral, value: '$incorrectCount', label: 'Incorrect')),
+                          const SizedBox(height: 40, child: VerticalDivider(color: AppColors.primaryBorder)),
+                          Expanded(child: _QuizStatColumn(icon: Icons.show_chart_rounded, color: AppColors.orange, value: '$pct%', label: 'Score')),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    if (level != null) ...[
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 16, offset: const Offset(0, 6))],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${level.label} progress',
+                                  style: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.ink),
+                                ),
+                                Text(
+                                  '${level.finished} / ${level.total} quizzes',
+                                  style: const TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.green),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: LinearProgressIndicator(
+                                value: level.fraction,
+                                minHeight: 8,
+                                backgroundColor: AppColors.primaryBorder,
+                                valueColor: const AlwaysStoppedAnimation<Color>(AppColors.green),
+                              ),
+                            ),
+                            if (nextLevelUnlocked) ...[
+                              const SizedBox(height: 14),
+                              Text(
+                                '🎉 ${next.label} is now unlocked!',
+                                style: const TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.green),
+                              ),
+                            ] else if (levelComplete && next == null) ...[
+                              const SizedBox(height: 14),
+                              const Text(
+                                "🏆 You've completed every level!",
+                                style: TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.green),
+                              ),
+                            ] else if (!levelComplete) ...[
+                              const SizedBox(height: 14),
+                              Text(
+                                'Finish ${level.total - level.finished} more quiz${level.total - level.finished == 1 ? '' : 'zes'} to ${next == null ? 'complete this level' : 'unlock ${next.label}'}.',
+                                style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: AppColors.muted, height: 1.4),
+                              ),
+                            ],
+                            if (!QuizService.isSignedIn) ...[
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Log in to save your progress.',
+                                style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: AppColors.coral),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: primaryAction,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.green,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                          elevation: 0,
+                          textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700),
+                        ),
+                        child: Text(primaryLabel),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          side: const BorderSide(color: AppColors.green),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                        ),
+                        child: const Text(
+                          'Back to Quizzes',
+                          style: TextStyle(fontFamily: 'Inter', fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.green),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:deewan_institute_app/core/app_theme.dart';
+import 'package:deewan_institute_app/core/notification_service.dart';
 import 'package:deewan_institute_app/home/home_page.dart';
 import 'package:deewan_institute_app/onboarding/feature_splash_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await ThemePreference.load();
+  await NotificationService.syncFromPreferences();
   runApp(const DeewanApp());
 }
 
@@ -26,10 +28,13 @@ class DeewanApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: mode,
-        home: FirebaseAuth.instance.currentUser == null
-            ? const FeatureSplashPage()
-            : const HomePage(),
+        home: const HomePage(),
       ),
     );
   }
 }
+
+
+// home: FirebaseAuth.instance.currentUser == null
+//             ? const FeatureSplashPage()
+//             : const HomePage(),

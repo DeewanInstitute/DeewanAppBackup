@@ -33,4 +33,16 @@ class DictionaryRepository {
     _cache = [...?_cache, entry];
     return entry;
   }
+
+  /// Admin-only: re-checks the verb forms of already-stored words. Processes a
+  /// batch per call — repeat until the result's `remaining` is 0.
+  static Future<Map<String, dynamic>> reviewVerbs() async {
+    final callable = FirebaseFunctions.instance.httpsCallable(
+      'reviewVerbs',
+      options: HttpsCallableOptions(timeout: const Duration(minutes: 9)),
+    );
+    final result = await callable.call();
+    _cache = null; // stored entries may have changed
+    return Map<String, dynamic>.from(result.data as Map);
+  }
 }

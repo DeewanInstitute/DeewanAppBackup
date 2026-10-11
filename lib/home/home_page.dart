@@ -9,7 +9,7 @@ import 'package:deewan_institute_app/core/quiz_service.dart';
 import 'package:deewan_institute_app/flashcards/flashcard_session.dart';
 import 'package:deewan_institute_app/flashcards/flashcards_home.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
-import 'package:deewan_institute_app/quiz/quiz_session.dart';
+import 'package:deewan_institute_app/quiz/quiz_levels_page.dart';
 import 'package:deewan_institute_app/word_search/word_search_page.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +28,14 @@ class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   List<Map<String, dynamic>> _allWords = [];
   List<CustomCategory> _customCategories = [];
-  QuizProgress _quizProgress = QuizProgress.empty;
+  List<QuizLevel> _quizLevels = const [];
 
   @override
   void initState() {
     super.initState();
     _loadWords();
     _loadCustomCategories();
-    _loadQuizProgress();
+    _loadQuizLevels();
   }
 
   @override
@@ -56,15 +56,18 @@ class _HomePageState extends State<HomePage> {
     if (mounted) setState(() => _customCategories = categories);
   }
 
-  Future<void> _loadQuizProgress() async {
-    if (!QuizService.isSignedIn) return;
-    final progress = await QuizService.loadProgress();
-    if (mounted) setState(() => _quizProgress = progress);
+  Future<void> _loadQuizLevels() async {
+    try {
+      final levels = await QuizService.loadLevels();
+      if (mounted) setState(() => _quizLevels = levels);
+    } catch (_) {
+      // Leave the card in its "Start Quiz" state if levels can't be loaded.
+    }
   }
 
   Future<void> _startQuiz() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizSession()));
-    _loadQuizProgress();
+    await Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizLevelsPage()));
+    _loadQuizLevels();
   }
 
   void _studyBuiltInDeck(String label, Color color, int start, int end) {
@@ -222,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 18),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: _QuizCard(progress: _quizProgress, onStart: _startQuiz),
+                    child: _QuizCard(levels: _quizLevels, onStart: _startQuiz),
                   ),
                 ],
               ),
@@ -549,12 +552,30 @@ class _DeckTile extends StatelessWidget {
 }
 
 class _QuizCard extends StatelessWidget {
-  const _QuizCard({required this.progress, required this.onStart});
+  const _QuizCard({required this.levels, required this.onStart});
 
-  final QuizProgress progress;
+  final List<QuizLevel> levels;
   final VoidCallback onStart;
 
-  bool get _hasStarted => progress.sessionsCompleted > 0;
+  int get _passed => levels.fold(0, (sum, l) => sum + l.finished);
+  int get _total => levels.fold(0, (sum, l) => sum + l.total);
+  bool get _hasStarted => _passed > 0;
+  bool get _allComplete => levels.isNotEmpty && levels.every((l) => l.isComplete);
+
+  /// The level the student is working on: the first one that's open but not finished.
+  QuizLevel? get _currentLevel {
+    for (final level in levels) {
+      if (level.unlocked && !level.isComplete) return level;
+    }
+    return null;
+  }
+
+  String get _subtitle {
+    if (!_hasStarted) return 'Test what you\'ve learned so far';
+    if (_allComplete) return 'All levels complete 🎉';
+    final level = _currentLevel;
+    return level == null ? '$_passed of $_total quizzes finished' : '${level.label} · ${level.finished} of ${level.total} quizzes finished';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -594,9 +615,7 @@ class _QuizCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 11),
                     Text(
-                      _hasStarted
-                          ? '${progress.sessionsCompleted} quiz${progress.sessionsCompleted == 1 ? '' : 'zes'} completed · ${progress.questionsAnswered} questions'
-                          : 'Test what you\'ve learned so far',
+                      _subtitle,
                       style: const TextStyle(
                         color: AppColors.muted,
                         fontSize: 14,
@@ -616,7 +635,7 @@ class _QuizCard extends StatelessWidget {
           ),
           const SizedBox(height: 34),
           Center(
-            child: _ProgressRing(progress: _hasStarted ? progress.accuracy : 0, label: _hasStarted ? 'Accuracy' : 'Progress'),
+            child: _ProgressRing(progress: _total == 0 ? 0 : _passed / _total, label: _hasStarted ? 'Complete' : 'Progress'),
           ),
           const SizedBox(height: 34),
           SizedBox(

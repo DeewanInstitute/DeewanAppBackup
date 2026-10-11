@@ -44,21 +44,76 @@ class FlashcardService {
   }
 
   /// Saves [word] under [wordId] into [deckId], moving it out of any deck it
-  /// was previously saved to. Returns the new total card count for that deck.
+  /// was previously saved to. The Arabic, transliteration and first example
+  /// sentence are copied from the dictionary entry so the card is complete
+  /// without the user typing anything. For the custom deck, [category] is the
+  /// name of the flashcard deck the card belongs to. Returns how many cards are
+  /// now in the destination (that category for custom, otherwise the deck).
   static Future<int> saveWord({
     required String wordId,
     required Map<String, dynamic> word,
     required String deckId,
+    String? category,
+    bool levantine = false,
   }) async {
     final collection = _savedWords;
     if (collection == null) throw StateError('User is not signed in.');
+
+    final deckName = category?.trim();
+    final form = dialectForm(word, levantine: levantine);
+    final transliteration = form.transliteration;
+    final example = form.example;
     await collection.doc(wordId).set({
       'english': word['english'],
-      'arabic': word['arabic'],
+      'arabic': form.arabic,
+      'dialect': form.levantine ? 'levantine' : 'fusha',
+      if (transliteration != null && transliteration.isNotEmpty) 'transliteration': transliteration,
+      if (example != null && (example['arabic'] ?? '').isNotEmpty) 'exampleArabic': example['arabic'],
+      if (example != null && (example['transliteration'] ?? '').isNotEmpty) 'exampleTransliteration': example['transliteration'],
+      if (example != null && (example['english'] ?? '').isNotEmpty) 'exampleEnglish': example['english'],
+      if (deckId == FlashcardDecks.custom.id && deckName != null && deckName.isNotEmpty) 'category': deckName,
       'deck': deckId,
       'savedAt': FieldValue.serverTimestamp(),
     });
+
+    if (deckId == FlashcardDecks.custom.id && deckName != null && deckName.isNotEmpty) {
+      return (await getCategoryWords(deckName)).length;
+    }
     return deckCount(deckId);
+  }
+
+  /// The Arabic, transliteration and first example of [word] in the requested
+  /// dialect. Falls back to the Fusha form when the entry has no Levantine one,
+  /// and reports which dialect it actually used.
+  static ({String arabic, String? transliteration, Map<String, String>? example, bool levantine}) dialectForm(
+    Map<String, dynamic> word, {
+    required bool levantine,
+  }) {
+    final levantineArabic = word['arabic_levantine'] as String?;
+    if (levantine && levantineArabic != null && levantineArabic.isNotEmpty) {
+      final sentences = (word['levantine_sentences'] as List?)?.cast<Map>();
+      Map<String, String>? example;
+      if (sentences != null && sentences.isNotEmpty) {
+        final s = sentences.first;
+        example = {
+          'arabic': s['arabic'] as String? ?? '',
+          'transliteration': s['transliteration'] as String? ?? '',
+          'english': s['english'] as String? ?? '',
+        };
+      }
+      return (
+        arabic: levantineArabic,
+        transliteration: word['transliteration_levantine'] as String?,
+        example: example,
+        levantine: true,
+      );
+    }
+    return (
+      arabic: word['arabic'] as String? ?? '',
+      transliteration: word['transliteration'] as String?,
+      example: extractExample(word),
+      levantine: false,
+    );
   }
 
   static Future<int> deckCount(String deckId) async {
@@ -175,6 +230,7 @@ class FlashcardService {
     await collection.doc(wordKeyOf(word)).set({
       'english': word['english'],
       'arabic': word['arabic'],
+      if (word['dialect'] != null) 'dialect': word['dialect'],
       if (word['transliteration'] != null) 'transliteration': word['transliteration'],
       if (example != null && (example['arabic'] ?? '').isNotEmpty) 'exampleArabic': example['arabic'],
       if (example != null && (example['transliteration'] ?? '').isNotEmpty) 'exampleTransliteration': example['transliteration'],

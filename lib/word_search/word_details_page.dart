@@ -2,6 +2,8 @@ import 'package:deewan_institute_app/auth/auth_widgets.dart';
 import 'package:deewan_institute_app/core/app_bottom_nav.dart';
 import 'package:deewan_institute_app/core/app_colors.dart';
 import 'package:deewan_institute_app/core/app_drawer.dart';
+import 'package:deewan_institute_app/core/audio_service.dart';
+import 'package:deewan_institute_app/core/speaker_button.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +39,7 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
   Widget build(BuildContext context) {
     final rootFamily = _rootFamily;
     final active = _isFusha ? rootFamily : _levantine!;
+    final audioDialect = _isFusha ? AudioDialect.fusha : AudioDialect.levantine;
 
     final root = active['root'] as String? ?? '';
     final verb = active['verb'] as Map<String, dynamic>?;
@@ -134,6 +137,7 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
               if (verb != null)
                 _MorphCard(
                   label: 'Verb',
+                  dialect: audioDialect,
                   arabic: verb['arabic'] as String?,
                   transliteration: verb['transliteration'] as String?,
                   english: verb['english'] as String?,
@@ -141,7 +145,11 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
 
               if (conjugations != null) ...[
                 const SizedBox(height: 14),
-                _ConjugationsCard(conjugations: conjugations, irregularImperative: irregularImperative),
+                _ConjugationsCard(
+                  conjugations: conjugations,
+                  irregularImperative: irregularImperative,
+                  dialect: audioDialect,
+                ),
               ],
 
               if (!_isFusha && passiveParticiple != null) ...[
@@ -156,6 +164,7 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
                 const SizedBox(height: 14),
                 _MorphCard(
                   label: 'Masdar (Verbal Noun)',
+                  dialect: audioDialect,
                   arabic: masdar['arabic'] as String?,
                   transliteration: masdar['transliteration'] as String?,
                   english: masdar['english'] as String?,
@@ -166,6 +175,7 @@ class _WordDetailsPageState extends State<WordDetailsPage> {
                 const SizedBox(height: 14),
                 _MorphCard(
                   label: 'Active Participle (اسم الفاعل)',
+                  dialect: audioDialect,
                   arabic: activeParticiple['arabic'] as String?,
                   transliteration: activeParticiple['transliteration'] as String?,
                   english: activeParticiple['english'] as String?,
@@ -243,7 +253,10 @@ class _MorphCard extends StatelessWidget {
   final String? arabic;
   final String? transliteration;
   final String? english;
-  const _MorphCard({this.label, this.arabic, this.transliteration, this.english});
+  // Passive participle / nominal forms are MSA and never follow the dialect
+  // toggle, so they keep the Fusha default.
+  final AudioDialect dialect;
+  const _MorphCard({this.label, this.arabic, this.transliteration, this.english, this.dialect = AudioDialect.fusha});
 
   @override
   Widget build(BuildContext context) {
@@ -292,6 +305,17 @@ class _MorphCard extends StatelessWidget {
               ],
             ],
           ),
+          if (arabic != null && arabic!.isNotEmpty) ...[
+            const SizedBox(width: 10),
+            SpeakerButton(
+              text: arabic!,
+              dialect: dialect,
+              size: 32,
+              iconSize: 18,
+              backgroundColor: AppColors.orange.withOpacity(0.12),
+              iconColor: AppColors.orange,
+            ),
+          ],
         ],
       ),
     );
@@ -301,7 +325,8 @@ class _MorphCard extends StatelessWidget {
 class _ConjugationsCard extends StatelessWidget {
   final Map<String, dynamic> conjugations;
   final bool irregularImperative;
-  const _ConjugationsCard({required this.conjugations, required this.irregularImperative});
+  final AudioDialect dialect;
+  const _ConjugationsCard({required this.conjugations, required this.irregularImperative, required this.dialect});
 
   @override
   Widget build(BuildContext context) {
@@ -360,6 +385,15 @@ class _ConjugationsCard extends StatelessWidget {
                     Text(
                       value['transliteration'] as String? ?? '',
                       style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                    ),
+                    const SizedBox(width: 10),
+                    SpeakerButton(
+                      text: value['arabic'] as String? ?? '',
+                      dialect: dialect,
+                      size: 28,
+                      iconSize: 16,
+                      backgroundColor: AppColors.orange.withOpacity(0.12),
+                      iconColor: AppColors.orange,
                     ),
                   ],
                 ),
