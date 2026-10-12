@@ -52,14 +52,35 @@ const MORPH_FORM_SCHEMA = {
   additionalProperties: false,
 };
 
+// past/present/imperative are the masculine forms (3ms, 3ms, 2ms); the
+// *_feminine counterparts are 3fs, 3fs and 2fs.
+const NULLABLE_FORM_SCHEMA = {...CONJUGATION_FORM_SCHEMA, type: ["object", "null"]};
+
 const CONJUGATIONS_SCHEMA = {
   type: "object",
   properties: {
     past: CONJUGATION_FORM_SCHEMA,
     present: CONJUGATION_FORM_SCHEMA,
     imperative: CONJUGATION_FORM_SCHEMA,
+    past_feminine: NULLABLE_FORM_SCHEMA,
+    present_feminine: NULLABLE_FORM_SCHEMA,
+    imperative_feminine: NULLABLE_FORM_SCHEMA,
   },
-  required: ["past", "present", "imperative"],
+  required: ["past", "present", "imperative", "past_feminine", "present_feminine", "imperative_feminine"],
+  additionalProperties: false,
+};
+
+// The feminine counterpart of a gendered pronoun (e.g. "you": أنتَ -> أنتِ), in
+// both dialects. The word's own arabic/arabic_levantine fields are the masculine.
+const FEMININE_FORM_SCHEMA = {
+  type: ["object", "null"],
+  properties: {
+    arabic: {type: "string"},
+    transliteration: {type: "string"},
+    arabic_levantine: {type: "string"},
+    transliteration_levantine: {type: "string"},
+  },
+  required: ["arabic", "transliteration", "arabic_levantine", "transliteration_levantine"],
   additionalProperties: false,
 };
 
@@ -68,6 +89,17 @@ const CONJUGATIONS_SCHEMA = {
 // every root has a confidently-known Levantine equivalent. Levantine gets
 // its own masdar/active_participle since those forms differ from Fusha too,
 // not just the conjugations.
+// Jordanian adds the continuous ("is writing") tense: عَمْ + the present form.
+const LEVANTINE_CONJUGATIONS_SCHEMA = {
+  ...CONJUGATIONS_SCHEMA,
+  properties: {
+    ...CONJUGATIONS_SCHEMA.properties,
+    continuous: NULLABLE_FORM_SCHEMA,
+    continuous_feminine: NULLABLE_FORM_SCHEMA,
+  },
+  required: [...CONJUGATIONS_SCHEMA.required, "continuous", "continuous_feminine"],
+};
+
 const LEVANTINE_ROOT_FAMILY_SCHEMA = {
   type: ["object", "null"],
   properties: {
@@ -75,7 +107,7 @@ const LEVANTINE_ROOT_FAMILY_SCHEMA = {
     different_root_than_fusha: {type: "boolean"},
     note: {type: ["string", "null"]},
     verb: MORPH_FORM_SCHEMA,
-    conjugations: CONJUGATIONS_SCHEMA,
+    conjugations: LEVANTINE_CONJUGATIONS_SCHEMA,
     masdar: {...MORPH_FORM_SCHEMA, type: ["object", "null"]},
     active_participle: {...MORPH_FORM_SCHEMA, type: ["object", "null"]},
   },
@@ -127,6 +159,7 @@ const WORD_SCHEMA = {
     antonyms: {type: "array", items: {type: "string"}},
     fusha_sentences: {type: "array", items: SENTENCE_SCHEMA, minItems: 2, maxItems: 2},
     levantine_sentences: {type: "array", items: SENTENCE_SCHEMA, minItems: 2, maxItems: 2},
+    feminine_form: FEMININE_FORM_SCHEMA,
     root_family: ROOT_FAMILY_SCHEMA,
   },
   required: [
@@ -140,6 +173,7 @@ const WORD_SCHEMA = {
     "antonyms",
     "fusha_sentences",
     "levantine_sentences",
+    "feminine_form",
     "root_family",
   ],
   additionalProperties: false,
@@ -150,8 +184,11 @@ const SYSTEM_PROMPT =
   "Given an English word or short phrase, produce a dictionary entry with Modern Standard Arabic (Fusha) " +
   "and colloquial Jordanian Arabic (Ammiyeh) forms. The colloquial fields must be ONLY the Jordanian " +
   "dialect specifically — not a blended or generic \"Levantine\", and not Palestinian, Syrian, or Lebanese " +
-  "usage where it differs from Jordanian. Use minimal diacritics on headwords, matching typical " +
-  "learner-dictionary style (only mark vowels where genuinely needed to avoid ambiguity). Provide exactly " +
+  "usage where it differs from Jordanian. Write EVERY Arabic string fully voweled with " +
+  "harakat (tashkeel): the headwords in both dialects, example sentences, synonyms, antonyms, and every verb " +
+  "form — fatha, damma, kasra, sukun, shadda and tanween where they are part of the word, so a learner can " +
+  "read it aloud without guessing. Do not add case endings (i'rab) to the last letter of nouns in running " +
+  "text. Provide exactly " +
   "2 example sentences per dialect, natural and commonly used. Synonyms and antonyms should be single " +
   "Arabic words or short phrases in Fusha. The 'type' field should be a short lowercase part-of-speech " +
   "label such as 'noun', 'verb', 'adjective', or 'greeting'. If the word is a verb, give the Fusha " +
@@ -210,6 +247,22 @@ const SYSTEM_PROMPT =
   "Apply this same level of care (correct hamza seat, alif maqsura ى vs yaa ي, checking for confusable " +
   "near-identical words) to every hollow, weak-final, or hamzated verb, not just this one example.\n\n" +
   "For non-verbs, set 'root_family' to null entirely.\n\n" +
+  "GENDER FORMS. Arabic distinguishes masculine and feminine, so give both where they exist.\n" +
+  "- Verbs: inside every 'conjugations' object, 'past', 'present' and 'imperative' are the MASCULINE forms " +
+  "(3rd-person masculine past, 3rd-person masculine present, 2nd-person masculine imperative). Also fill " +
+  "'past_feminine' (3rd-person feminine singular past, e.g. كَتَبَتْ), 'present_feminine' (3rd-person feminine " +
+  "singular present, e.g. تَكْتُبُ) and 'imperative_feminine' (2nd-person feminine singular imperative, e.g. " +
+  "اُكْتُبِي). Do this for both the Fusha and the Jordanian 'levantine' conjugations; the Jordanian present " +
+  "feminine also starts with ب (e.g. بتكتب) while its past and imperative feminine forms do not. Use null only " +
+  "when a feminine form genuinely does not exist.\n" +
+  "- Pronouns (type \"pronoun\"): when the pronoun itself differs by gender (e.g. \"you\": أنتَ / أنتِ, Jordanian " +
+  "إنتَ / إنتِ; \"your\": كَ / كِ), the main 'arabic'/'arabic_levantine' fields are the MASCULINE form and " +
+  "'feminine_form' holds the feminine form in both dialects, with matching transliterations. The feminine " +
+  "must be the same word as the masculine in the same dialect, differing only in the gender marking: the " +
+  "Fusha feminine pairs with the Fusha masculine and the Jordanian feminine with the Jordanian masculine. Set " +
+  "'feminine_form' to null for pronouns that do not change by gender (e.g. \"I\", \"we\") and for pronouns that " +
+  "are already inherently one gender (\"he\", \"she\").\n" +
+  "- Every other type: set 'feminine_form' to null.\n\n" +
   "Respond with only the JSON object, no commentary.";
 
 // ── Verb review pass ──────────────────────────────────────────────────────────
@@ -218,7 +271,9 @@ const SYSTEM_PROMPT =
 // while the reviewer only has to verify forms one by one against a checklist.
 const REVIEW_MODEL = "gpt-4o";
 // Bump when REVIEW_PROMPT improves, so every verb is re-reviewed under the new rules.
-const REVIEW_VERSION = 1;
+const REVIEW_VERSION = 4;
+// Bump when the harakat pass improves, so every word is re-voweled.
+const HARAKAT_VERSION = 1;
 
 const REVIEW_PROMPT =
   "You are a meticulous Arabic morphology reviewer. You will be given a 'root_family' JSON object that " +
@@ -239,16 +294,23 @@ const REVIEW_PROMPT =
   "5. 'active_participle' follows فَاعِل with correct hamza/yaa handling for hollow, defective, and " +
   "hamzated verbs (e.g. قَائِل, رَامٍ, آكِل). 'passive_participle' is مَفْعُول-pattern or null when the verb " +
   "has no natural one.\n" +
-  "6. Every 'transliteration' matches the vowels actually written in its Arabic, and every 'english' gloss " +
+  "6. The feminine forms are present and correct: 'past_feminine' is the 3rd-person feminine singular past " +
+  "(كَتَبَتْ), 'present_feminine' the 3rd-person feminine singular present (تَكْتُبُ), 'imperative_feminine' " +
+  "the 2nd-person feminine singular imperative (اُكْتُبِي — ends in ي, with the same hamzat-al-wasl vowel as " +
+  "the masculine). Fill them in if they are missing (null) and a feminine form exists.\n" +
+  "6b. Every Arabic form is fully voweled (harakat on every letter that needs one, shadda included).\n" +
+  "7. Every 'transliteration' matches the vowels actually written in its Arabic, and every 'english' gloss " +
   "is accurate.\n\n" +
   "CHECKLIST — Jordanian (the 'levantine' object):\n" +
-  "7. It must be genuinely Jordanian colloquial, not Fusha with the case endings dropped and not another " +
+  "8. It must be genuinely Jordanian colloquial, not Fusha with the case endings dropped and not another " +
   "Levantine variety. Verify the root: if Jordanian uses a different verb for this meaning, " +
   "'different_root_than_fusha' is true with an explanatory 'note'.\n" +
-  "8. 'conjugations.present.arabic' MUST start with ب. 'past' and 'imperative' must NOT.\n" +
-  "9. Verify each form is a real thing a Jordanian says. Pay particular attention to verbs whose colloquial " +
+  "9. 'conjugations.present.arabic' MUST start with ب. 'past' and 'imperative' must NOT; the Jordanian 'present_feminine' also starts with ب, while " +
+  "'past_feminine' and 'imperative_feminine' do not. 'continuous' is عَمْ followed by the present form (عَمْ + " +
+  "'present'), and 'continuous_feminine' is عَمْ + 'present_feminine'.\n" +
+  "10. Verify each form is a real thing a Jordanian says. Pay particular attention to verbs whose colloquial " +
   "stem is irregular (أكل → ياكُل not يُوكُل; أخذ → ياخُذ; جا/جاب; hollow verbs like شاف/قال/نام).\n" +
-  "10. 'masdar' and 'active_participle' are the forms Jordanians actually use; null them only if you are " +
+  "11. 'masdar' and 'active_participle' are the forms Jordanians actually use; null them only if you are " +
   "not confident, never invent one.\n\n" +
   "If you are not confident a form is correct and cannot fix it, prefer the safer option the generation " +
   "rules allow (null where nullable) over keeping a doubtful form.\n\n" +
@@ -264,28 +326,342 @@ const REVIEW_SCHEMA = {
   additionalProperties: false,
 };
 
-// Returns {rootFamily, changes, ok}. Never throws: if the review call fails, the
-// original generated entry is kept (ok=false) rather than losing the lookup, and
-// callers must not mark the entry as reviewed.
-async function reviewRootFamily(client, englishWord, rootFamily) {
+// ── Jordanian verb forms ──────────────────────────────────────────────────────
+// A dedicated call for the colloquial side of a verb: its conjugations, the
+// continuous tense and the masdar are the part the one-shot entry generation
+// gets wrong most often, so they get their own focused job.
+const JORDANIAN_VERB_PROMPT =
+  "You are an expert in Jordanian (Ammani) colloquial Arabic. Given an English verb and its Modern Standard " +
+  "Arabic root family, produce the verb's Jordanian forms: not generic \"Levantine\" and not Palestinian, " +
+  "Syrian or Lebanese where those differ.\n\n" +
+  "Rules:\n" +
+  "1. 'root': the root of the verb Jordanians actually use for this meaning. If it is a different verb from " +
+  "Fusha (ذهب -> راح, جلس -> قعد, رأى -> شاف), set 'different_root_than_fusha' true and explain in 'note'; " +
+  "otherwise false and 'note' null.\n" +
+  "2. 'verb' is the past 3rd-person masculine singular (e.g. كَتَب).\n" +
+  "3. 'conjugations': 'past' / 'past_feminine' are 3rd-person masculine / feminine singular (كَتَب / كَتَبِت). " +
+  "'present' / 'present_feminine' are 3rd-person masculine / feminine singular and MUST start with the ب- " +
+  "prefix (بِيكْتُب / بِتِكْتُب, بِشُوف / بِتْشُوف). 'imperative' / 'imperative_feminine' are 2nd-person " +
+  "masculine / feminine singular (اُكْتُب / اُكْتُبِي) and must NOT start with ب.\n" +
+  "4. 'continuous' / 'continuous_feminine' are the progressive (\"is writing\"): the particle عَمْ followed by " +
+  "the matching present form, e.g. عَمْ بِيكْتُب / عَمْ بِتِكْتُب.\n" +
+  "5. 'masdar' is the verbal noun Jordanians actually say, which may differ from the Fusha masdar " +
+  "(شُوفِة, not رُؤْيَة). 'active_participle' is the form used in speech (شايِف, كاتِب). Use null only when you " +
+  "are genuinely not confident — never invent one.\n" +
+  "6. Every Arabic string fully voweled with harakat; every transliteration matches the vowels written; every " +
+  "'english' gloss is accurate.\n" +
+  "7. MASCULINE AND FEMININE MUST MATCH: each *_feminine form is the SAME verb as its masculine form, in " +
+  "the same Jordanian dialect, differing only in the gender marking (past ـَت, present تـ with the same " +
+  "stem and vowels, imperative ـي). Never mix a Fusha form with a colloquial one, and never use a different " +
+  "stem or verb for the feminine. Where Jordanian drops a Fusha ending, drop it in both genders.\n" +
+  "8. Set 'levantine' to null only if you are not confident of the Jordanian verb at all.\n\n" +
+  "Respond with only the JSON object.";
+
+const JORDANIAN_VERB_SCHEMA = {
+  type: "object",
+  properties: {levantine: LEVANTINE_ROOT_FAMILY_SCHEMA},
+  required: ["levantine"],
+  additionalProperties: false,
+};
+
+// Returns {levantine, ok}. Never throws; callers keep the existing forms on failure.
+async function generateJordanianVerbForms(client, englishWord, rootFamily) {
   try {
     const completion = await client.chat.completions.create({
       model: REVIEW_MODEL,
       messages: [
+        {role: "system", content: JORDANIAN_VERB_PROMPT},
+        {
+          role: "user",
+          content: `English verb: "${englishWord}"\nFusha root family: ${JSON.stringify({
+            root: rootFamily.root,
+            verb: rootFamily.verb,
+            masdar: rootFamily.masdar,
+          })}`,
+        },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {name: "jordanian_verb_forms", schema: JORDANIAN_VERB_SCHEMA, strict: true},
+      },
+    });
+    const result = JSON.parse(completion.choices[0].message.content);
+    return {levantine: result.levantine || null, ok: !!result.levantine};
+  } catch (e) {
+    console.error(`Jordanian verb forms failed for "${englishWord}":`, e.message);
+    return {levantine: null, ok: false};
+  }
+}
+
+// ── Harakat ───────────────────────────────────────────────────────────────────
+// Every Arabic string in an entry gets full vowel marks. Done as its own pass so
+// entries stored before the rule existed can be brought up to date too.
+const HARAKAT_SCHEMA = {
+  type: "object",
+  properties: {
+    arabic: {type: "string"},
+    arabic_levantine: {type: "string"},
+    fusha_sentences: {type: "array", items: {type: "string"}},
+    levantine_sentences: {type: "array", items: {type: "string"}},
+    synonyms: {type: "array", items: {type: "string"}},
+    antonyms: {type: "array", items: {type: "string"}},
+    feminine_form: {
+      type: ["object", "null"],
+      properties: {arabic: {type: "string"}, arabic_levantine: {type: "string"}},
+      required: ["arabic", "arabic_levantine"],
+      additionalProperties: false,
+    },
+  },
+  required: ["arabic", "arabic_levantine", "fusha_sentences", "levantine_sentences", "synonyms", "antonyms", "feminine_form"],
+  additionalProperties: false,
+};
+
+const HARAKAT_PROMPT =
+  "You add vowel marks (harakat/tashkeel) to Arabic text for a learner's dictionary. For every Arabic string " +
+  "you are given, return the SAME text with complete, correct harakat: fatha, damma, kasra, sukun, shadda " +
+  "and tanween where they belong to the word. Do NOT change, add, remove or reorder any letters or words, " +
+  "and do not translate. Fusha text follows standard Modern Standard Arabic vowelling (without case endings " +
+  "on nouns in running text); the 'levantine' strings are colloquial Jordanian and must be voweled the way " +
+  "Jordanians pronounce them, not as Fusha. Keep the same number of items in every list, in the same order. " +
+  "Respond with only the JSON object.";
+
+const TASHKEEL = /[\u064B-\u0652\u0670\u0640]/g;
+const stripMarks = (t) => String(t || "").replace(TASHKEEL, "");
+
+// Takes the voweled text only if it is the original with marks added, so the
+// model can never reword a stored entry through this pass.
+function voweledOr(original, voweled) {
+  return typeof voweled === "string" && stripMarks(voweled) === stripMarks(original) ? voweled : original;
+}
+
+function voweledList(original, voweled) {
+  if (!Array.isArray(original)) return original;
+  if (!Array.isArray(voweled) || voweled.length !== original.length) return original;
+  return original.map((o, i) => voweledOr(o, voweled[i]));
+}
+
+// Returns {fields, ok}: the entry fields that changed once voweled.
+async function addHarakat(client, entry) {
+  try {
+    const payload = {
+      arabic: entry.arabic,
+      arabic_levantine: entry.arabic_levantine,
+      fusha_sentences: (entry.fusha_sentences || []).map((x) => x.arabic),
+      levantine_sentences: (entry.levantine_sentences || []).map((x) => x.arabic),
+      synonyms: entry.synonyms || [],
+      antonyms: entry.antonyms || [],
+      feminine_form: entry.feminine_form ?
+        {arabic: entry.feminine_form.arabic, arabic_levantine: entry.feminine_form.arabic_levantine} : null,
+    };
+    const completion = await client.chat.completions.create({
+      model: REVIEW_MODEL,
+      messages: [
+        {role: "system", content: HARAKAT_PROMPT},
+        {role: "user", content: JSON.stringify(payload)},
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {name: "harakat", schema: HARAKAT_SCHEMA, strict: true},
+      },
+    });
+    const r = JSON.parse(completion.choices[0].message.content);
+
+    const withArabic = (sentences, voweled) => {
+      if (!Array.isArray(sentences)) return sentences;
+      const marked = voweledList(sentences.map((x) => x.arabic), voweled);
+      return sentences.map((x, i) => ({...x, arabic: marked[i]}));
+    };
+
+    const fields = {
+      arabic: voweledOr(entry.arabic, r.arabic),
+      arabic_levantine: voweledOr(entry.arabic_levantine, r.arabic_levantine),
+      fusha_sentences: withArabic(entry.fusha_sentences, r.fusha_sentences),
+      levantine_sentences: withArabic(entry.levantine_sentences, r.levantine_sentences),
+      synonyms: voweledList(entry.synonyms, r.synonyms),
+      antonyms: voweledList(entry.antonyms, r.antonyms),
+    };
+    if (entry.feminine_form && r.feminine_form) {
+      fields.feminine_form = {
+        ...entry.feminine_form,
+        arabic: voweledOr(entry.feminine_form.arabic, r.feminine_form.arabic),
+        arabic_levantine: voweledOr(entry.feminine_form.arabic_levantine, r.feminine_form.arabic_levantine),
+      };
+    }
+    return {fields, ok: true};
+  } catch (e) {
+    console.error(`Harakat pass failed for "${entry.english}":`, e.message);
+    return {fields: {}, ok: false};
+  }
+}
+
+// ── Masculine / feminine consistency ──────────────────────────────────────────
+// The masculine and feminine forms of a verb must be the same verb in the same
+// dialect, differing only in the gender marking. The model is asked for this;
+// these checks make sure, and the reviewer is re-run on whatever fails.
+const norm = (t) => stripMarks(t).replace(/\s+/g, " ").trim();
+
+function formViolations(rootFamily) {
+  const problems = [];
+  const check = (label, c, jordanian) => {
+    if (!c) return;
+    const t = (f) => (f && f.arabic ? norm(f.arabic) : null);
+    const [past, pastF, pres, presF, imp, impF] = [
+      t(c.past), t(c.past_feminine), t(c.present), t(c.present_feminine), t(c.imperative), t(c.imperative_feminine),
+    ];
+    const pairs = [["past", past, pastF], ["present", pres, presF], ["imperative", imp, impF]];
+    for (const [name, m, f] of pairs) {
+      if (m && f && m === f) problems.push(`${label}: '${name}' and '${name}_feminine' are identical`);
+      if (m && !f) problems.push(`${label}: '${name}_feminine' is missing`);
+    }
+    if (pastF && !pastF.endsWith("ت")) problems.push(`${label}: 'past_feminine' (${pastF}) must end in ت`);
+    if (impF && !impF.endsWith("ي")) problems.push(`${label}: 'imperative_feminine' (${impF}) must end in ي`);
+    if (jordanian) {
+      if (pres && !pres.startsWith("ب")) problems.push(`${label}: 'present' (${pres}) must start with ب`);
+      if (presF && !presF.startsWith("ب")) problems.push(`${label}: 'present_feminine' (${presF}) must start with ب`);
+    } else {
+      if (pres && !pres.startsWith("ي")) problems.push(`${label}: 'present' (${pres}) must start with ي`);
+      if (presF && !presF.startsWith("ت")) problems.push(`${label}: 'present_feminine' (${presF}) must start with ت`);
+    }
+  };
+  check("Fusha", rootFamily.conjugations, false);
+  if (rootFamily.levantine) check("Jordanian", rootFamily.levantine.conjugations, true);
+  return problems;
+}
+
+// The continuous tense is always عَمْ + the present form, so it is built from the
+// present forms rather than trusted from the model; it can never drift from them.
+function withContinuous(rootFamily) {
+  const lev = rootFamily && rootFamily.levantine;
+  if (!lev || !lev.conjugations) return rootFamily;
+  const c = lev.conjugations;
+  const build = (present) => (present && present.arabic ?
+    {arabic: `عَمْ ${present.arabic}`, transliteration: `'am ${present.transliteration}`} : null);
+  return {
+    ...rootFamily,
+    levantine: {
+      ...lev,
+      conjugations: {...c, continuous: build(c.present), continuous_feminine: build(c.present_feminine)},
+    },
+  };
+}
+
+// The headword shown on a verb's card is its present 3rd-person masculine, so
+// it is taken from the conjugation table: the card's masculine word and the
+// feminine one beside it then always come from the same table.
+function withTableHeadwords(entry) {
+  const rf = entry.root_family;
+  if (!rf) return entry;
+  const out = {...entry};
+  const present = rf.conjugations && rf.conjugations.present;
+  if (present && present.arabic) {
+    out.arabic = present.arabic;
+    if (present.transliteration) out.transliteration = present.transliteration;
+  }
+  const lev = rf.levantine && rf.levantine.conjugations && rf.levantine.conjugations.present;
+  if (lev && lev.arabic) {
+    out.arabic_levantine = lev.arabic;
+    if (lev.transliteration) out.transliteration_levantine = lev.transliteration;
+  }
+  return out;
+}
+
+// Returns {rootFamily, changes, ok}. Never throws: if the review call fails, the
+// original generated entry is kept (ok=false) rather than losing the lookup, and
+// callers must not mark the entry as reviewed.
+async function reviewRootFamily(client, englishWord, rootFamily) {
+  const original = rootFamily;
+  // The dedicated Jordanian pass replaces the entry's colloquial forms; the
+  // reviewer below then checks the whole result, Fusha and Jordanian together.
+  const jordanian = await generateJordanianVerbForms(client, englishWord, rootFamily);
+  if (jordanian.ok) rootFamily = {...rootFamily, levantine: jordanian.levantine};
+
+  const review = async (rf, problems) => {
+    const completion = await client.chat.completions.create({
+      model: REVIEW_MODEL,
+      messages: [
         {role: "system", content: REVIEW_PROMPT + SYSTEM_PROMPT},
-        {role: "user", content: `English verb: "${englishWord}"\n\nroot_family to review:\n${JSON.stringify(rootFamily)}`},
+        {
+          role: "user",
+          content: `English verb: "${englishWord}"\n\nroot_family to review:\n${JSON.stringify(rf)}` +
+            (problems.length ?
+              `\n\nThese specific problems were found by an automatic check and MUST be fixed — the ` +
+              `masculine and feminine forms must be the same verb in the same dialect:\n- ${problems.join("\n- ")}` :
+              ""),
+        },
       ],
       response_format: {
         type: "json_schema",
         json_schema: {name: "root_family_review", schema: REVIEW_SCHEMA, strict: true},
       },
     });
-    const result = JSON.parse(completion.choices[0].message.content);
-    if (!result.root_family) return {rootFamily, changes: [], ok: false};
-    return {rootFamily: result.root_family, changes: result.changes || [], ok: true};
+    return JSON.parse(completion.choices[0].message.content);
+  };
+
+  try {
+    let result = await review(rootFamily, formViolations(rootFamily));
+    if (!result.root_family) return {rootFamily: original, changes: [], ok: false};
+    const changes = result.changes || [];
+
+    // One more pass on whatever the checks still object to.
+    const remaining = formViolations(result.root_family);
+    if (remaining.length > 0) {
+      const second = await review(result.root_family, remaining);
+      if (second.root_family) {
+        result = second;
+        changes.push(...(second.changes || []));
+      }
+    }
+    const leftover = formViolations(result.root_family);
+    if (leftover.length > 0) changes.push(`unresolved: ${leftover.join("; ")}`);
+    return {rootFamily: withContinuous(result.root_family), changes, ok: true};
   } catch (e) {
     console.error(`Verb review failed for "${englishWord}":`, e.message);
-    return {rootFamily, changes: [], ok: false};
+    return {rootFamily: original, changes: [], ok: false};
+  }
+}
+
+const FEMININE_REVIEW_SCHEMA = {
+  type: "object",
+  properties: {feminine_form: FEMININE_FORM_SCHEMA},
+  required: ["feminine_form"],
+  additionalProperties: false,
+};
+
+// Returns {feminineForm, ok}. For an existing pronoun entry: its feminine
+// counterpart in both dialects, or null if the pronoun doesn't change by gender.
+async function fillFeminineForm(client, entry) {
+  try {
+    const completion = await client.chat.completions.create({
+      model: REVIEW_MODEL,
+      messages: [
+        {
+          role: "system",
+          content: "You are a meticulous Arabic lexicographer. Given a dictionary entry for an English " +
+            "pronoun, return its FEMININE counterpart in Modern Standard Arabic and in colloquial Jordanian " +
+            "Arabic, with transliterations. The entry's own arabic/arabic_levantine are the masculine form. " +
+            "Examples: \"you\" -> أنتِ / Jordanian إنتِ; \"your\" -> كِ. Return null when the pronoun does not " +
+            "change by gender (\"I\", \"we\") or is already inherently one gender (\"he\", \"she\"). The feminine form must be the SAME " +
+            "word as the masculine one in the same dialect, differing only in the gender marking — a Fusha " +
+            "feminine pairs with the Fusha masculine, and the Jordanian feminine pairs with the Jordanian " +
+            "masculine (إنتَ / إنتِ, never أنتَ / إنتِ). Fully vowel every Arabic string with harakat. Respond " +
+            "with only the JSON object.",
+        },
+        {
+          role: "user",
+          content: `English: "${entry.english}"\nArabic: ${entry.arabic} (${entry.transliteration})\n` +
+            `Jordanian: ${entry.arabic_levantine} (${entry.transliteration_levantine})`,
+        },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {name: "feminine_form", schema: FEMININE_REVIEW_SCHEMA, strict: true},
+      },
+    });
+    const result = JSON.parse(completion.choices[0].message.content);
+    return {feminineForm: result.feminine_form === undefined ? null : result.feminine_form, ok: true};
+  } catch (e) {
+    console.error(`Feminine form lookup failed for "${entry.english}":`, e.message);
+    return {feminineForm: null, ok: false};
   }
 }
 
@@ -346,6 +722,14 @@ exports.lookupWord = onCall({secrets: [openaiApiKey], cors: true}, async (reques
       entry.verbReviewChanges = reviewed.changes;
     }
   }
+
+  const voweled = await addHarakat(client, entry);
+  if (voweled.ok) {
+    Object.assign(entry, voweled.fields);
+    entry.harakatVersion = HARAKAT_VERSION;
+  }
+
+  entry = withTableHeadwords(entry);
 
   entry.english = englishWord;
   entry.source = "openai";
@@ -648,17 +1032,23 @@ function assertAdmin(request) {
   }
 }
 
-// Admin-only: runs the review pass over verbs already in the dictionary.
-// Processes a limited batch per call (to stay inside the function timeout);
-// call it repeatedly until `remaining` is 0.
+// Admin-only: brings words already in the dictionary up to date. Verbs get the
+// review pass (which also adds their feminine forms) and pronouns get their
+// feminine form. Processes a limited batch per call (to stay inside the function
+// timeout); call it repeatedly until `remaining` is 0.
 exports.reviewVerbs = onCall({secrets: [openaiApiKey], cors: true, timeoutSeconds: 540}, async (request) => {
   assertAdmin(request);
 
   const BATCH_SIZE = 20;
   const CONCURRENCY = 4;
 
-  const snapshot = await admin.firestore().collection("dictionary").where("root_family", "!=", null).get();
-  const pending = snapshot.docs.filter((d) => d.data().verbReviewVersion !== REVIEW_VERSION);
+  const snapshot = await admin.firestore().collection("dictionary").get();
+  const stepsFor = (data) => ({
+    harakat: data.harakatVersion !== HARAKAT_VERSION,
+    verb: !!data.root_family && data.verbReviewVersion !== REVIEW_VERSION,
+    feminine: !data.root_family && data.type === "pronoun" && data.feminine_form === undefined,
+  });
+  const pending = snapshot.docs.filter((d) => Object.values(stepsFor(d.data())).some(Boolean));
   const batch = pending.slice(0, BATCH_SIZE);
 
   const client = new OpenAI({apiKey: openaiApiKey.value()});
@@ -667,15 +1057,55 @@ exports.reviewVerbs = onCall({secrets: [openaiApiKey], cors: true, timeoutSecond
     const chunk = batch.slice(i, i + CONCURRENCY);
     const chunkResults = await Promise.all(chunk.map(async (doc) => {
       const data = doc.data();
-      const reviewed = await reviewRootFamily(client, data.english, data.root_family);
-      if (!reviewed.ok) return {english: data.english, failed: true, changes: []};
-      await doc.ref.update({
-        root_family: reviewed.rootFamily,
-        verbReviewVersion: REVIEW_VERSION,
-        verbReviewChanges: reviewed.changes,
-        verbReviewedAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
-      return {english: data.english, failed: false, changes: reviewed.changes};
+      const steps = stepsFor(data);
+      const update = {};
+      const changes = [];
+      let failed = false;
+
+      if (steps.harakat) {
+        const voweled = await addHarakat(client, data);
+        if (voweled.ok) {
+          Object.assign(update, voweled.fields, {harakatVersion: HARAKAT_VERSION});
+          Object.assign(data, voweled.fields);
+          changes.push("added harakat");
+        } else {
+          failed = true;
+        }
+      }
+      if (steps.verb) {
+        const reviewed = await reviewRootFamily(client, data.english, data.root_family);
+        if (reviewed.ok) {
+          Object.assign(update, {
+            root_family: reviewed.rootFamily,
+            verbReviewVersion: REVIEW_VERSION,
+            verbReviewChanges: reviewed.changes,
+            verbReviewedAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+          changes.push(...reviewed.changes);
+        } else {
+          failed = true;
+        }
+      }
+      if (steps.feminine) {
+        const filled = await fillFeminineForm(client, data);
+        if (filled.ok) {
+          update.feminine_form = filled.feminineForm;
+          if (filled.feminineForm) changes.push("added feminine form");
+        } else {
+          failed = true;
+        }
+      }
+
+      // Keep the card's masculine headword identical to the conjugation table's.
+      if (steps.verb || steps.harakat) {
+        const synced = withTableHeadwords({...data, ...update});
+        for (const key of ["arabic", "transliteration", "arabic_levantine", "transliteration_levantine"]) {
+          if (synced[key] !== data[key]) update[key] = synced[key];
+        }
+      }
+
+      if (Object.keys(update).length > 0) await doc.ref.update(update);
+      return {english: data.english, failed, changes};
     }));
     results.push(...chunkResults);
   }

@@ -95,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _reviewVerbs() async {
     final messenger = ScaffoldMessenger.of(context);
     messenger.showSnackBar(
-      const SnackBar(content: Text('Re-checking verb forms… this can take a few minutes.'), duration: Duration(minutes: 15)),
+      const SnackBar(content: Text('Updating verbs and pronouns… this can take a few minutes.'), duration: Duration(minutes: 15)),
     );
     var reviewed = 0;
     var failed = 0;
@@ -129,7 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text('Verb review done'),
         content: SingleChildScrollView(
           child: Text(
-            'Reviewed $reviewed verb(s)${failed > 0 ? ', $failed failed (run again)' : ''}.\n\n'
+            'Updated $reviewed word(s)${failed > 0 ? ', $failed failed (run again)' : ''}.\n\n'
             '${changed.isEmpty ? 'No corrections were needed.' : 'Corrections:\n\n${changed.join('\n\n')}'}',
           ),
         ),
@@ -298,7 +298,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Divider(height: 1, color: colorScheme.outline),
                       _SettingsRow(
                         icon: Icons.fact_check_outlined,
-                        label: 'Re-check verb forms (admin, debug)',
+                        label: 'Update verbs & pronouns (admin, debug)',
                         onTap: _reviewVerbs,
                       ),
                       Divider(height: 1, color: colorScheme.outline),

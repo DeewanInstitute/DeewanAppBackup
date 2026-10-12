@@ -88,9 +88,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _goToDictionarySearch() {
+  // The dialect switch's first chip is Levantine, the second is Fusha.
+  bool get _levantineSelected => _dialectIndex == 0;
+
+  void _goToDictionarySearch({bool? levantine}) {
     final query = _searchController.text.trim();
-    AppLoading.navigate(context, WordSearchPage(initialQuery: query.isEmpty ? null : query));
+    AppLoading.navigate(
+      context,
+      WordSearchPage(initialQuery: query.isEmpty ? null : query, initialLevantine: levantine ?? _levantineSelected),
+    );
     setState(() {
       _searchController.clear();
     });
@@ -140,7 +146,7 @@ class _HomePageState extends State<HomePage> {
     setState(() => _navIndex = index);
 
     if (index == 1) {
-      AppLoading.navigate(context, const WordSearchPage());
+      AppLoading.navigate(context, WordSearchPage(initialLevantine: _levantineSelected));
       return;
     }
 
@@ -191,6 +197,10 @@ class _HomePageState extends State<HomePage> {
                     selectedIndex: _dialectIndex,
                     onSelected: (index) {
                       setState(() => _dialectIndex = index);
+                      // With a word typed in, picking a dialect looks it up in that dialect.
+                      if (_searchController.text.trim().isNotEmpty) {
+                        _goToDictionarySearch(levantine: index == 0);
+                      }
                     },
                   ),
                   const SizedBox(height: 32),

@@ -288,22 +288,28 @@ class _MorphCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (arabic != null)
-                Text(
-                  arabic!,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
-                ),
-              if (transliteration != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  transliteration!,
-                  style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
-                ),
+          // Flexible so a long word wraps and the pronunciation sits below it
+          // instead of overflowing the card.
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (arabic != null)
+                  Text(
+                    arabic!,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                  ),
+                if (transliteration != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    transliteration!,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
           if (arabic != null && arabic!.isNotEmpty) ...[
             const SizedBox(width: 10),
@@ -330,11 +336,21 @@ class _ConjugationsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rows = [
-      ('Past Tense', conjugations['past'] as Map<String, dynamic>?, false),
-      ('Present Tense', conjugations['present'] as Map<String, dynamic>?, false),
-      ('Imperative', conjugations['imperative'] as Map<String, dynamic>?, irregularImperative),
-    ];
+    // Each tense is shown masculine first, then feminine when the entry has one.
+    final rows = <(String, String?, Map<String, dynamic>?, bool)>[];
+    void addTense(String label, String key, bool irregular) {
+      final masculine = conjugations[key] as Map<String, dynamic>?;
+      final feminine = conjugations['${key}_feminine'] as Map<String, dynamic>?;
+      final hasFeminine = feminine != null;
+      rows.add((label, hasFeminine ? 'Masculine' : null, masculine, irregular));
+      if (hasFeminine) rows.add((label, 'Feminine', feminine, false));
+    }
+
+    addTense('Past Tense', 'past', false);
+    addTense('Present Tense', 'present', false);
+    addTense('Imperative', 'imperative', irregularImperative);
+    // Jordanian only: عَمْ + the present form ("is writing").
+    addTense('Continuous (عَمْ)', 'continuous', false);
 
     return Container(
       width: double.infinity,
@@ -352,49 +368,87 @@ class _ConjugationsCard extends StatelessWidget {
             style: TextStyle(fontFamily: 'Inter', fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.green),
           ),
           const SizedBox(height: 12),
-          for (final (label, value, irregular) in rows)
+          for (final (label, gender, value, irregular) in rows)
             if (value != null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                padding: const EdgeInsets.only(bottom: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(label, style: const TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.muted)),
-                          if (irregular) ...[
-                            const SizedBox(width: 6),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(color: AppColors.coral.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-                              child: const Text(
-                                'irregular',
-                                style: TextStyle(fontFamily: 'Inter', fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.coral),
-                              ),
-                            ),
-                          ],
-                        ],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // The tense name and its tags wrap if there isn't room.
+                        Expanded(
+                          child: Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            children: [
+                              Text(label, textAlign: TextAlign.end,style: const TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.muted)),
+                              if (gender != null)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: (gender == 'Feminine' ? AppColors.coral : AppColors.green).withOpacity(0.12),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    gender == 'Feminine' ? 'f.' : 'm.',
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: gender == 'Feminine' ? AppColors.coral : AppColors.green,
+                                    ),
+                                  ),
+                                ),
+                              if (irregular)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(color: AppColors.coral.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
+                                  child: const Text(
+                                    'irregular',
+                                    style: TextStyle(fontFamily: 'Inter', fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.coral),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        // Flexible so a long conjugation wraps instead of overflowing.
+                        Flexible(
+                          child: Text(
+                            value['arabic'] as String? ?? '',
+                            textAlign: TextAlign.end,
+                            textDirection: TextDirection.rtl,
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SpeakerButton(
+                          text: value['arabic'] as String? ?? '',
+                          dialect: dialect,
+                          size: 28,
+                          iconSize: 16,
+                          backgroundColor: AppColors.orange.withOpacity(0.12),
+                          iconColor: AppColors.orange,
+                        ),
+                      ],
+                    ),
+                    // The English pronunciation always sits below the Arabic, so
+                    // neither can push the other off the card.
+                    if ((value['transliteration'] as String? ?? '').isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 38),
+                        child: Text(
+                          value['transliteration'] as String,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                        ),
                       ),
-                    ),
-                    Text(
-                      value['arabic'] as String? ?? '',
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      value['transliteration'] as String? ?? '',
-                      style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
-                    ),
-                    const SizedBox(width: 10),
-                    SpeakerButton(
-                      text: value['arabic'] as String? ?? '',
-                      dialect: dialect,
-                      size: 28,
-                      iconSize: 16,
-                      backgroundColor: AppColors.orange.withOpacity(0.12),
-                      iconColor: AppColors.orange,
-                    ),
+                    ],
                   ],
                 ),
               ),

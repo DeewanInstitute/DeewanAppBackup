@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deewan_institute_app/core/gender_forms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FlashcardDeck {
@@ -63,11 +64,18 @@ class FlashcardService {
     final form = dialectForm(word, levantine: levantine);
     final transliteration = form.transliteration;
     final example = form.example;
+    final feminine = GenderForms.feminineOf(word, levantine: form.levantine);
+    // A verb with a feminine form is saved as the masculine from the same table.
+    final masculine = feminine == null ? null : GenderForms.masculineOf(word, levantine: form.levantine);
     await collection.doc(wordId).set({
       'english': word['english'],
-      'arabic': form.arabic,
+      'arabic': masculine?.arabic ?? form.arabic,
       'dialect': form.levantine ? 'levantine' : 'fusha',
-      if (transliteration != null && transliteration.isNotEmpty) 'transliteration': transliteration,
+      if (feminine != null) 'feminineArabic': feminine.arabic,
+      if (feminine?.transliteration != null && feminine!.transliteration!.isNotEmpty)
+        'feminineTransliteration': feminine.transliteration,
+      if ((masculine?.transliteration ?? transliteration) != null && (masculine?.transliteration ?? transliteration)!.isNotEmpty)
+        'transliteration': masculine?.transliteration ?? transliteration,
       if (example != null && (example['arabic'] ?? '').isNotEmpty) 'exampleArabic': example['arabic'],
       if (example != null && (example['transliteration'] ?? '').isNotEmpty) 'exampleTransliteration': example['transliteration'],
       if (example != null && (example['english'] ?? '').isNotEmpty) 'exampleEnglish': example['english'],
@@ -231,6 +239,8 @@ class FlashcardService {
       'english': word['english'],
       'arabic': word['arabic'],
       if (word['dialect'] != null) 'dialect': word['dialect'],
+      if (word['feminineArabic'] != null) 'feminineArabic': word['feminineArabic'],
+      if (word['feminineTransliteration'] != null) 'feminineTransliteration': word['feminineTransliteration'],
       if (word['transliteration'] != null) 'transliteration': word['transliteration'],
       if (example != null && (example['arabic'] ?? '').isNotEmpty) 'exampleArabic': example['arabic'],
       if (example != null && (example['transliteration'] ?? '').isNotEmpty) 'exampleTransliteration': example['transliteration'],

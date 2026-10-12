@@ -403,6 +403,30 @@ class _FlashcardSessionState extends State<FlashcardSession> with SingleTickerPr
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
                               ),
+                            if (_word['feminineArabic'] != null) ...[
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'FEMININE',
+                                    style: TextStyle(fontFamily: 'Inter', fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.coral, letterSpacing: 0.5),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    _word['feminineArabic'] as String,
+                                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SpeakerButton(text: _word['feminineArabic'] as String, size: 28, dialect: _audioDialect),
+                                ],
+                              ),
+                              if (_word['feminineTransliteration'] != null)
+                                Text(
+                                  _word['feminineTransliteration'] as String,
+                                  style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                                ),
+                            ],
                             const SizedBox(height: 6),
                             Text(
                               _word['english'] as String? ?? '',

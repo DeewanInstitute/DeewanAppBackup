@@ -4,6 +4,7 @@ import 'package:deewan_institute_app/core/app_drawer.dart';
 import 'package:deewan_institute_app/core/app_top_nav.dart';
 import 'package:deewan_institute_app/core/audio_service.dart';
 import 'package:deewan_institute_app/core/dictionary_repository.dart';
+import 'package:deewan_institute_app/core/gender_forms.dart';
 import 'package:deewan_institute_app/core/speaker_button.dart';
 import 'package:deewan_institute_app/flashcards/review_incorrect_page.dart';
 import 'package:deewan_institute_app/word_search/save_to_flashcards_sheet.dart';
@@ -14,7 +15,10 @@ enum _Dialect { fusha, levantine }
 
 class WordSearchPage extends StatefulWidget {
   final String? initialQuery;
-  const WordSearchPage({super.key, this.initialQuery});
+
+  /// Opens with the Levantine toggle selected (the home page passes its choice).
+  final bool initialLevantine;
+  const WordSearchPage({super.key, this.initialQuery, this.initialLevantine = false});
 
   @override
   State<WordSearchPage> createState() => _WordSearchPageState();
@@ -29,7 +33,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
   bool _isLoadingDictionary = true;
   bool _loadFailed = false;
   bool _isSearching = false;
-  _Dialect _dialect = _Dialect.fusha;
+  late _Dialect _dialect = widget.initialLevantine ? _Dialect.levantine : _Dialect.fusha;
 
   @override
   void initState() {
@@ -287,6 +291,70 @@ class _WordSearchPageState extends State<WordSearchPage> {
   }
 }
 
+// ── Gender forms ──────────────────────────────────────────────────────────────
+
+class _GenderTag extends StatelessWidget {
+  final String label;
+  final Color color;
+  const _GenderTag({required this.label, this.color = AppColors.green});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
+      child: Text(
+        label,
+        style: TextStyle(fontFamily: 'Inter', fontSize: 10, fontWeight: FontWeight.w700, color: color, letterSpacing: 0.5),
+      ),
+    );
+  }
+}
+
+class _FeminineFormCard extends StatelessWidget {
+  final String arabic;
+  final String? transliteration;
+  final AudioDialect dialect;
+  const _FeminineFormCard({required this.arabic, required this.transliteration, required this.dialect});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.coral.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.coral.withOpacity(0.25)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _GenderTag(label: 'FEMININE', color: AppColors.coral),
+                const SizedBox(height: 8),
+                Text(
+                  arabic,
+                  style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700, fontFamily: 'Inter', color: AppColors.ink),
+                ),
+                if (transliteration != null && transliteration!.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    transliteration!,
+                    style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: AppColors.muted, fontFamily: 'Inter'),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          SpeakerButton(text: arabic, dialect: dialect, size: 44, iconSize: 20),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Dialect Chip ──────────────────────────────────────────────────────────────
 
 class _DialectChip extends StatelessWidget {
@@ -355,9 +423,14 @@ class _ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arabic =
-        (_isFusha ? word['arabic'] : word['arabic_levantine']) as String? ?? '';
-    final translit =
+    final feminine = GenderForms.feminineOf(word, levantine: !_isFusha);
+    // Verbs show their masculine straight from the conjugation table, the same
+    // table the feminine form comes from, so the pair always matches.
+    final masculine = feminine == null ? null : GenderForms.masculineOf(word, levantine: !_isFusha);
+    final arabic = masculine?.arabic ??
+        (_isFusha ? word['arabic'] : word['arabic_levantine']) as String? ??
+        '';
+    final translit = masculine?.transliteration ??
         (_isFusha ? word['transliteration'] : word['transliteration_levantine'])
             as String? ??
         '';
@@ -387,9 +460,15 @@ class _ResultCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (feminine != null) ...[
+            const Center(child: _GenderTag(label: 'MASCULINE')),
+            const SizedBox(height: 8),
+          ],
           Center(
             child: Text(
               arabic,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.rtl,
               style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
@@ -462,6 +541,14 @@ class _ResultCard extends StatelessWidget {
               ),
             ],
           ),
+          if (feminine != null) ...[
+            const SizedBox(height: 18),
+            _FeminineFormCard(
+              arabic: feminine.arabic,
+              transliteration: feminine.transliteration,
+              dialect: _audioDialect,
+            ),
+          ],
           if (sentences.isNotEmpty) ...[
             const SizedBox(height: 24),
             const Text(
